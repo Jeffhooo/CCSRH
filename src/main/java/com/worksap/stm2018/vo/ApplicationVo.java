@@ -6,6 +6,8 @@ import java.sql.Timestamp;
 
 public class ApplicationVo {
     @Getter
+    private final String applicationId;
+    @Getter
     private final String applicantId;
     @Getter
     private final String applicantName;
@@ -21,6 +23,7 @@ public class ApplicationVo {
     private final String comment;
 
     public static class Builder {
+        private String applicationId;
         private String applicantId;
         private String applicantName;
         private String applyReason;
@@ -28,6 +31,11 @@ public class ApplicationVo {
         private Timestamp endTime;
         private String result;
         private String comment;
+
+        public Builder applicationId(String applicationId) {
+            this.applicationId = applicationId;
+            return this;
+        }
 
         public Builder applicantId(String applicantId) {
             this.applicantId = applicantId;
@@ -65,15 +73,16 @@ public class ApplicationVo {
         }
 
         public ApplicationVo build() {
-            return new ApplicationVo(applicantId, applicantName, applyReason,
+            return new ApplicationVo(applicationId, applicantId, applicantName, applyReason,
                     beginTime, endTime, result, comment);
         }
 
     }
 
-    private ApplicationVo(String applicantId, String applicantName, String applyReason,
+    private ApplicationVo(String applicationid, String applicantId, String applicantName, String applyReason,
                           Timestamp beginTime, Timestamp endTime,
                           String result, String comment) {
+        this.getApplicantId();
         this.applicantId = applicantId;
         this.applicantName = applicantName;
         this.applyReason = applyReason;
