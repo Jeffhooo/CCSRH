@@ -13,9 +13,6 @@ import org.springframework.web.WebApplicationInitializer;
 
 import javax.sql.DataSource;
 
-//@Configuration
-//@ComponentScan
-//@EnableAutoConfiguration
 @ServletComponentScan
 @SpringBootApplication
 @EnableTransactionManagement

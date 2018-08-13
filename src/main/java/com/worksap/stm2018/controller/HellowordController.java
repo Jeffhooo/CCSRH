@@ -1,7 +1,6 @@
 package com.worksap.stm2018.controller;
 
 import com.worksap.stm2018.model.DateTest;
-import com.worksap.stm2018.model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -35,7 +34,6 @@ public class HellowordController {
             date.setTime(ts.getTime());
             dateString.add(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(date));
         }
-
         return dateString;
     }
 }

@@ -1,12 +1,12 @@
 package com.worksap.stm2018.dto;
 
 import lombok.Data;
+import lombok.Getter;
 
 @Data
-public class StaffDto {
+public class LoginDto {
     private String id;
     private String name;
-    private String place;
-    private String language;
-
+    private String password;
+    private String title;
 }
