@@ -79,10 +79,10 @@ public class ApplicationVo {
 
     }
 
-    private ApplicationVo(String applicationid, String applicantId, String applicantName, String applyReason,
+    private ApplicationVo(String applicationId, String applicantId, String applicantName, String applyReason,
                           Timestamp beginTime, Timestamp endTime,
                           String result, String comment) {
-        this.getApplicantId();
+        this.applicationId = applicationId;
         this.applicantId = applicantId;
         this.applicantName = applicantName;
         this.applyReason = applyReason;
