@@ -1,6 +1,7 @@
 package com.worksap.stm2018.controller;
 
 import com.worksap.stm2018.model.DateTest;
+import com.worksap.stm2018.model.Person;
 import com.worksap.stm2018.vo.ApplicationVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -26,9 +27,9 @@ public class HellowordController {
     }
 
     @RequestMapping("/")
-    //@ResponseBody
-    ModelAndView home() {
-//        List<DateTest> dateList = jdbcTemplate.query("select * from date_test", BeanPropertyRowMapper.newInstance(DateTest.class));
+    @ResponseBody
+    List<Person> home() {
+        List<Person> personList = jdbcTemplate.query("select * from persons", BeanPropertyRowMapper.newInstance(Person.class));
 //        List<String> dateString = new ArrayList<>();
 //        for(DateTest dateTest : dateList) {
 //            Timestamp ts = dateTest.getDate();
@@ -36,6 +37,6 @@ public class HellowordController {
 //            date.setTime(ts.getTime());
 //            dateString.add(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(date));
 //        }
-        return new ModelAndView("login");
+        return personList;
     }
 }
