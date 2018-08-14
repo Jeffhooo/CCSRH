@@ -4,22 +4,15 @@ import lombok.Getter;
 
 import java.sql.Timestamp;
 
+@Getter
 public class ApplicationVo {
-    @Getter
     private final String applicationId;
-    @Getter
     private final String applicantId;
-    @Getter
     private final String applicantName;
-    @Getter
     private final String applyReason;
-    @Getter
     private final Timestamp beginTime;
-    @Getter
     private final Timestamp endTime;
-    @Getter
     private final String result;
-    @Getter
     private final String comment;
 
     public static class Builder {
@@ -73,22 +66,19 @@ public class ApplicationVo {
         }
 
         public ApplicationVo build() {
-            return new ApplicationVo(applicationId, applicantId, applicantName, applyReason,
-                    beginTime, endTime, result, comment);
+            return new ApplicationVo(this);
         }
 
     }
 
-    private ApplicationVo(String applicationId, String applicantId, String applicantName, String applyReason,
-                          Timestamp beginTime, Timestamp endTime,
-                          String result, String comment) {
-        this.applicationId = applicationId;
-        this.applicantId = applicantId;
-        this.applicantName = applicantName;
-        this.applyReason = applyReason;
-        this.beginTime = beginTime;
-        this.endTime = endTime;
-        this.result = result;
-        this.comment = comment;
+    private ApplicationVo(Builder builder) {
+        this.applicationId = builder.applicationId;
+        this.applicantId = builder.applicantId;
+        this.applicantName = builder.applicantName;
+        this.applyReason = builder.applyReason;
+        this.beginTime = builder.beginTime;
+        this.endTime = builder.endTime;
+        this.result = builder.result;
+        this.comment = builder.comment;
     }
 }

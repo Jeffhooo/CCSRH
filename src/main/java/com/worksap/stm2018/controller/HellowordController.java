@@ -1,12 +1,14 @@
 package com.worksap.stm2018.controller;
 
 import com.worksap.stm2018.model.DateTest;
+import com.worksap.stm2018.vo.ApplicationVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -24,16 +26,16 @@ public class HellowordController {
     }
 
     @RequestMapping("/")
-    @ResponseBody
-    List<String> home() {
-        List<DateTest> dateList = jdbcTemplate.query("select * from date_test", BeanPropertyRowMapper.newInstance(DateTest.class));
-        List<String> dateString = new ArrayList<>();
-        for(DateTest dateTest : dateList) {
-            Timestamp ts = dateTest.getDate();
-            Date date = new Date();
-            date.setTime(ts.getTime());
-            dateString.add(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(date));
-        }
-        return dateString;
+    //@ResponseBody
+    ModelAndView home() {
+//        List<DateTest> dateList = jdbcTemplate.query("select * from date_test", BeanPropertyRowMapper.newInstance(DateTest.class));
+//        List<String> dateString = new ArrayList<>();
+//        for(DateTest dateTest : dateList) {
+//            Timestamp ts = dateTest.getDate();
+//            Date date = new Date();
+//            date.setTime(ts.getTime());
+//            dateString.add(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(date));
+//        }
+        return new ModelAndView("login");
     }
 }

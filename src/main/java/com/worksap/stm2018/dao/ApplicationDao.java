@@ -3,14 +3,15 @@ package com.worksap.stm2018.dao;
 import com.worksap.stm2018.dto.ApplicationDto;
 import com.worksap.stm2018.vo.ApplicationVo;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 public interface ApplicationDao {
     /**
-     * List all the applications
+     * List the applications of a time period
      *
      */
-    List<ApplicationVo> list();
+    List<ApplicationVo> list(Timestamp beginTime, Timestamp endTime);
 
     /**
      * find the application
@@ -20,9 +21,26 @@ public interface ApplicationDao {
     ApplicationVo find(String applicantId);
 
     /**
-     * add the application
+     * put in a new application
      *
-     * @param applicationDto
+     * @param newRecord
      */
-    void add(ApplicationDto applicationDto);
+    void put(ApplicationVo newRecord);
+
+    /**
+     * add a result to a application
+     *
+     * @param applicationId
+     * @param result
+     */
+    void addResult(String applicationId, String result);
+
+    /**
+     * get the accepted applications of a time period
+     *
+     * @param beginTime
+     * @param endTime
+     */
+    List<ApplicationVo> getAcceptedApplications(Timestamp beginTime, Timestamp endTime);
+
 }

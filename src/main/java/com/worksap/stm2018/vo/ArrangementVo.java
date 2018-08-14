@@ -5,7 +5,7 @@ import lombok.Getter;
 import java.sql.Timestamp;
 
 @Getter
-public class WorkHistoryVo {
+public class ArrangementVo {
     private final String staffId;
     private final String staffName;
     private final Timestamp beginTime;
@@ -37,12 +37,12 @@ public class WorkHistoryVo {
             return this;
         }
 
-        public WorkHistoryVo build() {
-            return new WorkHistoryVo(this);
+        public ArrangementVo build() {
+            return new ArrangementVo(this);
         }
     }
 
-    private WorkHistoryVo(Builder builder) {
+    private ArrangementVo(Builder builder) {
         this.staffId = builder.staffId;
         this.staffName = builder.staffName;
         this.beginTime = builder.beginTime;
