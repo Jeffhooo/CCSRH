@@ -5,7 +5,8 @@ import lombok.Data;
 import java.sql.Timestamp;
 
 @Data
-public class ApplicationDto {
+public final class ApplicationDto {
+    private String applicationId;
     private String applicantId;
     private String applicantName;
     private String applyReason;

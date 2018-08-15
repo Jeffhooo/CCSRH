@@ -1,6 +1,6 @@
 package com.worksap.stm2018.dao;
 
-import com.worksap.stm2018.dto.HolidaysDto;
+import com.worksap.stm2018.dto.HolidayDto;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -12,5 +12,5 @@ public interface HolidayDao {
      * @param beginTime
      * @param endTime
      */
-     List<HolidaysDto> getHolidays(Timestamp beginTime, Timestamp endTime);
+     List<HolidayDto> getHolidays(Timestamp beginTime, Timestamp endTime);
 }

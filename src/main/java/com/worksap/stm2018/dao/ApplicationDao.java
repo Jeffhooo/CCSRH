@@ -14,26 +14,27 @@ public interface ApplicationDao {
     List<ApplicationVo> list(Timestamp beginTime, Timestamp endTime);
 
     /**
-     * find the application
+     * find the applications of a staff
      *
      * @param applicantId
      */
-    ApplicationVo find(String applicantId);
+    List<ApplicationVo> find(String applicantId);
 
     /**
      * put in a new application
      *
      * @param newRecord
      */
-    void put(ApplicationVo newRecord);
+    ApplicationVo put(ApplicationVo newRecord);
 
     /**
      * add a result to a application
      *
      * @param applicationId
      * @param result
+     * @param comment
      */
-    void addResult(String applicationId, String result);
+    void addResult(String applicationId, String result, String comment);
 
     /**
      * get the accepted applications of a time period
@@ -43,4 +44,10 @@ public interface ApplicationDao {
      */
     List<ApplicationVo> getAcceptedApplications(Timestamp beginTime, Timestamp endTime);
 
+    /**
+     * generate new id
+     *
+     *
+     */
+    String generateNewId();
 }

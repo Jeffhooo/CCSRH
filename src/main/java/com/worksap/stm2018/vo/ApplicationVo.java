@@ -5,7 +5,7 @@ import lombok.Getter;
 import java.sql.Timestamp;
 
 @Getter
-public class ApplicationVo {
+public final class ApplicationVo {
     private final String applicationId;
     private final String applicantId;
     private final String applicantName;

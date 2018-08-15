@@ -16,13 +16,13 @@ public interface ArrangementDao {
      * find the list of arrangement of a staff for a time period
      *
      */
-    List<ArrangementVo> find(String staffId, Timestamp beginTime, Timestamp endTime);
+    List<ArrangementVo> findStaffPublish(String staffId, Timestamp beginTime, Timestamp endTime);
 
     /**
      * delete an arrangement
      *
      */
-    void delete(String staffId, Timestamp beginTime, Timestamp endTime);
+    void delete(Timestamp beginTime, Timestamp endTime);
 
     /**
      * put in an arrangement
@@ -35,4 +35,11 @@ public interface ArrangementDao {
      *
      */
     void publishArrangements(Timestamp beginTime, Timestamp endTime);
+
+    /**
+     * generate new id
+     *
+     *
+     */
+    String generateNewId();
 }

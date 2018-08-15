@@ -16,7 +16,7 @@ public interface ArrangementService {
      * update the arrangements of a time period
      *
      */
-    void update(List<ArrangementVo> newRecords, Timestamp beginTime, Timestamp endTime);
+    List<ArrangementVo> update(List<ArrangementVo> newRecords, Timestamp beginTime, Timestamp endTime);
 
     /**
      * publish the arrangements of a time period

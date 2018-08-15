@@ -22,13 +22,13 @@ public interface ApplicationService {
      * accept a application
      *
      */
-    void accept(String applicationid);
+    void accept(String applicationid, String comment);
 
     /**
      * reject a application
      *
      */
-    void reject(String applicationid);
+    void reject(String applicationid, String comment);
 
     /**
      * get accepted applications of a time period

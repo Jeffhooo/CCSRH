@@ -1,23 +1,17 @@
 package com.worksap.stm2018.controller;
 
-import com.worksap.stm2018.model.DateTest;
 import com.worksap.stm2018.model.Person;
-import com.worksap.stm2018.vo.ApplicationVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Controller
+@RequestMapping(value="/helloworld")
 public class HellowordController {
     private JdbcTemplate jdbcTemplate;
 
@@ -30,13 +24,6 @@ public class HellowordController {
     @ResponseBody
     List<Person> home() {
         List<Person> personList = jdbcTemplate.query("select * from persons", BeanPropertyRowMapper.newInstance(Person.class));
-//        List<String> dateString = new ArrayList<>();
-//        for(DateTest dateTest : dateList) {
-//            Timestamp ts = dateTest.getDate();
-//            Date date = new Date();
-//            date.setTime(ts.getTime());
-//            dateString.add(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(date));
-//        }
         return personList;
     }
 }
