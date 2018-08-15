@@ -13,6 +13,13 @@
     <script src="webjars/bootstrap/4.1.3/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="webjars/bootstrap/4.1.3/css/bootstrap.min.css" />
     <style>
+        .container {
+            width: 480px;
+            margin-top: 10%;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: auto;
+        }
         .form-bg{
             background: #00b4ef;
         }
@@ -145,24 +152,7 @@
     <title>Log In</title>
 </head>
 <body>
-    <%--<c:if test="${!empty error}">--%>
-        <%--<font color="red"><c:out value="${error}" /></font>--%>
-    <%--</c:if>--%>
-    <%--<form action="<c:url value="check"/>" method="post">--%>
-        <%--User Name：--%>
-        <%--<input type="text" name="userName">--%>
-        <%--<br>--%>
-        <%--Password：--%>
-        <%--<input type="password" name="password">--%>
-        <%--<br>--%>
-        <%--<input type="submit" value="Submit" />--%>
-    <%--<input type="reset" value="Reset" />--%>
-<%--</form>--%>
-
-
-    <div class="container">
-        <div class="row">
-            <div class="col-md-offset-3 col-md-6">
+            <div class="container">
                 <c:if test="${!empty error}">
                     <font color="red"><c:out value="${error}" /></font>
                 </c:if>
@@ -182,7 +172,5 @@
                     </div>
                 </form>
             </div>
-        </div>
-    </div>
 </body>
 </html>
