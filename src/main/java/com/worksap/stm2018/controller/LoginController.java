@@ -1,5 +1,6 @@
 package com.worksap.stm2018.controller;
 
+import com.worksap.stm2018.dto.LoginDto;
 import com.worksap.stm2018.service.LoginService;
 import com.worksap.stm2018.service.ServiceFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,15 +28,15 @@ public class LoginController {
     ModelAndView check(HttpServletRequest request, LoginCommand loginCommand) {
         String userName = loginCommand.getUserName();
         String password = loginCommand.getPassword();
-        String result = loginService.check(userName, password);
-        if(result.equals("false")) {
-            return new ModelAndView("login", "error", "wrong user name or password.");
-        } else if(result.equals("Staff")) {
-            return new ModelAndView("staff");
-        } else if(result.equals("Manager")) {
-            return new ModelAndView("manager");
+        LoginDto loginDto= loginService.check(userName, password);
+        String id;
+        String title;
+        if(loginDto != null && loginDto.getPassword().equals(password)) {
+            title =  loginDto.getTitle();
+            id = loginDto.getId();
+            return new ModelAndView(title.toLowerCase(), "userId", id);
         } else {
-            return new ModelAndView("login");
+            return new ModelAndView("login", "error", "wrong user name or password.");
         }
     }
 }

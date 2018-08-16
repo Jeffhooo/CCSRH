@@ -16,12 +16,7 @@ public class LoginServiceImpl implements LoginService{
     }
 
     @Override
-    public String check(String userName, String password) {
-        LoginDto loginDto = loginDao.getPassword(userName);
-        if(loginDto != null && loginDto.getPassword().equals(password)) {
-            return loginDto.getTitle();
-        } else {
-            return "false";
-        }
+    public LoginDto check(String userName, String password) {
+        return loginDao.getPassword(userName);
     }
 }

@@ -1,5 +1,7 @@
 package com.worksap.stm2018.service;
 
+import com.worksap.stm2018.dto.LoginDto;
+
 public interface LoginService {
     /**
      * check userName and password
@@ -7,5 +9,5 @@ public interface LoginService {
      * @param userName
      * @param password
      */
-    String check(String userName, String password);
+    LoginDto check(String userName, String password);
 }

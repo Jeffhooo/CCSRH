@@ -1,5 +1,6 @@
 package com.worksap.stm2018.dao;
 
+import com.worksap.stm2018.entity.TimetableEntity;
 import com.worksap.stm2018.vo.WorkHistoryVo;
 
 import java.sql.Timestamp;
@@ -14,4 +15,5 @@ public interface WorkHistoryDao {
      * @param endTime
      */
     List<WorkHistoryVo> list(String staffId, Timestamp beginTime, Timestamp endTime);
+
 }

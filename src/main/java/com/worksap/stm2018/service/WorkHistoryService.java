@@ -1,8 +1,10 @@
 package com.worksap.stm2018.service;
 
+import com.worksap.stm2018.entity.TimetableEntity;
 import com.worksap.stm2018.vo.WorkHistoryVo;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 public interface WorkHistoryService {
@@ -14,4 +16,7 @@ public interface WorkHistoryService {
      * @param endTime
      */
     List<WorkHistoryVo> getWorkHistory(String staffId, Timestamp beginTime, Timestamp endTime);
+
+
+    TimetableEntity StaffWorkTimetable(String staffId, Date beginDate, Date endDate);
 }

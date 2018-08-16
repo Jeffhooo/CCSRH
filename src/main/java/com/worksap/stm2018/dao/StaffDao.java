@@ -10,4 +10,8 @@ public interface StaffDao {
      *
      */
     List<StaffDto> list();
+
+    String getStaffPlace(String staffId);
+
+    String getStaffName(String staffId);
 }

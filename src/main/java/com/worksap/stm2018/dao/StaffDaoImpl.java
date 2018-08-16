@@ -2,6 +2,7 @@ package com.worksap.stm2018.dao;
 
 import com.worksap.stm2018.dto.StaffDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +18,22 @@ public class StaffDaoImpl implements StaffDao {
     }
 
     private static final String SELECT_SQL = "select * from staffs";
+    private static final String GET_PLACE_SQL = "select place from staffs where id = ?";
+    private static final String GET_NAME_SQL = "select name from staffs where id = ?";
+
+    @Override
+    public String getStaffPlace(String staffId) {
+        return DataAccessUtils.requiredSingleResult(template.query(GET_PLACE_SQL,
+                ps -> ps.setString(1, staffId),
+                (rs, rowNum) -> rs.getString(1)));
+    }
+
+    @Override
+    public String getStaffName(String staffId) {
+        return DataAccessUtils.requiredSingleResult(template.query(GET_NAME_SQL,
+                ps -> ps.setString(1, staffId),
+                (rs, rowNum) -> rs.getString(1)));
+    }
 
     @Override
     public List<StaffDto> list() {
