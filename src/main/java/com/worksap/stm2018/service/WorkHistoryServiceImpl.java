@@ -1,6 +1,7 @@
 package com.worksap.stm2018.service;
 
 import com.worksap.stm2018.Util.TimeUtil;
+import com.worksap.stm2018.dao.ApplicationDao;
 import com.worksap.stm2018.dao.DaoFactory;
 import com.worksap.stm2018.dao.StaffDao;
 import com.worksap.stm2018.dao.WorkHistoryDao;
@@ -34,18 +35,11 @@ public class WorkHistoryServiceImpl implements WorkHistoryService {
     public TimetableEntity StaffWorkTimetable(String staffId, Date beginDate, Date endDate) {
 
         List<String> days = new ArrayList<>();
-        Date curDate = beginDate;
-        for(int i = 0; i < 7; i++) {
-            days.add(TimeUtil.DateToString(curDate));
-            curDate = TimeUtil.AddOneDay(curDate);
-        }
+        TimeUtil.tableDays(days, beginDate);
 
         List<String> times = new ArrayList<>();
         String staffPlace = staffDao.getStaffPlace(staffId);
-        if(staffPlace.equals("Asia/Shanghai")) {
-            times.add("8:00-16:00");
-            times.add("16:00-23:00");
-        } else {}
+        TimeUtil.tableTimes(staffPlace, times);
 
         TimetableEntity timetable = new TimetableEntity();
         timetable.setDays(days);
@@ -53,12 +47,7 @@ public class WorkHistoryServiceImpl implements WorkHistoryService {
 
         String staffName = staffDao.getStaffName(staffId);
         List<String> content = new ArrayList<>();
-        int workTimeOfPlace;
-        if(staffPlace.equals("Asia/Shanghai")) {
-            workTimeOfPlace = 8;
-        } else {
-            workTimeOfPlace = 8;
-        }
+        int workTimeOfPlace = TimeUtil.getWorkTime(staffPlace);
 
         Date beginWorkTime = TimeUtil.AddHours(beginDate, workTimeOfPlace);
         Date endWorkTime = TimeUtil.AddHours(beginWorkTime, 8);

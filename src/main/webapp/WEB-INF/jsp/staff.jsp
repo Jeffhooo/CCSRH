@@ -38,7 +38,7 @@
     <p id="buttons">
         <button id="lastWeek" type="button" class="btn btn-primary">Last Week</button>
         <button id="nextWeek" type="button" class="btn btn-primary">Next Week</button>
-        <button type="button" class="btn btn-primary" onclick="window.location.href = 'apply'">Apply Special Rest Time</button>
+        <button type="button" class="btn btn-primary" onclick="window.location.href = 'apply${userId}'">Apply Special Rest Time</button>
     </p>
 
     <table class="table-bordered" id="timetable">

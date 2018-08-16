@@ -6,6 +6,7 @@ import java.util.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 public class TimeUtil {
     public static String timestampToString(Timestamp ts) {
@@ -52,5 +53,35 @@ public class TimeUtil {
 
     public static String DateToString(Date date) {
         return new SimpleDateFormat("yyyy-MM-dd").format(date);
+    }
+
+    public static void tableDays(List<String> days, Date beginDate) {
+        Date curDate = beginDate;
+        for(int i = 0; i < 7; i++) {
+            days.add(TimeUtil.DateToString(curDate));
+            curDate = TimeUtil.AddOneDay(curDate);
+        }
+    }
+
+    public static void tableTimes(String staffPlace, List<String> times) {
+        if(staffPlace.equals("Asia/Shanghai") || staffPlace.equals("Asia/Singapore")) {
+            times.add("8:00-16:00");
+            times.add("16:00-23:00");
+        } else if(staffPlace.equals("Asia/Tokyo")){
+            times.add("9:00-17:00");
+            times.add("17:00-24:00");
+        }
+    }
+
+    public static int getWorkTime(String staffPlace) {
+        int workTimeOfPlace;
+        if(staffPlace.equals("Asia/Shanghai") || staffPlace.equals("Asia/Singapore")) {
+            workTimeOfPlace = 8;
+        } else if(staffPlace.equals("Asia/Tokyo")){
+            workTimeOfPlace = 9;
+        } else {
+            workTimeOfPlace = 8;
+        }
+        return workTimeOfPlace;
     }
 }

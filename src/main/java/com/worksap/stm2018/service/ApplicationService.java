@@ -1,8 +1,10 @@
 package com.worksap.stm2018.service;
 
+import com.worksap.stm2018.entity.TimetableEntity;
 import com.worksap.stm2018.vo.ApplicationVo;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 public interface ApplicationService {
@@ -36,5 +38,6 @@ public interface ApplicationService {
      */
     List<ApplicationVo> getAcceptedApplications(Timestamp beginTime, Timestamp endTime);
 
+    TimetableEntity ApplicationsTimetable(String staffId, Date beginDate, Date endDate);
 
 }

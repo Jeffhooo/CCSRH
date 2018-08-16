@@ -17,6 +17,5 @@ public interface WorkHistoryService {
      */
     List<WorkHistoryVo> getWorkHistory(String staffId, Timestamp beginTime, Timestamp endTime);
 
-
     TimetableEntity StaffWorkTimetable(String staffId, Date beginDate, Date endDate);
 }
