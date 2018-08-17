@@ -23,14 +23,6 @@
             width: 100px;
             height: 50px;
         }
-        #checkbox {
-            width: 50px;
-            height: 50px;
-        }
-        #staffInform {
-            width: 150px;
-            height: 50px;
-        }
         .container {
             margin-top: 10%;
             margin-left: auto;
@@ -65,8 +57,8 @@
                     <th id="day3">2018-8-29</th>
                     <th id="day4">2018-8-30</th>
                     <th id="day5">2018-8-31</th>
-                    <th id="day6">2018-8-32</th>
-                    <th id="day7">2018-8-33</th>
+                    <th id="day6">2018-9-1</th>
+                    <th id="day7">2018-9-2</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -96,17 +88,8 @@
         <div id="rightBlock">
             <table class="table-bordered" id="staffTable">
                 <thead>
-                <tr>
-                    <th></th>
-                    <th id="checkbox"></th>
-                    <th id="staffInform"></th>
-                </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td></td>
-                    <td></td>
-                </tr>
                 </tbody>
             </table>
         </div>
@@ -120,6 +103,12 @@
         var beginTime = "2018-8-27";
         var endTime = "2018-9-3";
         var load = {beginTime: beginTime, endTime: endTime};
+        var curArrangement;
+        var chooseContent;
+        var workTime = new Array();
+        workTime[0] = "08:00:00";
+        workTime[1] = "16:00:00";
+        workTime[2] = "23:00:00";
 
         var contents = new Array();
         contents[0] = $("#content1");
@@ -137,6 +126,47 @@
         contents[12] = $("#content13");
         contents[13] = $("#content14");
 
+        var days = new Array();
+        days[0] = $("#day1");
+        days[1] = $("#day2");
+        days[2] = $("#day3");
+        days[3] = $("#day4");
+        days[4] = $("#day5");
+        days[5] = $("#day6");
+        days[6] = $("#day7");
+
+        var applyBeginTimeMap = {};
+        var applyEndTimeMap = {};
+        applyBeginTimeMap["content1"] = days[0].text() + " " + workTime[0];
+        applyBeginTimeMap["content2"] = days[0].text() + " " + workTime[1];
+        applyBeginTimeMap["content3"] = days[1].text() + " " + workTime[0];
+        applyBeginTimeMap["content4"] = days[1].text() + " " + workTime[1];
+        applyBeginTimeMap["content5"] = days[2].text() + " " + workTime[0];
+        applyBeginTimeMap["content6"] = days[2].text() + " " + workTime[1];
+        applyBeginTimeMap["content7"] = days[3].text() + " " + workTime[0];
+        applyBeginTimeMap["content8"] = days[3].text() + " " + workTime[1];
+        applyBeginTimeMap["content9"] = days[4].text() + " " + workTime[0];
+        applyBeginTimeMap["content10"] = days[4].text() + " " + workTime[1];
+        applyBeginTimeMap["content11"] = days[5].text() + " " + workTime[0];
+        applyBeginTimeMap["content12"] = days[5].text() + " " + workTime[1];
+        applyBeginTimeMap["content13"] = days[6].text() + " " + workTime[0];
+        applyBeginTimeMap["content14"] = days[6].text() + " " + workTime[1];
+
+        applyEndTimeMap["content1"] = days[0].text() + " " + workTime[1];
+        applyEndTimeMap["content2"] = days[0].text() + " " + workTime[2];
+        applyEndTimeMap["content3"] = days[1].text() + " " + workTime[1];
+        applyEndTimeMap["content4"] = days[1].text() + " " + workTime[2];
+        applyEndTimeMap["content5"] = days[2].text() + " " + workTime[1];
+        applyEndTimeMap["content6"] = days[2].text() + " " + workTime[2];
+        applyEndTimeMap["content7"] = days[3].text() + " " + workTime[1];
+        applyEndTimeMap["content8"] = days[3].text() + " " + workTime[2];
+        applyEndTimeMap["content9"] = days[4].text() + " " + workTime[1];
+        applyEndTimeMap["content10"] = days[4].text() + " " + workTime[2];
+        applyEndTimeMap["content11"] = days[5].text() + " " + workTime[1];
+        applyEndTimeMap["content12"] = days[5].text() + " " + workTime[2];
+        applyEndTimeMap["content13"] = days[6].text() + " " + workTime[1];
+        applyEndTimeMap["content14"] = days[6].text() + " " + workTime[2];
+
         $.ajax({
             url: "loadArrangement",
             type: "POST",
@@ -144,6 +174,7 @@
             data: JSON.stringify(load),
             dataType: "json",
             success: function (arrangements) {
+                curArrangement = arrangements;
                 $.each(arrangements, function (i, arrangement) {
                     var content = "";
                     var length = arrangement.content.length;
@@ -160,6 +191,42 @@
                 alert("loadArrangement error.");
             }
         });
+
+        $("#timetable td").click(function (event) {
+            $("td").css("background-color", "#FFFFFF");
+            $("td").css("color", "#000000");
+            var contentId = $(this).attr("id");
+            if((contentId !== "time1") && (contentId !== "time2")) {
+                $(this).css("background-color", "#0066AA");
+                $(this).css("color", "#FFFFFF");
+                chooseContent = contentId;
+                var loadStaffs = {beginTime: applyBeginTimeMap[chooseContent], endTime: applyBeginTimeMap[chooseContent]};
+                $.ajax({
+                    url: "loadStaffs",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(loadStaffs),
+                    dataType: "json",
+                    success: function (staffs) {
+                        $("#staffTable tbody").empty();
+                        $.each(staffs, function (i, staff) {
+                            var tr = "<tr id=\"" + staff.id +"\">" +
+                                "<td style=\"width: 40px; height: 100px; text-align: center\"><input type=\"checkbox\"/></td>" +
+                                "<td style=\"width: 160px; height: 100px\">" +
+                                staff.name + "<br/>" +
+                                staff.place + "<br/>" +
+                                staff.language1 + "<br/>" +
+                                staff.language2 + "</td></tr>";
+                            $("#staffTable").append(tr);
+                        })
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert("loadStaffs error.");
+                    }
+                });
+            }
+            event.preventDefault();
+        })
     })
 </script>
 </html>

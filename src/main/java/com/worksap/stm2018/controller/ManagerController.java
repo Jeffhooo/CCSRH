@@ -1,10 +1,12 @@
 package com.worksap.stm2018.controller;
 
 import com.worksap.stm2018.Util.TimeUtil;
+import com.worksap.stm2018.dto.StaffDto;
 import com.worksap.stm2018.entity.*;
 import com.worksap.stm2018.service.ApplicationService;
 import com.worksap.stm2018.service.ArrangementService;
 import com.worksap.stm2018.service.ServiceFactory;
+import com.worksap.stm2018.service.StaffService;
 import com.worksap.stm2018.vo.ApplicationVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -22,11 +24,13 @@ import java.util.stream.Collectors;
 public class ManagerController {
     private ApplicationService applicationService;
     private ArrangementService arrangementService;
+    private StaffService staffService;
 
     @Autowired
     public ManagerController(ServiceFactory serviceFactory) {
         this.applicationService = serviceFactory.getApplicationService();
         this.arrangementService = serviceFactory.getArrangementService();
+        this.staffService = serviceFactory.getStaffService();
     }
 
     @RequestMapping(value = "/approveApplication")
@@ -70,11 +74,28 @@ public class ManagerController {
     }
 
     @RequestMapping(value = "/loadArrangement", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody List<ArrangementTableEntity> loadArrangement(@RequestBody LoadArrangementEntity entity) {
+    @ResponseBody
+    List<ArrangementTableEntity> loadArrangement(@RequestBody LoadArrangementEntity entity) {
         List<ArrangementTableEntity> arrangements = arrangementService.list(
                 TimeUtil.StringToDate(entity.getBeginTime()),
                 TimeUtil.StringToDate(entity.getEndTime()));
         return arrangements;
+    }
+
+    @RequestMapping(value = "/loadStaffs", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    List<StaffEntity> loadStaffs(@RequestBody LoadStaffsEntity entity) {
+        List<StaffDto> staffDtos = staffService.getAvailableStaffs(
+                TimeUtil.StringToTimestamp(entity.getBeginTime()),
+                TimeUtil.StringToTimestamp(entity.getEndTime()));
+        return staffDtos.stream()
+                .map(n -> new StaffEntity(
+                        n.getId(),
+                        n.getName(),
+                        n.getPlace(),
+                        n.getLanguage1(),
+                        n.getLanguage2()))
+                .collect(Collectors.toList());
     }
 
 }

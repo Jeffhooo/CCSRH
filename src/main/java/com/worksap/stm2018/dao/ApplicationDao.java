@@ -1,6 +1,5 @@
 package com.worksap.stm2018.dao;
 
-import com.worksap.stm2018.dto.ApplicationDto;
 import com.worksap.stm2018.vo.ApplicationVo;
 
 import java.sql.Timestamp;

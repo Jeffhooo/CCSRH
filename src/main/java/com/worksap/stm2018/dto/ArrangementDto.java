@@ -1,10 +1,10 @@
 package com.worksap.stm2018.dto;
 
-import lombok.Data;
+import lombok.Getter;
 
 import java.sql.Timestamp;
 
-@Data
+@Getter
 public final class ArrangementDto {
     private String arrangementId;
     private String staffId;

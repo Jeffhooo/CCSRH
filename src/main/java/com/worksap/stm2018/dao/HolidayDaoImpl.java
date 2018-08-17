@@ -17,7 +17,7 @@ public class HolidayDaoImpl implements HolidayDao{
         this.template = template;
     }
 
-    private static final String SELECT_SQL = "select * from holidays where begin_time >= ? and end_time <= ?";
+    private static final String SELECT_SQL = "select * from holidays where begin_time <= ? and end_time >= ?";
 
     @Override
     public List<HolidayDto> getHolidays(Timestamp beginTime, Timestamp endTime) {

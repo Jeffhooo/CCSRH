@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -44,10 +45,14 @@ public class StaffServiceImpl implements StaffService {
             restStaffs.add(application.getApplicantId());
         }
 
+        List<StaffDto> remove = new ArrayList<>();
         for(StaffDto staff : staffs) {
             if(places.contains(staff.getPlace()) || restStaffs.contains(staff.getId())) {
-                staffs.remove(staff);
+                remove.add(staff);
             }
+        }
+        for(StaffDto staff : remove) {
+            staffs.remove(staff);
         }
         return staffs;
     }

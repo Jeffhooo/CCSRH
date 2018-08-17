@@ -6,5 +6,5 @@ import java.util.List;
 
 @Data
 public class ArrangementTableEntity {
-    List<StaffEntity> content;
+    private List<StaffEntity> content;
 }

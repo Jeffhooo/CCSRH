@@ -1,8 +1,8 @@
 package com.worksap.stm2018.dto;
 
-import lombok.Data;
+import lombok.Getter;
 
-@Data
+@Getter
 public final class StaffDto {
     private String id;
     private String name;

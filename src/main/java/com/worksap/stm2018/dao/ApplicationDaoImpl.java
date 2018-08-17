@@ -25,7 +25,7 @@ public class ApplicationDaoImpl implements ApplicationDao {
             "apply_reason, begin_time, end_time) values(?, ?, ?, ?, ?, ?)";
     private static final String ADD_RESULT_SQL = "update applications set result = ?, comment = ? where application_id = ?";
     private static final String SELECT_ACCEPT_SQL = "select * from applications where result = 'accept' " +
-            "and begin_time >= ? and end_time <= ?";
+            "and begin_time <= ? and end_time >= ?";
 
 
     @Override
