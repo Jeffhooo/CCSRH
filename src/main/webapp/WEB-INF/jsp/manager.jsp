@@ -150,10 +150,10 @@
                     $.each(arrangement.content, function (j, staff) {
                         content += staff.name;
                         if(j < length-1) {
-                            content += ", ";
+                            content += "</br>";
                         }
                     });
-                    contents[i].text(content);
+                    contents[i].html(content);
                 });
             },
             error: function (jqXHR, textStatus, errorThrown) {
