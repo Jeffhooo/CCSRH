@@ -37,7 +37,7 @@
             height: 100px;
             text-align: left;
         }
-        #submit {
+        #buttons {
             margin-top: 10px;
         }
     </style>
@@ -46,7 +46,7 @@
 <body>
 <div class="container">
     <div id="userId" hidden>${userId}</div>
-    <form class="form-signin" id="applyReasonForm">
+    <form class="form-signin" id="applicationForm">
         <table class="table-bordered" id="timetable">
             <thead>
             <tr>
@@ -85,27 +85,39 @@
         </table>
         </table>
 
-        <h2 class="form-signin-heading" id="applyReasonHeader">Please write you apply reason:</h2>
+        <h2 class="form-signin-heading" id="applyTimeHeader">Apply time:</h2>
+        <div id="applyTime"></div>
+        <h2 class="form-signin-heading" id="applyReasonHeader">Apply reason:</h2>
         <label for="applyReason" class="sr-only">Apply Reason</label>
         <textarea type="text" id="applyReason" class="form-control" name = "applyReason" placeholder="Apply Reason"></textarea>
-        <p>
+        <p id="buttons">
             <button class="btn btn-primary" id="submit" type="submit">Submit</button>
+            <button class="btn btn-primary" id="back" type="button" onclick="history.go(-1);">Back</button>
         </p>
     </form>
 </div>
 </body>
-<script>
+<script type="text/javascript">
     $(document).ready(function () {
         var userId = $("#userId").text();
         var loadBeginDate = new Array();
         loadBeginDate[0] = "2018-8-27"
         var loadEndDate = new Array();
-        loadEndDate[0] = "2018-9-2"
+        loadEndDate[0] = "2018-9-3"
         var curIndex = 0;
         var maxIndex = 0;
         var minIndex = 0;
+        var applyBeginTimeMap = {};
+        var applyEndTimeMap = {};
+        var workTime = new Array();
+        workTime[0] = "08:00:00";
+        workTime[1] = "16:00:00";
+        workTime[2] = "23:00:00";
+        var chooseContent;
+
 
         loadApplicationTimetable(userId, loadBeginDate[curIndex], loadEndDate[curIndex]);
+        // loadTimetableContent(userId, loadBeginDate[curIndex], loadEndDate[curIndex]);
 
         function loadApplicationTimetable(userId, beginTime, endTime) {
             var loadPage = {staffId:userId, beginTime:beginTime, endTime:endTime };
@@ -144,6 +156,37 @@
                     $("#content12").text(content[11]);
                     $("#content13").text(content[12]);
                     $("#content14").text(content[13]);
+
+                    applyBeginTimeMap["content1"] = $("#day1").text() + " " + workTime[0];
+                    applyBeginTimeMap["content2"] = $("#day1").text() + " " + workTime[1];
+                    applyBeginTimeMap["content3"] = $("#day2").text() + " " + workTime[0];
+                    applyBeginTimeMap["content4"] = $("#day2").text() + " " + workTime[1];
+                    applyBeginTimeMap["content5"] = $("#day3").text() + " " + workTime[0];
+                    applyBeginTimeMap["content6"] = $("#day3").text() + " " + workTime[1];
+                    applyBeginTimeMap["content7"] = $("#day4").text() + " " + workTime[0];
+                    applyBeginTimeMap["content8"] = $("#day4").text() + " " + workTime[1];
+                    applyBeginTimeMap["content9"] = $("#day5").text() + " " + workTime[0];
+                    applyBeginTimeMap["content10"] = $("#day5").text() + " " + workTime[1];
+                    applyBeginTimeMap["content11"] = $("#day6").text() + " " + workTime[0];
+                    applyBeginTimeMap["content12"] = $("#day6").text() + " " + workTime[1];
+                    applyBeginTimeMap["content13"] = $("#day7").text() + " " + workTime[0];
+                    applyBeginTimeMap["content14"] = $("#day7").text() + " " + workTime[1];
+
+                    applyEndTimeMap["content1"] = $("#day1").text() + " " + workTime[1];
+                    applyEndTimeMap["content2"] = $("#day1").text() + " " + workTime[2];
+                    applyEndTimeMap["content3"] = $("#day2").text() + " " + workTime[1];
+                    applyEndTimeMap["content4"] = $("#day2").text() + " " + workTime[2];
+                    applyEndTimeMap["content5"] = $("#day3").text() + " " + workTime[1];
+                    applyEndTimeMap["content6"] = $("#day3").text() + " " + workTime[2];
+                    applyEndTimeMap["content7"] = $("#day4").text() + " " + workTime[1];
+                    applyEndTimeMap["content8"] = $("#day4").text() + " " + workTime[2];
+                    applyEndTimeMap["content9"] = $("#day5").text() + " " + workTime[1];
+                    applyEndTimeMap["content10"] = $("#day5").text() + " " + workTime[2];
+                    applyEndTimeMap["content11"] = $("#day6").text() + " " + workTime[1];
+                    applyEndTimeMap["content12"] = $("#day6").text() + " " + workTime[2];
+                    applyEndTimeMap["content13"] = $("#day7").text() + " " + workTime[1];
+                    applyEndTimeMap["content14"] = $("#day7").text() + " " + workTime[2];
+
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
                     alert("load applications timetable error.");
@@ -153,10 +196,63 @@
 
         $("td").click(function () {
             $("td").css("background-color", "#FFFFFF");
-            if(($(this).attr("id") !== "time1") && ($(this).attr("id") !== "time2")) {
-                $(this).css("background-color", "#0066FF");
+            $("td").css("color", "#000000");
+            var contentId = $(this).attr("id");
+            if((contentId !== "time1") && (contentId !== "time2")) {
+                $(this).css("background-color", "#0066AA");
+                $(this).css("color", "#FFFFFF");
+                $("#applyTime").text(applyBeginTimeMap[contentId] + " - " + applyBeginTimeMap[contentId]);
+                chooseContent = contentId;
             }
         })
+
+        $("#applicationForm").submit(function (event) {
+            var application = {staffId: userId, applyReason: $("#applyReason").val(),
+                beginTime: applyBeginTimeMap[chooseContent], endTime: applyEndTimeMap[chooseContent]};
+            $.ajax({
+                url: "submitApplication",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(application),
+                dataType: "json",
+                success: function () {
+                    alert("Your application is submitted.");
+                    var loadPage = {staffId:userId, beginTime:loadBeginDate[curIndex], endTime:loadEndDate[curIndex]};
+                    $.ajax({
+                        url: "loadApplicationTimetable",
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        data: JSON.stringify(loadPage),
+                        dataType: "json",
+                        success: function(timetable) {
+                            var content = timetable.content;
+                            $("#content1").text(content[0]);
+                            $("#content2").text(content[1]);
+                            $("#content3").text(content[2]);
+                            $("#content4").text(content[3]);
+                            $("#content5").text(content[4]);
+                            $("#content6").text(content[5]);
+                            $("#content7").text(content[6]);
+                            $("#content8").text(content[7]);
+                            $("#content9").text(content[8]);
+                            $("#content10").text(content[9]);
+                            $("#content11").text(content[10]);
+                            $("#content12").text(content[11]);
+                            $("#content13").text(content[12]);
+                            $("#content14").text(content[13]);
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            alert("loadTimetableContent error.");
+                        }
+                    });
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    alert("Submit application error.");
+                }
+            });
+            event.preventDefault();
+        })
+
     });
 </script>
 </html>

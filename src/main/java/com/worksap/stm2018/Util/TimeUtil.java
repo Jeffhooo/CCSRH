@@ -78,7 +78,7 @@ public class TimeUtil {
         if(staffPlace.equals("Asia/Shanghai") || staffPlace.equals("Asia/Singapore")) {
             workTimeOfPlace = 8;
         } else if(staffPlace.equals("Asia/Tokyo")){
-            workTimeOfPlace = 9;
+            workTimeOfPlace = 8;
         } else {
             workTimeOfPlace = 8;
         }

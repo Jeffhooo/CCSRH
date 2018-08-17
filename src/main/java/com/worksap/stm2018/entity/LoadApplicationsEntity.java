@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class LoadApplicationsEntity {
-    String beginTime;
-    String endTime;
+    private String beginTime;
+    private String endTime;
 }

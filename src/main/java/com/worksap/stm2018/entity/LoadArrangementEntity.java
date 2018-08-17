@@ -3,8 +3,7 @@ package com.worksap.stm2018.entity;
 import lombok.Data;
 
 @Data
-public class RequestTimetableEntity {
-    private String staffId;
+public class LoadArrangementEntity {
     private String beginTime;
     private String endTime;
 }

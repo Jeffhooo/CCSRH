@@ -4,6 +4,7 @@ import com.worksap.stm2018.Util.TimeUtil;
 import com.worksap.stm2018.dao.ApplicationDao;
 import com.worksap.stm2018.dao.DaoFactory;
 import com.worksap.stm2018.dao.StaffDao;
+import com.worksap.stm2018.entity.ApplicationEntity;
 import com.worksap.stm2018.entity.TimetableEntity;
 import com.worksap.stm2018.vo.ApplicationVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,13 +27,18 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public List<ApplicationVo> getApplications(Timestamp beginTime, Timestamp endTime) {
-        return applicationDao.list(beginTime, endTime);
+    public List<ApplicationVo> getApplications(Date beginTime, Date endTime) {
+        return applicationDao.list(new Timestamp(beginTime.getTime()), new Timestamp(endTime.getTime()));
     }
 
     @Override
-    public ApplicationVo create(ApplicationVo newRecord) {
-        return applicationDao.put(newRecord);
+    public void create(ApplicationEntity newApplication) {
+        applicationDao.put(new ApplicationVo.Builder().applicantId(newApplication.getStaffId())
+                                                             .applicantName(staffDao.getStaffName(newApplication.getStaffId()))
+                                                             .applyReason(newApplication.getApplyReason())
+                                                             .beginTime(TimeUtil.StringToTimestamp(newApplication.getBeginTime()))
+                                                             .endTime(TimeUtil.StringToTimestamp(newApplication.getEndTime()))
+                                                             .build());
     }
 
     @Override

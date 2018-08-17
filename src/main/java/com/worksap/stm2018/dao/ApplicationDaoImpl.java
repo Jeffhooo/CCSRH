@@ -60,7 +60,7 @@ public class ApplicationDaoImpl implements ApplicationDao {
     }
 
     @Override
-    public ApplicationVo put(ApplicationVo newRecord) {
+    public void put(ApplicationVo newRecord) {
         String newId = generateNewId();
 
         template.update(INSERT_SQL,
@@ -70,14 +70,6 @@ public class ApplicationDaoImpl implements ApplicationDao {
                        ps.setString(4, newRecord.getApplyReason());
                        ps.setTimestamp(5, newRecord.getBeginTime());
                        ps.setTimestamp(6, newRecord.getEndTime());});
-
-        return new ApplicationVo.Builder().applicationId(newId)
-                                          .applicantId(newRecord.getApplicantId())
-                                          .applicantName(newRecord.getApplicantName())
-                                          .applyReason(newRecord.getApplyReason())
-                                          .beginTime(newRecord.getBeginTime())
-                                          .endTime(newRecord.getEndTime())
-                                          .build();
     }
 
     @Override

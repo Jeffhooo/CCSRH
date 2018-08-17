@@ -1,9 +1,7 @@
 package com.worksap.stm2018.controller;
 
 import com.worksap.stm2018.Util.TimeUtil;
-import com.worksap.stm2018.entity.LoadApplicationsEntity;
-import com.worksap.stm2018.entity.RequestTimetableEntity;
-import com.worksap.stm2018.entity.TimetableEntity;
+import com.worksap.stm2018.entity.*;
 import com.worksap.stm2018.service.ApplicationService;
 import com.worksap.stm2018.service.ServiceFactory;
 import com.worksap.stm2018.service.WorkHistoryService;
@@ -36,16 +34,27 @@ public class StaffController {
     }
 
     @RequestMapping(value = "/loadStaffTimetable", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody TimetableEntity loadStaffTimetable(@RequestBody RequestTimetableEntity entity) {
+    @ResponseBody
+    TimetableEntity loadStaffTimetable(@RequestBody RequestTimetableEntity entity) {
         return workHistoryService.StaffWorkTimetable(entity.getStaffId(),
                 TimeUtil.StringToDate(entity.getBeginTime()),
                 TimeUtil.StringToDate(entity.getEndTime()));
     }
 
     @RequestMapping(value = "/loadApplicationTimetable", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody TimetableEntity loadApplicationTimetable(@RequestBody RequestTimetableEntity entity) {
+    @ResponseBody
+    TimetableEntity loadApplicationTimetable(@RequestBody RequestTimetableEntity entity) {
         return applicationService.ApplicationsTimetable(entity.getStaffId(),
                 TimeUtil.StringToDate(entity.getBeginTime()),
                 TimeUtil.StringToDate(entity.getEndTime()));
+    }
+
+    @RequestMapping(value = "/submitApplication", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    MessageEntity submitApplications(@RequestBody ApplicationEntity application) {
+        applicationService.create(application);
+        MessageEntity message = new MessageEntity();
+        message.setMsg("Your application is submitted.");
+        return message;
     }
 }

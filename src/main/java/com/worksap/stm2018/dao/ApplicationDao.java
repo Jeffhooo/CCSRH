@@ -25,7 +25,7 @@ public interface ApplicationDao {
      *
      * @param newRecord
      */
-    ApplicationVo put(ApplicationVo newRecord);
+    void put(ApplicationVo newRecord);
 
     /**
      * add a result to a application
