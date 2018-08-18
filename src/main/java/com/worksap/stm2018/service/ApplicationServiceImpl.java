@@ -34,11 +34,23 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public void create(SubmitApplicationEntity newApplication) {
+        String place = staffDao.getStaffPlace(newApplication.getStaffId());
+        Timestamp begin;
+        Timestamp end;
+        if(place.equals("Asia/Tokyo")) {
+            begin = new Timestamp(TimeUtil.AddHours(new Date(TimeUtil.StringToTimestamp(
+                    newApplication.getBeginTime()).getTime()), -1).getTime());
+            end = new Timestamp(TimeUtil.AddHours(new Date(TimeUtil.StringToTimestamp(
+                    newApplication.getEndTime()).getTime()), -1).getTime());
+        } else {
+            begin = TimeUtil.StringToTimestamp(newApplication.getBeginTime());
+            end = TimeUtil.StringToTimestamp(newApplication.getEndTime());
+        }
         applicationDao.put(new ApplicationVo.Builder().applicantId(newApplication.getStaffId())
                                                              .applicantName(staffDao.getStaffName(newApplication.getStaffId()))
                                                              .applyReason(newApplication.getApplyReason())
-                                                             .beginTime(TimeUtil.StringToTimestamp(newApplication.getBeginTime()))
-                                                             .endTime(TimeUtil.StringToTimestamp(newApplication.getEndTime()))
+                                                             .beginTime(begin)
+                                                             .endTime(end)
                                                              .build());
     }
 
