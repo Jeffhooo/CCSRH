@@ -24,7 +24,7 @@
             height: 50px;
         }
         .container {
-            margin-top: 5px;
+            margin-top: 5%;
             margin-left: auto;
             margin-right: auto;
             margin-bottom: auto;
@@ -34,7 +34,7 @@
         }
         #rightBlock {
             margin-left: 900px;
-            margin-top: 40px;
+            margin-top: 45px;
         }
         #logOut {
             float: right;
@@ -50,7 +50,8 @@
             <p id="buttons">
                 <button id="approveApplication" type="button" class="btn btn-primary">Approve application</button>
                 <button id="save" type="button" class="btn btn-primary">Save</button>
-                <button id="publish" type="button" class="btn btn-primary">Pulish</button>
+                <button id="check" type="button" class="btn btn-primary">Check</button>
+                <button id="publish" type="button" class="btn btn-primary">Publish</button>
                 <button id="logOut" type="button" class="btn btn-primary">Log Out</button>
             </p>
             <table class="table-bordered" id="timetable">
@@ -156,6 +157,10 @@
         days[5] = $("#day6");
         days[6] = $("#day7");
 
+        var times = [];
+        times[0] = $("#time1");
+        times[1] = $("#time2");
+
         var applyBeginTimeMap = {};
         var applyEndTimeMap = {};
         applyBeginTimeMap["content1"] = days[0].text() + " " + workTime[0];
@@ -239,7 +244,8 @@
                                 staff.name + "<br/> Place: " +
                                 staff.place + "<br/> Language: <br/>" +
                                 staff.language1 + ", " +
-                                staff.language2 + "</td></tr>";
+                                staff.language2 + "</td><td hidden id=\"" +
+                                staff.name + "\"></td></tr>";
                             $("#staffTable").append(tr);
                         });
                         var arrangement = curArrangement[contentIndex[chooseContent]];
@@ -342,6 +348,92 @@
                 window.location.href = "/";
             }
             event.preventDefault();
+        });
+
+        $("#staffTable").on("click", "td", function () {
+            if($(this).attr("style") == "width: 160px; height: 100px;") {
+                var href = "staffWorkHistory" + $(this).parent().attr("id");
+                if(confirm("Do you want to view " + $(this).next("td").attr("id") + "\"s work history?")) {
+                    window.location.href = href;
+                }
+            }
+        });
+
+        $("#check").click(function () {
+            var report = "";
+            var languageToIndex = {English: 0, Chinese: 1, Japanese: 2};
+            var IndexToLanguage = ["English", "Chinese", "Japanese"];
+
+            report += "Language Service Check: ";
+            var languageReport = "";
+            $.each(curArrangement, function (i, arrangement) {
+                var time = days[Math.floor(i/2)].text() + " " + times[i%2].text();
+                var checkList = ["no", "no", "no"];
+                $.each(arrangement.content, function (j, staff) {
+                    checkList[languageToIndex[staff.language1]] = "yes";
+                    checkList[languageToIndex[staff.language2]] = "yes";
+                });
+                var lack = "";
+                if(checkList[0] == "no") {
+                    lack += " " + IndexToLanguage[0];
+                }
+                if(checkList[1] == "no") {
+                    lack += " " + IndexToLanguage[1];
+                }
+                if(checkList[2] == "no") {
+                    lack += " " + IndexToLanguage[2];
+                }
+                if(lack !== "") {
+                    languageReport += time + ": Lack of" + lack + " service.\n";
+                }
+            });
+            if(languageReport !== "") {
+                report += "Fail\n" + languageReport + "\n\n";
+            } else {
+                report += "Pass\n\n";
+            }
+
+            report += "Busy Hours Check: ";
+            var busyHourReport = "";
+            $.each(curArrangement, function (i, arrangement) {
+                if(i == 4 || i == 6) {
+                    var time = days[Math.floor(i/2)].text() + " " + times[i%2].text();
+                    if(arrangement.content.length < 3) {
+                        busyHourReport += time + ": Less than 3 staff work at busy hours.\n";
+                    }
+                }
+            });
+            if(busyHourReport !== "") {
+                report += "Fail\n" + busyHourReport +"\n\n";
+            } else {
+                report += "Pass\n\n"
+            }
+
+            report += "Over Work Check: ";
+            var overWorkReport = "";
+            var checkMap = {};
+            var names = {};
+            $.each(curArrangement, function (i, arrangement) {
+                $.each(arrangement.content, function (j, staff) {
+                    if(checkMap[staff.name] == null) {
+                        checkMap[staff.name] = 1;
+                    } else {
+                        checkMap[staff.name] += 1;
+                    }
+                    names[staff.name] = staff.name;
+                });
+            });
+            $.each(names, function (i, name) {
+                if(checkMap[name] > 5) {
+                    overWorkReport += name + " work for more than 5 days.\n";
+                }
+            });
+            if(overWorkReport !== "") {
+                report += " Fail\n" + overWorkReport + "\n\n";
+            } else {
+                report += " Pass\n\n";
+            }
+            alert(report);
         });
     })
 </script>

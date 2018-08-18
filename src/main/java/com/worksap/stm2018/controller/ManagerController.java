@@ -11,10 +11,7 @@ import com.worksap.stm2018.vo.ApplicationVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -111,6 +108,11 @@ public class ManagerController {
                 TimeUtil.StringToDate(entity.getBeginTime()),
                 TimeUtil.StringToDate(entity.getEndTime()));
         return new MessageEntity("Arrangement is published.");
+    }
+
+    @RequestMapping(value = "/staffWorkHistory{staffId}")
+    ModelAndView staffWorkHistory(@PathVariable String staffId) {
+        return new ModelAndView("staffWorkHistory", "userId", staffId);
     }
 
 }

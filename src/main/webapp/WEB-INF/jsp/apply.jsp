@@ -221,34 +221,7 @@
                 dataType: "json",
                 success: function (Message) {
                     alert(Message.msg);
-                    var loadPage = {staffId:userId, beginTime:loadBeginDate[curIndex], endTime:loadEndDate[curIndex]};
-                    $.ajax({
-                        url: "loadApplicationTimetable",
-                        type: "POST",
-                        contentType: "application/json; charset=utf-8",
-                        data: JSON.stringify(loadPage),
-                        dataType: "json",
-                        success: function(timetable) {
-                            var content = timetable.content;
-                            $("#content1").text(content[0]);
-                            $("#content2").text(content[1]);
-                            $("#content3").text(content[2]);
-                            $("#content4").text(content[3]);
-                            $("#content5").text(content[4]);
-                            $("#content6").text(content[5]);
-                            $("#content7").text(content[6]);
-                            $("#content8").text(content[7]);
-                            $("#content9").text(content[8]);
-                            $("#content10").text(content[9]);
-                            $("#content11").text(content[10]);
-                            $("#content12").text(content[11]);
-                            $("#content13").text(content[12]);
-                            $("#content14").text(content[13]);
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            alert("loadTimetableContent error.");
-                        }
-                    });
+                    history.go(-1);
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
                     alert("Submit application error.");
