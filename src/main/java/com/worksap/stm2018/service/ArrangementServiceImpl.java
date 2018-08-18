@@ -7,6 +7,7 @@ import com.worksap.stm2018.dao.StaffDao;
 import com.worksap.stm2018.dto.StaffDto;
 import com.worksap.stm2018.entity.ArrangementTableEntity;
 import com.worksap.stm2018.entity.StaffEntity;
+import com.worksap.stm2018.entity.TimetableEntity;
 import com.worksap.stm2018.vo.ArrangementVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -60,22 +61,72 @@ public class ArrangementServiceImpl implements ArrangementService {
     }
 
     @Override
-    public List<ArrangementVo> update(List<ArrangementVo> newRecords, Timestamp beginTime, Timestamp endTime) {
+    public void update(List<String> staffs, Timestamp beginTime, Timestamp endTime) {
         arrangementDao.delete(beginTime, endTime);
-        List<ArrangementVo> returnRecord = new ArrayList<>();
-        for(ArrangementVo newRecord : newRecords) {
-            returnRecord.add(arrangementDao.put(newRecord));
-        }
-        return returnRecord;
+        arrangementDao.put(staffs.stream()
+                .map(n -> new ArrangementVo.Builder()
+                        .staffId(n)
+                        .staffName(staffDao.getStaffName(n))
+                        .beginTime(beginTime)
+                        .endTime(endTime).build()).collect(Collectors.toList()));
     }
 
     @Override
-    public void publish(Timestamp beginTime, Timestamp endTime) {
-        arrangementDao.publishArrangements(beginTime, endTime);
+    public void publish(Date beginTime, Date endTime) {
+        arrangementDao.publishArrangements(
+                new Timestamp(beginTime.getTime()),
+                new Timestamp(endTime.getTime()));
     }
 
     @Override
     public List<ArrangementVo> getStaffArrangement(String staffId, Timestamp beginTime, Timestamp endTime) {
         return arrangementDao.findStaffPublish(staffId, beginTime, endTime);
     }
+
+    @Override
+    public String checkPublish(String week) {
+        return arrangementDao.checkPublish(week);
+    }
+
+    @Override
+    public TimetableEntity StaffNextWeekArrangement(String staffId, Date beginDate, Date endDate) {
+        List<String> days = new ArrayList<>();
+        TimeUtil.tableDays(days, beginDate);
+
+        List<String> times = new ArrayList<>();
+        String staffPlace = staffDao.getStaffPlace(staffId);
+        TimeUtil.tableTimes(staffPlace, times);
+
+        TimetableEntity timetable = new TimetableEntity();
+        timetable.setDays(days);
+        timetable.setTimes(times);
+
+        String staffName = staffDao.getStaffName(staffId);
+        List<String> content = new ArrayList<>();
+        int workTimeOfPlace = TimeUtil.getWorkTime(staffPlace);
+
+        Date beginWorkTime = TimeUtil.AddHours(beginDate, workTimeOfPlace);
+        Date endWorkTime = TimeUtil.AddHours(beginWorkTime, 8);
+        for(int i = 0; i < 14; i++) {
+            List<ArrangementVo> arrangementVos = arrangementDao.findStaffPublish(
+                    staffId,
+                    new Timestamp(beginWorkTime.getTime()),
+                    new Timestamp(endWorkTime.getTime()));
+            if(!arrangementVos.isEmpty()) {
+                content.add(staffName);
+            } else {
+                content.add("");
+            }
+            if(i%2 == 0) {
+                beginWorkTime = TimeUtil.AddHours(beginWorkTime, 8);
+                endWorkTime = TimeUtil.AddHours(endWorkTime, 8);
+            } else {
+                beginWorkTime = TimeUtil.AddHours(beginWorkTime, 16);
+                endWorkTime = TimeUtil.AddHours(endWorkTime, 16);
+            }
+        }
+        timetable.setContent(content);
+        return timetable;
+    }
+
 }

@@ -14,7 +14,7 @@
 
     <style>
         .container {
-            margin-top: 10%;
+            margin-top: 5%;
             margin-left: auto;
             margin-right: auto;
             margin-bottom: auto;
@@ -91,8 +91,8 @@
                              "<td>" + application.applicationId + "</td>" +
                              "<td>" + application.staffId + "</td>" +
                              "<td>" + application.staffName + "</td>" +
-                             "<td>" + application.endTime + "</td>" +
                              "<td>" + application.beginTime + "</td>" +
+                             "<td>" + application.endTime + "</td>" +
                              "<td>" + application.applyReason + "</td>" +
                              "<td>" + ((application.result == null)? "":application.result) + "</td></tr>";
                     $("#applicationTable").append(tr);

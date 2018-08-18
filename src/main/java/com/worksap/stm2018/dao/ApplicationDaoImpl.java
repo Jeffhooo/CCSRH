@@ -19,7 +19,7 @@ public class ApplicationDaoImpl implements ApplicationDao {
     }
 
     private static final String LIST_SQL = "select * from applications where begin_time >= ? and end_time <= ?";
-    private static final String FIND_SQL = "select * from applications where applicant_id = ?";
+    private static final String FIND_SQL = "select * from applications where applicant_id = ? and begin_time >= ? and end_time <= ?";
     private static final String SELECT_ID_SQL = "select application_id from applications";
     private static final String INSERT_SQL = "insert into applications(application_id, applicant_id, applicant_name, " +
             "apply_reason, begin_time, end_time) values(?, ?, ?, ?, ?, ?)";
@@ -33,21 +33,6 @@ public class ApplicationDaoImpl implements ApplicationDao {
         return template.query(LIST_SQL,
                 ps -> {ps.setTimestamp(1, beginTime);
                        ps.setTimestamp(2, endTime);},
-                (rs, rowNum) -> new ApplicationVo.Builder()
-                        .applicationId(rs.getString(1))
-                        .applicantId(rs.getString(2))
-                        .applicantName(rs.getString(3))
-                        .applyReason(rs.getString(4))
-                        .beginTime(rs.getTimestamp(5))
-                        .endTime(rs.getTimestamp(6))
-                        .result(rs.getString(7))
-                        .comment(rs.getString(8)).build());
-    }
-
-    @Override
-    public List<ApplicationVo> find(String applicantId) {
-        return template.query(FIND_SQL,
-                ps -> ps.setString(1, applicantId),
                 (rs, rowNum) -> new ApplicationVo.Builder()
                         .applicationId(rs.getString(1))
                         .applicantId(rs.getString(2))
@@ -101,5 +86,22 @@ public class ApplicationDaoImpl implements ApplicationDao {
         List<String> idList;
         idList = template.query(SELECT_ID_SQL, ps -> {}, (rs, rowNum) -> rs.getString(1));
         return NewIdUtil.generateNewId(idList);
+    }
+
+    @Override
+    public List<ApplicationVo> find(String staffId, Timestamp beginTime, Timestamp endTime) {
+        return template.query(FIND_SQL,
+                ps -> { ps.setString(1, staffId);
+                        ps.setTimestamp(2, beginTime);
+                        ps.setTimestamp(3, endTime);},
+                (rs, rowNum) -> new ApplicationVo.Builder()
+                        .applicationId(rs.getString(1))
+                        .applicantId(rs.getString(2))
+                        .applicantName(rs.getString(3))
+                        .applyReason(rs.getString(4))
+                        .beginTime(rs.getTimestamp(5))
+                        .endTime(rs.getTimestamp(6))
+                        .result(rs.getString(7))
+                        .comment(rs.getString(8)).build());
     }
 }

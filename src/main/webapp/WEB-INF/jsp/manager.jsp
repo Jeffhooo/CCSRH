@@ -24,7 +24,7 @@
             height: 50px;
         }
         .container {
-            margin-top: 10%;
+            margin-top: 5px;
             margin-left: auto;
             margin-right: auto;
             margin-bottom: auto;
@@ -36,6 +36,9 @@
             margin-left: 900px;
             margin-top: 40px;
         }
+        #logOut {
+            float: right;
+        }
     </style>
     <title>Manager</title>
 </head>
@@ -46,7 +49,9 @@
             <div id="userId" hidden>${userId}</div>
             <p id="buttons">
                 <button id="approveApplication" type="button" class="btn btn-primary">Approve application</button>
+                <button id="save" type="button" class="btn btn-primary">Save</button>
                 <button id="publish" type="button" class="btn btn-primary">Pulish</button>
+                <button id="logOut" type="button" class="btn btn-primary">Log Out</button>
             </p>
             <table class="table-bordered" id="timetable">
                 <thead>
@@ -105,12 +110,12 @@
         var load = {beginTime: beginTime, endTime: endTime};
         var curArrangement;
         var chooseContent;
-        var workTime = new Array();
+        var workTime = [];
         workTime[0] = "08:00:00";
         workTime[1] = "16:00:00";
         workTime[2] = "23:00:00";
 
-        var contents = new Array();
+        var contents = [];
         contents[0] = $("#content1");
         contents[1] = $("#content2");
         contents[2] = $("#content3");
@@ -126,7 +131,23 @@
         contents[12] = $("#content13");
         contents[13] = $("#content14");
 
-        var days = new Array();
+        var contentIndex = {};
+        contentIndex[contents[0].attr("id")] = 0;
+        contentIndex[contents[1].attr("id")] = 1;
+        contentIndex[contents[2].attr("id")] = 2;
+        contentIndex[contents[3].attr("id")] = 3;
+        contentIndex[contents[4].attr("id")] = 4;
+        contentIndex[contents[5].attr("id")] = 5;
+        contentIndex[contents[6].attr("id")] = 6;
+        contentIndex[contents[7].attr("id")] = 7;
+        contentIndex[contents[8].attr("id")] = 8;
+        contentIndex[contents[9].attr("id")] = 9;
+        contentIndex[contents[10].attr("id")] = 10;
+        contentIndex[contents[11].attr("id")] = 11;
+        contentIndex[contents[12].attr("id")] = 12;
+        contentIndex[contents[13].attr("id")] = 13;
+
+        var days = [];
         days[0] = $("#day1");
         days[1] = $("#day2");
         days[2] = $("#day3");
@@ -193,6 +214,9 @@
         });
 
         $("#timetable td").click(function (event) {
+            if(checkboxChange == "yes") {
+
+            }
             $("td").css("background-color", "#FFFFFF");
             $("td").css("color", "#000000");
             var contentId = $(this).attr("id");
@@ -200,7 +224,7 @@
                 $(this).css("background-color", "#0066AA");
                 $(this).css("color", "#FFFFFF");
                 chooseContent = contentId;
-                var loadStaffs = {beginTime: applyBeginTimeMap[chooseContent], endTime: applyBeginTimeMap[chooseContent]};
+                var loadStaffs = {beginTime: applyBeginTimeMap[chooseContent], endTime: applyEndTimeMap[chooseContent]};
                 $.ajax({
                     url: "loadStaffs",
                     type: "POST",
@@ -210,14 +234,21 @@
                     success: function (staffs) {
                         $("#staffTable tbody").empty();
                         $.each(staffs, function (i, staff) {
-                            var tr = "<tr id=\"" + staff.id +"\">" +
-                                "<td style=\"width: 40px; height: 100px; text-align: center\"><input type=\"checkbox\"/></td>" +
-                                "<td style=\"width: 160px; height: 100px\">" +
-                                staff.name + "<br/>" +
-                                staff.place + "<br/>" +
-                                staff.language1 + "<br/>" +
+                            var tr = "<tr id=\"" +
+                                staff.id + "\"><td style=\"width: 40px; height: 100px; text-align: center\"><input type=\"checkbox\"/></td><td style=\"width: 160px; height: 100px;\"> Name: " +
+                                staff.name + "<br/> Place: " +
+                                staff.place + "<br/> Language: <br/>" +
+                                staff.language1 + ", " +
                                 staff.language2 + "</td></tr>";
                             $("#staffTable").append(tr);
+                        });
+                        var arrangement = curArrangement[contentIndex[chooseContent]];
+                        $.each(arrangement.content, function (i, arrangeStaff) {
+                            $("#staffTable").find("tr").each(function () {
+                                if($(this).attr("id") == arrangeStaff.id) {
+                                    $(this).find("input:checkbox").attr("checked", "true");
+                                }
+                            })
                         })
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
@@ -226,7 +257,92 @@
                 });
             }
             event.preventDefault();
+        });
+
+        var checkboxChange = "no";
+        $("#staffTable").on("change", "input", function (event) {
+            checkboxChange = "yes";
+            event.preventDefault();
         })
+
+        $("#save").click(function () {
+            var chooseStaffIds = [];
+            $("#staffTable").find("tr").each(function () {
+                if($(this).find("input:checkbox").is(":checked")) {
+                    chooseStaffIds.push($(this).attr("id"));
+                }
+            });
+
+            var sendArrangements = {
+                staffIds: chooseStaffIds,
+                beginTime: applyBeginTimeMap[chooseContent],
+                endTime: applyEndTimeMap[chooseContent]
+            };
+
+            $.ajax({
+                url: "updateArrangement",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(sendArrangements),
+                dataType: "json",
+                success: function (Message) {
+                    alert(Message.msg);
+                    $.ajax({
+                        url: "loadArrangement",
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        data: JSON.stringify(load),
+                        dataType: "json",
+                        success: function (arrangements) {
+                            curArrangement = arrangements;
+                            $.each(arrangements, function (i, arrangement) {
+                                var content = "";
+                                var length = arrangement.content.length;
+                                $.each(arrangement.content, function (j, staff) {
+                                    content += staff.name;
+                                    if(j < length-1) {
+                                        content += "</br>";
+                                    }
+                                });
+                                contents[i].html(content);
+                            });
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            alert("loadArrangement error.");
+                        }
+                    });
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert("updateArrangement error.");
+                }
+            })
+        });
+
+        $("#publish").click(function (event) {
+            var publishTime = {beginTime: beginTime, endTime: endTime};
+
+            $.ajax({
+                url: "publish",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(publishTime),
+                dataType: "json",
+                success:function (Message) {
+                    alert(Message.msg);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert("publish error.");
+                }
+            });
+            event.preventDefault();
+        });
+
+        $("#logOut").click(function (event) {
+            if(confirm("Are you sure to log out?")) {
+                window.location.href = "/";
+            }
+            event.preventDefault();
+        });
     })
 </script>
 </html>

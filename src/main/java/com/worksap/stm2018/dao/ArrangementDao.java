@@ -28,7 +28,7 @@ public interface ArrangementDao {
      * put in an arrangement
      *
      */
-    ArrangementVo put(ArrangementVo newRecord);
+    void put(List<ArrangementVo> newRecords);
 
     /**
      * publish arrangements of a time period
@@ -42,4 +42,6 @@ public interface ArrangementDao {
      *
      */
     String generateNewId();
+
+    String checkPublish(String week);
 }

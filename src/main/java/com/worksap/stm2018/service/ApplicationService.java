@@ -1,6 +1,7 @@
 package com.worksap.stm2018.service;
 
 import com.worksap.stm2018.entity.ApplicationEntity;
+import com.worksap.stm2018.entity.SubmitApplicationEntity;
 import com.worksap.stm2018.entity.TimetableEntity;
 import com.worksap.stm2018.vo.ApplicationVo;
 
@@ -19,7 +20,7 @@ public interface ApplicationService {
      * create a new application
      *
      */
-    void create(ApplicationEntity newApplication);
+    void create(SubmitApplicationEntity newApplication);
 
     /**
      * accept a application
@@ -40,5 +41,7 @@ public interface ApplicationService {
     List<ApplicationVo> getAcceptedApplications(Timestamp beginTime, Timestamp endTime);
 
     TimetableEntity ApplicationsTimetable(String staffId, Date beginDate, Date endDate);
+
+    List<ApplicationEntity> getStaffApplications(String staffId, Date beginTime, Date endTime);
 
 }

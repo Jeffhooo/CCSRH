@@ -24,7 +24,7 @@
             text-align: center;
         }
         .container {
-            margin-top: 10%;
+            margin-top: 5%;
             margin-left: auto;
             margin-right: auto;
             margin-bottom: auto;
@@ -117,7 +117,6 @@
 
 
         loadApplicationTimetable(userId, loadBeginDate[curIndex], loadEndDate[curIndex]);
-        // loadTimetableContent(userId, loadBeginDate[curIndex], loadEndDate[curIndex]);
 
         function loadApplicationTimetable(userId, beginTime, endTime) {
             var loadPage = {staffId:userId, beginTime:beginTime, endTime:endTime };
@@ -140,6 +139,11 @@
                     var times = timetable.times;
                     $("#time1").text(times[0]);
                     $("#time2").text(times[1]);
+                    if(times[0] == "9:00-17:00") {
+                        workTime[0] = "09:00:00";
+                        workTime[1] = "17:00:00";
+                        workTime[2] = "24:00:00";
+                    }
 
                     var content = timetable.content;
                     $("#content1").text(content[0]);
@@ -201,12 +205,12 @@
             if((contentId !== "time1") && (contentId !== "time2")) {
                 $(this).css("background-color", "#0066AA");
                 $(this).css("color", "#FFFFFF");
-                $("#applyTime").text(applyBeginTimeMap[contentId] + " - " + applyBeginTimeMap[contentId]);
+                $("#applyTime").text(applyBeginTimeMap[contentId] + " - " + applyEndTimeMap[contentId]);
                 chooseContent = contentId;
             }
         })
 
-        $("#applicationForm").submit(function (event) {
+        $("#submit").click(function (event) {
             var application = {staffId: userId, applyReason: $("#applyReason").val(),
                 beginTime: applyBeginTimeMap[chooseContent], endTime: applyEndTimeMap[chooseContent]};
             $.ajax({
@@ -215,8 +219,8 @@
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(application),
                 dataType: "json",
-                success: function () {
-                    alert("Your application is submitted.");
+                success: function (Message) {
+                    alert(Message.msg);
                     var loadPage = {staffId:userId, beginTime:loadBeginDate[curIndex], endTime:loadEndDate[curIndex]};
                     $.ajax({
                         url: "loadApplicationTimetable",
@@ -252,7 +256,6 @@
             });
             event.preventDefault();
         })
-
     });
 </script>
 </html>

@@ -51,6 +51,10 @@ public class TimeUtil {
         return calendar.getTime();
     }
 
+    public static Timestamp timestampAddHours(Timestamp time, int hours) {
+        return new Timestamp(AddHours(new Date(time.getTime()), hours).getTime());
+    }
+
     public static String DateToString(Date date) {
         return new SimpleDateFormat("yyyy-MM-dd").format(date);
     }

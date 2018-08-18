@@ -5,6 +5,7 @@ import com.worksap.stm2018.dao.ApplicationDao;
 import com.worksap.stm2018.dao.DaoFactory;
 import com.worksap.stm2018.dao.StaffDao;
 import com.worksap.stm2018.entity.ApplicationEntity;
+import com.worksap.stm2018.entity.SubmitApplicationEntity;
 import com.worksap.stm2018.entity.TimetableEntity;
 import com.worksap.stm2018.vo.ApplicationVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public void create(ApplicationEntity newApplication) {
+    public void create(SubmitApplicationEntity newApplication) {
         applicationDao.put(new ApplicationVo.Builder().applicantId(newApplication.getStaffId())
                                                              .applicantName(staffDao.getStaffName(newApplication.getStaffId()))
                                                              .applyReason(newApplication.getApplyReason())
@@ -93,5 +94,35 @@ public class ApplicationServiceImpl implements ApplicationService {
         }
         timetable.setContent(content);
         return timetable;
+    }
+
+    @Override
+    public List<ApplicationEntity> getStaffApplications(String staffId, Date beginTime, Date endTime) {
+        String place = staffDao.getStaffPlace(staffId);
+        List<ApplicationVo> applicationVos = applicationDao.find(staffId,
+                new Timestamp(beginTime.getTime()),
+                new Timestamp(endTime.getTime()));
+        List<ApplicationEntity> applicationEntities = new ArrayList<>();
+        for(ApplicationVo applicationVo : applicationVos) {
+            Timestamp begin;
+            Timestamp end;
+            if(place.equals("Asia/Tokyo")) {
+                begin = new Timestamp(TimeUtil.AddHours(new Date(applicationVo.getBeginTime().getTime()), 1).getTime());
+                end = new Timestamp(TimeUtil.AddHours(new Date(applicationVo.getEndTime().getTime()), 1).getTime());
+            } else {
+                begin = applicationVo.getBeginTime();
+                end = applicationVo.getEndTime();
+            }
+            applicationEntities.add(new ApplicationEntity(
+                    applicationVo.getApplicationId(),
+                    applicationVo.getApplicantId(),
+                    applicationVo.getApplicantName(),
+                    applicationVo.getApplyReason(),
+                    TimeUtil.timestampToString(begin),
+                    TimeUtil.timestampToString(end),
+                    applicationVo.getResult(),
+                    applicationVo.getComment()));
+        }
+        return applicationEntities;
     }
 }

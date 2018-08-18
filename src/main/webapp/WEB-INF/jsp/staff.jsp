@@ -24,10 +24,13 @@
             height: 50px;
         }
         .container {
-            margin-top: 10%;
+            margin-top: 5%;
             margin-left: auto;
             margin-right: auto;
             margin-bottom: auto;
+        }
+        #logOut {
+            margin-left: 350px;
         }
     </style>
     <title>Staff</title>
@@ -38,7 +41,8 @@
     <p id="buttons">
         <button id="lastWeek" type="button" class="btn btn-primary">Last Week</button>
         <button id="nextWeek" type="button" class="btn btn-primary">Next Week</button>
-        <button type="button" class="btn btn-primary" onclick="window.location.href = 'apply${userId}'">Apply Special Rest Time</button>
+        <button id="apply" type="button" class="btn btn-primary">Rest Time Applications</button>
+        <button id="logOut" type="button" class="btn btn-primary">Log Out</button>
     </p>
 
     <table class="table-bordered" id="timetable">
@@ -82,29 +86,103 @@
 <script type="text/javascript">
     $(document).ready(function () {
         var userId = $("#userId").text();
-        var loadBeginDate = new Array();
-        loadBeginDate[0] = "2018-8-13"
-        loadBeginDate[1] = "2018-8-20"
-        var loadEndDate = new Array();
-        loadEndDate[0] = "2018-8-20"
-        loadEndDate[1] = "2018-8-27"
+        var loadBeginDate = [];
+        loadBeginDate[0] = "2018-8-13";
+        loadBeginDate[1] = "2018-8-20";
+        loadBeginDate[2] = "2018-8-27";
+        var loadEndDate = [];
+        loadEndDate[0] = "2018-8-20";
+        loadEndDate[1] = "2018-8-27";
+        loadEndDate[2] = "2018-9-3";
         var curIndex = 1;
-        var maxIndex = 1;
+        var maxIndex = 2;
         var minIndex = 0;
+        var nextWeekPublish;
 
         loadStaffTimetable(userId, loadBeginDate[curIndex], loadEndDate[curIndex]);
+
+        $.ajax({
+            url: "checkPublish",
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(3),
+            dataType: "json",
+            success: function (Message) {
+                nextWeekPublish = Message.msg;
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                alert("checkPublish error.");
+            }
+        });
 
         $("#lastWeek").click(function () {
             if(curIndex > minIndex) {
                 curIndex--;
                 loadStaffTimetable(userId, loadBeginDate[curIndex], loadEndDate[curIndex]);
+            } else {
+                alert("No more history.");
             }
         });
 
         $("#nextWeek").click(function () {
             if(curIndex < maxIndex) {
-                curIndex++;
-                loadStaffTimetable(userId, loadBeginDate[curIndex], loadEndDate[curIndex]);
+                if(curIndex == maxIndex-1) {
+                    if(nextWeekPublish == "published") {
+                        curIndex++;
+                        var loadArrangement = {
+                            staffId:userId,
+                            beginTime:loadBeginDate[curIndex],
+                            endTime:loadEndDate[curIndex]
+                        };
+                        $.ajax({
+                            url: "loadNextWeekArrangement",
+                            type: "POST",
+                            contentType: "application/json; charset=utf-8",
+                            data: JSON.stringify(loadArrangement),
+                            dataType: "json",
+                            success: function(timetable) {
+                                var days = timetable.days;
+                                $("#day1").text(days[0]);
+                                $("#day2").text(days[1]);
+                                $("#day3").text(days[2]);
+                                $("#day4").text(days[3]);
+                                $("#day5").text(days[4]);
+                                $("#day6").text(days[5]);
+                                $("#day7").text(days[6]);
+
+                                var times = timetable.times;
+                                $("#time1").text(times[0]);
+                                $("#time2").text(times[1]);
+
+                                var content = timetable.content;
+                                $("#content1").text(content[0]);
+                                $("#content2").text(content[1]);
+                                $("#content3").text(content[2]);
+                                $("#content4").text(content[3]);
+                                $("#content5").text(content[4]);
+                                $("#content6").text(content[5]);
+                                $("#content7").text(content[6]);
+                                $("#content8").text(content[7]);
+                                $("#content9").text(content[8]);
+                                $("#content10").text(content[9]);
+                                $("#content11").text(content[10]);
+                                $("#content12").text(content[11]);
+                                $("#content13").text(content[12]);
+                                $("#content14").text(content[13]);
+                            },
+                            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                                alert("load next week arrangement error.");
+                            }
+                        });
+                    } else {
+                        alert("No new arrangement.")
+                    }
+                } else {
+                    curIndex++;
+                    loadStaffTimetable(userId, loadBeginDate[curIndex], loadEndDate[curIndex]);
+                }
+            } else {
+                alert("No new arrangement.")
             }
         });
 
@@ -151,6 +229,18 @@
                 }
             });
         }
+
+        $("#logOut").click(function (event) {
+            if(confirm("Are you sure to log out?")) {
+                window.location.href = "/";
+            }
+            event.preventDefault();
+        });
+
+        $("#apply").click(function (event) {
+            window.location.href = "applyHistory${userId}";
+            event.preventDefault();
+        });
     });
 </script>
 </html>

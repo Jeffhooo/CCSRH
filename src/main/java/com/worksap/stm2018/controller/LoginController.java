@@ -19,7 +19,7 @@ public class LoginController {
         this.loginService = serviceFactory.getLoginService();
     }
 
-    @RequestMapping(value = {"/", "/login"})
+    @RequestMapping(value = "/")
     ModelAndView login() {
         return new ModelAndView("login");
     }

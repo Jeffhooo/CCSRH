@@ -40,7 +40,7 @@ public class ManagerController {
 
     @RequestMapping(value = "/loadApplications", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    List<ApplicationEntity> loadApplications(@RequestBody LoadApplicationsEntity entity) {
+    List<ApplicationEntity> loadApplications(@RequestBody TimeEntity entity) {
         List<ApplicationVo> applications = applicationService.getApplications(
                 TimeUtil.StringToDate(entity.getBeginTime()),
                 TimeUtil.StringToDate(entity.getEndTime()));
@@ -59,23 +59,20 @@ public class ManagerController {
     @ResponseBody
     MessageEntity acceptApplication(@RequestBody ApproveEntity entity) {
         applicationService.accept(entity.getApplicationId(), entity.getComment());
-        MessageEntity msg = new MessageEntity();
-        msg.setMsg("Application is accepted.");
-        return msg;
+        return new MessageEntity("Application is accepted.");
     }
 
     @RequestMapping(value = "/rejectApplication", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     MessageEntity rejectApplication(@RequestBody ApproveEntity entity) {
         applicationService.reject(entity.getApplicationId(), entity.getComment());
-        MessageEntity msg = new MessageEntity();
-        msg.setMsg("Application is rejected.");
+        MessageEntity msg = new MessageEntity("Application is rejected.");
         return msg;
     }
 
     @RequestMapping(value = "/loadArrangement", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    List<ArrangementTableEntity> loadArrangement(@RequestBody LoadArrangementEntity entity) {
+    List<ArrangementTableEntity> loadArrangement(@RequestBody TimeEntity entity) {
         List<ArrangementTableEntity> arrangements = arrangementService.list(
                 TimeUtil.StringToDate(entity.getBeginTime()),
                 TimeUtil.StringToDate(entity.getEndTime()));
@@ -84,7 +81,7 @@ public class ManagerController {
 
     @RequestMapping(value = "/loadStaffs", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    List<StaffEntity> loadStaffs(@RequestBody LoadStaffsEntity entity) {
+    List<StaffEntity> loadStaffs(@RequestBody TimeEntity entity) {
         List<StaffDto> staffDtos = staffService.getAvailableStaffs(
                 TimeUtil.StringToTimestamp(entity.getBeginTime()),
                 TimeUtil.StringToTimestamp(entity.getEndTime()));
@@ -96,6 +93,24 @@ public class ManagerController {
                         n.getLanguage1(),
                         n.getLanguage2()))
                 .collect(Collectors.toList());
+    }
+
+    @RequestMapping(value = "/updateArrangement", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    MessageEntity updateArrangement(@RequestBody UpdateArrangementEntity entity) {
+        arrangementService.update(entity.getStaffIds(),
+                TimeUtil.StringToTimestamp(entity.getBeginTime()),
+                TimeUtil.StringToTimestamp(entity.getEndTime()));
+        return new MessageEntity("Arrangement is saved.");
+    }
+
+    @RequestMapping(value = "/publish", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    MessageEntity publish(@RequestBody TimeEntity entity) {
+        arrangementService.publish(
+                TimeUtil.StringToDate(entity.getBeginTime()),
+                TimeUtil.StringToDate(entity.getEndTime()));
+        return new MessageEntity("Arrangement is published.");
     }
 
 }

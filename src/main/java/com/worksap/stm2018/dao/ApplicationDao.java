@@ -15,9 +15,11 @@ public interface ApplicationDao {
     /**
      * find the applications of a staff
      *
-     * @param applicantId
+     * @param staffId
+     * @param beginTime
+     * @param endTime
      */
-    List<ApplicationVo> find(String applicantId);
+    List<ApplicationVo> find(String staffId, Timestamp beginTime, Timestamp endTime);
 
     /**
      * put in a new application

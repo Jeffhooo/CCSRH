@@ -1,11 +1,12 @@
 package com.worksap.stm2018.service;
 
 import com.worksap.stm2018.Util.TimeUtil;
-import com.worksap.stm2018.dao.ApplicationDao;
+import com.worksap.stm2018.dao.ArrangementDao;
 import com.worksap.stm2018.dao.DaoFactory;
 import com.worksap.stm2018.dao.StaffDao;
 import com.worksap.stm2018.dao.WorkHistoryDao;
 import com.worksap.stm2018.entity.TimetableEntity;
+import com.worksap.stm2018.vo.ArrangementVo;
 import com.worksap.stm2018.vo.WorkHistoryVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,11 +20,13 @@ import java.util.List;
 public class WorkHistoryServiceImpl implements WorkHistoryService {
     private WorkHistoryDao workHistoryDao;
     private StaffDao staffDao;
+    private ArrangementDao arrangementDao;
 
     @Autowired
     public WorkHistoryServiceImpl(DaoFactory daoFactory) {
         this.workHistoryDao = daoFactory.getWorkHistoryDao();
         this.staffDao = daoFactory.getStaffDao();
+        this.arrangementDao = daoFactory.getArrangementDao();
     }
 
     @Override
@@ -71,5 +74,4 @@ public class WorkHistoryServiceImpl implements WorkHistoryService {
         timetable.setContent(content);
         return timetable;
     }
-
 }
