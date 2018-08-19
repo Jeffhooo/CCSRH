@@ -125,6 +125,7 @@
                 success: function (Message) {
                     alert(Message.msg);
                     $("#applicationTable tbody").empty();
+                    $("#comment").val("");
                     $.ajax({
                         url: "loadApplications",
                         type: "POST",
@@ -167,6 +168,7 @@
                 success: function (Message) {
                     alert(Message.msg);
                     $("#applicationTable tbody").empty();
+                    $("#comment").val("");
                     $.ajax({
                         url: "loadApplications",
                         type: "POST",

@@ -110,6 +110,15 @@ public class ManagerController {
         return new MessageEntity("Arrangement is published.");
     }
 
+    @RequestMapping(value = "/revoke", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    MessageEntity revoke(@RequestBody TimeEntity entity) {
+        arrangementService.revoke(
+                TimeUtil.StringToDate(entity.getBeginTime()),
+                TimeUtil.StringToDate(entity.getEndTime()));
+        return new MessageEntity("Arrangement is revoked.");
+    }
+
     @RequestMapping(value = "/staffWorkHistory{staffId}")
     ModelAndView staffWorkHistory(@PathVariable String staffId) {
         return new ModelAndView("staffWorkHistory", "userId", staffId);

@@ -37,11 +37,22 @@ public interface ArrangementDao {
     void publishArrangements(Timestamp beginTime, Timestamp endTime);
 
     /**
+     * revoke arrangements of a time period
+     *
+     */
+    void revokeArrangements(Timestamp beginTime, Timestamp endTime);
+
+    /**
      * generate new id
      *
      *
      */
     String generateNewId();
 
+    /**
+     * check whether the arrangement of week is published
+     *
+     *
+     */
     String checkPublish(String week);
 }

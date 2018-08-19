@@ -28,12 +28,26 @@ public interface ArrangementService {
     void publish(Date beginTime, Date endTime);
 
     /**
-     * publish the arrangements of a time period
+     * revoke the arrangements of a time period
+     *
+     */
+    void revoke(Date beginTime, Date endTime);
+
+    /**
+     * get staff arrangement
      *
      */
     List<ArrangementVo> getStaffArrangement(String staffId, Timestamp beginTime, Timestamp endTime);
 
+    /**
+     * check whether the arrangement of week is publish
+     *
+     */
     String checkPublish(String week);
 
+    /**
+     * get next week's arrangement of a staff
+     *
+     */
     TimetableEntity StaffNextWeekArrangement(String staffId, Date beginDate, Date endDate);
 }

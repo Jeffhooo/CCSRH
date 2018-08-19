@@ -79,6 +79,13 @@ public class ArrangementServiceImpl implements ArrangementService {
     }
 
     @Override
+    public void revoke(Date beginTime, Date endTime) {
+        arrangementDao.revokeArrangements(
+                new Timestamp(beginTime.getTime()),
+                new Timestamp(endTime.getTime()));
+    }
+
+    @Override
     public List<ArrangementVo> getStaffArrangement(String staffId, Timestamp beginTime, Timestamp endTime) {
         return arrangementDao.findStaffPublish(staffId, beginTime, endTime);
     }
@@ -95,7 +102,7 @@ public class ArrangementServiceImpl implements ArrangementService {
 
         List<String> times = new ArrayList<>();
         String staffPlace = staffDao.getStaffPlace(staffId);
-        TimeUtil.tableTimes(staffPlace, times);
+        TimeUtil.tableTimes("Staff", staffPlace, times);
 
         TimetableEntity timetable = new TimetableEntity();
         timetable.setDays(days);

@@ -35,14 +35,14 @@ public class WorkHistoryServiceImpl implements WorkHistoryService {
     }
 
     @Override
-    public TimetableEntity StaffWorkTimetable(String staffId, Date beginDate, Date endDate) {
+    public TimetableEntity StaffWorkTimetable(String title, String staffId, Date beginDate, Date endDate) {
 
         List<String> days = new ArrayList<>();
         TimeUtil.tableDays(days, beginDate);
 
         List<String> times = new ArrayList<>();
         String staffPlace = staffDao.getStaffPlace(staffId);
-        TimeUtil.tableTimes(staffPlace, times);
+        TimeUtil.tableTimes(title, staffPlace, times);
 
         TimetableEntity timetable = new TimetableEntity();
         timetable.setDays(days);

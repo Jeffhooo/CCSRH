@@ -112,7 +112,12 @@
         });
 
         function loadStaffTimetable(userId, begin, end) {
-            var loadPage = {staffId:userId, beginTime:begin, endTime:end };
+            var loadPage = {
+                title: "Manager",
+                staffId:userId,
+                beginTime:begin,
+                endTime:end
+            };
             $.ajax({
                 url: "loadStaffTimetable",
                 type: "POST",

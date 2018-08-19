@@ -76,7 +76,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 
         List<String> times = new ArrayList<>();
         String staffPlace = staffDao.getStaffPlace(staffId);
-        TimeUtil.tableTimes(staffPlace, times);
+        TimeUtil.tableTimes("Staff", staffPlace, times);
 
         TimetableEntity timetable = new TimetableEntity();
         timetable.setDays(days);

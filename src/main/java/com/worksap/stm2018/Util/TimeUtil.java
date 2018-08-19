@@ -67,13 +67,16 @@ public class TimeUtil {
         }
     }
 
-    public static void tableTimes(String staffPlace, List<String> times) {
-        if(staffPlace.equals("Asia/Shanghai") || staffPlace.equals("Asia/Singapore")) {
+    public static void tableTimes(String title, String staffPlace, List<String> times) {
+        if(staffPlace.equals("Asia/Shanghai") || staffPlace.equals("Asia/Singapore") || title.equals("Manager")) {
             times.add("8:00-16:00");
             times.add("16:00-23:00");
         } else if(staffPlace.equals("Asia/Tokyo")){
             times.add("9:00-17:00");
             times.add("17:00-24:00");
+        } else {
+            times.add("8:00-16:00");
+            times.add("16:00-23:00");
         }
     }
 

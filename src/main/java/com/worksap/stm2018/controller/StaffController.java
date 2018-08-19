@@ -42,7 +42,7 @@ public class StaffController {
     @RequestMapping(value = "/loadStaffTimetable", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     TimetableEntity loadStaffTimetable(@RequestBody RequestTimetableEntity entity) {
-        return workHistoryService.StaffWorkTimetable(entity.getStaffId(),
+        return workHistoryService.StaffWorkTimetable(entity.getTitle(), entity.getStaffId(),
                 TimeUtil.StringToDate(entity.getBeginTime()),
                 TimeUtil.StringToDate(entity.getEndTime()));
     }

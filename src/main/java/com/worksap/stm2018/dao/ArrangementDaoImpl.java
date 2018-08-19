@@ -28,7 +28,10 @@ public class ArrangementDaoImpl implements ArrangementDao {
             " begin_time, end_time) values(?, ?, ?, ?, ?)";
     private static final String PUBLISH_SQL = "update arrangement set status = 'published' " +
             "where begin_time >= ? and end_time <= ?";
+    private static final String REVOKE_SQL = "update arrangement set status = '' " +
+            "where begin_time >= ? and end_time <= ?";
     private static final String UPDATE_PUBLISH_SQL = "update publish_history set status = 'published' where week = ?";
+    private static final String REVOKE_PUBLISH_SQL = "update publish_history set status = '' where week = ?";
     private static final String CHECK_PUBLISH_SQL = "select status from publish_history where week = ?";
 
     @Override
@@ -86,6 +89,15 @@ public class ArrangementDaoImpl implements ArrangementDao {
                 ps -> { ps.setTimestamp(1, beginTime);
                         ps.setTimestamp(2, endTime);});
         template.update(UPDATE_PUBLISH_SQL,
+                ps -> ps.setString(1, "3"));
+    }
+
+    @Override
+    public void revokeArrangements(Timestamp beginTime, Timestamp endTime) {
+        template.update(REVOKE_SQL,
+                ps -> { ps.setTimestamp(1, beginTime);
+                    ps.setTimestamp(2, endTime);});
+        template.update(REVOKE_PUBLISH_SQL,
                 ps -> ps.setString(1, "3"));
     }
 

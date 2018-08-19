@@ -40,8 +40,16 @@ public interface ApplicationService {
      */
     List<ApplicationVo> getAcceptedApplications(Timestamp beginTime, Timestamp endTime);
 
+    /**
+     * get application timetable
+     *
+     */
     TimetableEntity ApplicationsTimetable(String staffId, Date beginDate, Date endDate);
 
+    /**
+     * get applications of a staff
+     *
+     */
     List<ApplicationEntity> getStaffApplications(String staffId, Date beginTime, Date endTime);
 
 }

@@ -52,6 +52,7 @@
                 <button id="save" type="button" class="btn btn-primary">Save</button>
                 <button id="check" type="button" class="btn btn-primary">Check</button>
                 <button id="publish" type="button" class="btn btn-primary">Publish</button>
+                <button id="revoke" type="button" class="btn btn-primary">Revoke</button>
                 <button id="logOut" type="button" class="btn btn-primary">Log Out</button>
             </p>
             <table class="table-bordered" id="timetable">
@@ -325,21 +326,42 @@
         });
 
         $("#publish").click(function (event) {
-            var publishTime = {beginTime: beginTime, endTime: endTime};
+            if(confirm("Are you sure to publish the arrangement?")) {
+                var publishTime = {beginTime: beginTime, endTime: endTime};
+                $.ajax({
+                    url: "publish",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(publishTime),
+                    dataType: "json",
+                    success:function (Message) {
+                        alert(Message.msg);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert("publish error.");
+                    }
+                });
+            }
+            event.preventDefault();
+        });
 
-            $.ajax({
-                url: "publish",
-                type: "POST",
-                contentType: "application/json; charset=utf-8",
-                data: JSON.stringify(publishTime),
-                dataType: "json",
-                success:function (Message) {
-                    alert(Message.msg);
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    alert("publish error.");
-                }
-            });
+        $("#revoke").click(function (event) {
+            if(confirm("Are you sure to revoke the arrangement?")) {
+                var revodeTime = {beginTime: beginTime, endTime: endTime};
+                $.ajax({
+                    url: "revoke",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(revodeTime),
+                    dataType: "json",
+                    success:function (Message) {
+                        alert(Message.msg);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert("revoke error.");
+                    }
+                });
+            }
             event.preventDefault();
         });
 

@@ -40,6 +40,12 @@
         #buttons {
             margin-top: 10px;
         }
+        .form-signin-heading {
+            font-size: 20px;
+        }
+        #applyTime {
+            font-size: 20px
+        }
     </style>
     <title>Apply</title>
 </head>
@@ -86,7 +92,7 @@
         </table>
 
         <h2 class="form-signin-heading" id="applyTimeHeader">Apply time:</h2>
-        <div id="applyTime"></div>
+        <div id="applyTime" ></div>
         <h2 class="form-signin-heading" id="applyReasonHeader">Apply reason:</h2>
         <label for="applyReason" class="sr-only">Apply Reason</label>
         <textarea type="text" id="applyReason" class="form-control" name = "applyReason" placeholder="Apply Reason"></textarea>
@@ -119,7 +125,11 @@
         loadApplicationTimetable(userId, loadBeginDate[curIndex], loadEndDate[curIndex]);
 
         function loadApplicationTimetable(userId, beginTime, endTime) {
-            var loadPage = {staffId:userId, beginTime:beginTime, endTime:endTime };
+            var loadPage = {
+                title:"Staff",
+                staffId:userId,
+                beginTime:beginTime,
+                endTime:endTime };
             $.ajax({
                 url: "loadApplicationTimetable",
                 type: "POST",

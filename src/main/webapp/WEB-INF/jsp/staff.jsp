@@ -30,7 +30,10 @@
             margin-bottom: auto;
         }
         #logOut {
-            margin-left: 350px;
+            margin-left: 360px;
+        }
+        #buttons {
+            margin-top: 5px;
         }
     </style>
     <title>Staff</title>
@@ -38,6 +41,7 @@
 <body>
 <div class="container">
     <div id="userId" hidden>${userId}</div>
+    <div id="newMessage" hidden></div>
     <p id="buttons">
         <button id="lastWeek" type="button" class="btn btn-primary">Last Week</button>
         <button id="nextWeek" type="button" class="btn btn-primary">Next Week</button>
@@ -109,6 +113,10 @@
             dataType: "json",
             success: function (Message) {
                 nextWeekPublish = Message.msg;
+                if(nextWeekPublish == "published") {
+                    $("#newMessage").text("New Message: Timetable of next week has been published.");
+                    $("#newMessage").show();
+                }
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
                 alert("checkPublish error.");
@@ -130,6 +138,7 @@
                     if(nextWeekPublish == "published") {
                         curIndex++;
                         var loadArrangement = {
+                            title:"Staff",
                             staffId:userId,
                             beginTime:loadBeginDate[curIndex],
                             endTime:loadEndDate[curIndex]
@@ -187,7 +196,12 @@
         });
 
         function loadStaffTimetable(userId, begin, end) {
-            var loadPage = {staffId:userId, beginTime:begin, endTime:end };
+            var loadPage = {
+                title:"Staff",
+                staffId:userId,
+                beginTime:begin,
+                endTime:end
+            };
             $.ajax({
                 url: "loadStaffTimetable",
                 type: "POST",
