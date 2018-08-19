@@ -50,4 +50,10 @@ public interface ArrangementService {
      *
      */
     TimetableEntity StaffNextWeekArrangement(String staffId, Date beginDate, Date endDate);
+
+    /**
+     * delete the arrangement of a staff
+     *
+     */
+    void delete(String staffId, String beginTime, String endTime);
 }

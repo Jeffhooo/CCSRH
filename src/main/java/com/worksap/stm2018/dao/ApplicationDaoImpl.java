@@ -3,6 +3,7 @@ package com.worksap.stm2018.dao;
 import com.worksap.stm2018.Util.NewIdUtil;
 import com.worksap.stm2018.vo.ApplicationVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
@@ -20,6 +21,7 @@ public class ApplicationDaoImpl implements ApplicationDao {
 
     private static final String LIST_SQL = "select * from applications where begin_time >= ? and end_time <= ?";
     private static final String FIND_SQL = "select * from applications where applicant_id = ? and begin_time >= ? and end_time <= ?";
+    private static final String FIND_BY_ID_SQL = "select * from applications where application_id = ?";
     private static final String SELECT_ID_SQL = "select application_id from applications";
     private static final String INSERT_SQL = "insert into applications(application_id, applicant_id, applicant_name, " +
             "apply_reason, begin_time, end_time) values(?, ?, ?, ?, ?, ?)";
@@ -86,6 +88,21 @@ public class ApplicationDaoImpl implements ApplicationDao {
         List<String> idList;
         idList = template.query(SELECT_ID_SQL, ps -> {}, (rs, rowNum) -> rs.getString(1));
         return NewIdUtil.generateNewId(idList);
+    }
+
+    @Override
+    public ApplicationVo findById(String applicationId) {
+        return DataAccessUtils.requiredSingleResult(template.query(FIND_BY_ID_SQL,
+                ps -> ps.setString(1, applicationId),
+                (rs, rowNum) -> new ApplicationVo.Builder()
+                        .applicationId(rs.getString(1))
+                        .applicantId(rs.getString(2))
+                        .applicantName(rs.getString(3))
+                        .applyReason(rs.getString(4))
+                        .beginTime(rs.getTimestamp(5))
+                        .endTime(rs.getTimestamp(6))
+                        .result(rs.getString(7))
+                        .comment(rs.getString(8)).build()));
     }
 
     @Override

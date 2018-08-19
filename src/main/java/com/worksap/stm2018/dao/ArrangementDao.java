@@ -19,10 +19,16 @@ public interface ArrangementDao {
     List<ArrangementVo> findStaffPublish(String staffId, Timestamp beginTime, Timestamp endTime);
 
     /**
-     * delete an arrangement
+     * delete arrangement of a time period
      *
      */
     void delete(Timestamp beginTime, Timestamp endTime);
+
+    /**
+     * delete arrangement of a staff
+     *
+     */
+    void deleteOfStaff(String staffId, Timestamp beginTime, Timestamp endTime);
 
     /**
      * put in an arrangement

@@ -136,4 +136,9 @@ public class ArrangementServiceImpl implements ArrangementService {
         return timetable;
     }
 
+    @Override
+    public void delete(String staffId, String beginTime, String endTime) {
+
+    }
+
 }

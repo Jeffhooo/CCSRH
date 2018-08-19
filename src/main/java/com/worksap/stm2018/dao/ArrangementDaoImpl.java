@@ -23,6 +23,7 @@ public class ArrangementDaoImpl implements ArrangementDao {
     private static final String FIND_SQL = "select * from arrangement where status = 'published' and " +
             "staff_id = ? and begin_time >= ? and end_time <= ?";
     private static final String DELETE_SQL = "delete from arrangement where begin_time >= ? and end_time <= ?";
+    private static final String DELETE_OF_STAFF_SQL = "delete from arrangement where staff_id = ? and begin_time >= ? and end_time <= ?";
     private static final String SELECT_ID_SQL = "select arrangement_id from arrangement";
     private static final String INSERT_SQL = "insert into arrangement(arrangement_id, staff_id, staff_name," +
             " begin_time, end_time) values(?, ?, ?, ?, ?)";
@@ -68,6 +69,14 @@ public class ArrangementDaoImpl implements ArrangementDao {
         template.update(DELETE_SQL,
                 ps -> { ps.setTimestamp(1, beginTime);
                         ps.setTimestamp(2, endTime);});
+    }
+
+    @Override
+    public void deleteOfStaff(String staffId, Timestamp beginTime, Timestamp endTime) {
+        template.update(DELETE_OF_STAFF_SQL,
+                ps -> { ps.setString(1, staffId);
+                    ps.setTimestamp(2, beginTime);
+                    ps.setTimestamp(3, endTime);});
     }
 
     @Override

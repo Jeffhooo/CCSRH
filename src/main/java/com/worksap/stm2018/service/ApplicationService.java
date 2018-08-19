@@ -17,6 +17,12 @@ public interface ApplicationService {
     List<ApplicationVo> getApplications(Date beginTime, Date endTime);
 
     /**
+     * find application by id
+     *
+     */
+    ApplicationVo findById(String applicationId);
+
+    /**
      * create a new application
      *
      */

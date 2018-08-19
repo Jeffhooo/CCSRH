@@ -30,11 +30,11 @@
             margin-bottom: auto;
         }
         #applyReasonHeader{
-            margin-top: 50px
+            margin-top: 20px
         }
         #applyReason {
             width: 800px;
-            height: 100px;
+            height: 50px;
             text-align: left;
         }
         #buttons {
@@ -44,6 +44,8 @@
             font-size: 20px;
         }
         #applyTime {
+            margin-top: 20px;
+            height: 20px;
             font-size: 20px
         }
     </style>
@@ -91,8 +93,7 @@
         </table>
         </table>
 
-        <h2 class="form-signin-heading" id="applyTimeHeader">Apply time:</h2>
-        <div id="applyTime" ></div>
+        <div id="applyTime" >Apply Time: </div>
         <h2 class="form-signin-heading" id="applyReasonHeader">Apply reason:</h2>
         <label for="applyReason" class="sr-only">Apply Reason</label>
         <textarea type="text" id="applyReason" class="form-control" name = "applyReason" placeholder="Apply Reason"></textarea>
@@ -171,35 +172,35 @@
                     $("#content13").text(content[12]);
                     $("#content14").text(content[13]);
 
-                    applyBeginTimeMap["content1"] = $("#day1").text() + " " + workTime[0];
-                    applyBeginTimeMap["content2"] = $("#day1").text() + " " + workTime[1];
-                    applyBeginTimeMap["content3"] = $("#day2").text() + " " + workTime[0];
-                    applyBeginTimeMap["content4"] = $("#day2").text() + " " + workTime[1];
-                    applyBeginTimeMap["content5"] = $("#day3").text() + " " + workTime[0];
-                    applyBeginTimeMap["content6"] = $("#day3").text() + " " + workTime[1];
-                    applyBeginTimeMap["content7"] = $("#day4").text() + " " + workTime[0];
-                    applyBeginTimeMap["content8"] = $("#day4").text() + " " + workTime[1];
-                    applyBeginTimeMap["content9"] = $("#day5").text() + " " + workTime[0];
-                    applyBeginTimeMap["content10"] = $("#day5").text() + " " + workTime[1];
-                    applyBeginTimeMap["content11"] = $("#day6").text() + " " + workTime[0];
-                    applyBeginTimeMap["content12"] = $("#day6").text() + " " + workTime[1];
-                    applyBeginTimeMap["content13"] = $("#day7").text() + " " + workTime[0];
-                    applyBeginTimeMap["content14"] = $("#day7").text() + " " + workTime[1];
+                    applyBeginTimeMap["content1"] = days[0] + " " + workTime[0];
+                    applyBeginTimeMap["content2"] = days[0] + " " + workTime[1];
+                    applyBeginTimeMap["content3"] = days[1] + " " + workTime[0];
+                    applyBeginTimeMap["content4"] = days[1] + " " + workTime[1];
+                    applyBeginTimeMap["content5"] = days[2] + " " + workTime[0];
+                    applyBeginTimeMap["content6"] = days[2] + " " + workTime[1];
+                    applyBeginTimeMap["content7"] = days[3] + " " + workTime[0];
+                    applyBeginTimeMap["content8"] = days[3] + " " + workTime[1];
+                    applyBeginTimeMap["content9"] = days[4] + " " + workTime[0];
+                    applyBeginTimeMap["content10"] = days[4] + " " + workTime[1];
+                    applyBeginTimeMap["content11"] = days[5] + " " + workTime[0];
+                    applyBeginTimeMap["content12"] = days[5] + " " + workTime[1];
+                    applyBeginTimeMap["content13"] = days[6] + " " + workTime[0];
+                    applyBeginTimeMap["content14"] = days[6] + " " + workTime[1];
 
-                    applyEndTimeMap["content1"] = $("#day1").text() + " " + workTime[1];
-                    applyEndTimeMap["content2"] = $("#day1").text() + " " + workTime[2];
-                    applyEndTimeMap["content3"] = $("#day2").text() + " " + workTime[1];
-                    applyEndTimeMap["content4"] = $("#day2").text() + " " + workTime[2];
-                    applyEndTimeMap["content5"] = $("#day3").text() + " " + workTime[1];
-                    applyEndTimeMap["content6"] = $("#day3").text() + " " + workTime[2];
-                    applyEndTimeMap["content7"] = $("#day4").text() + " " + workTime[1];
-                    applyEndTimeMap["content8"] = $("#day4").text() + " " + workTime[2];
-                    applyEndTimeMap["content9"] = $("#day5").text() + " " + workTime[1];
-                    applyEndTimeMap["content10"] = $("#day5").text() + " " + workTime[2];
-                    applyEndTimeMap["content11"] = $("#day6").text() + " " + workTime[1];
-                    applyEndTimeMap["content12"] = $("#day6").text() + " " + workTime[2];
-                    applyEndTimeMap["content13"] = $("#day7").text() + " " + workTime[1];
-                    applyEndTimeMap["content14"] = $("#day7").text() + " " + workTime[2];
+                    applyEndTimeMap["content1"] = days[0] + " " + workTime[1];
+                    applyEndTimeMap["content2"] = days[0] + " " + workTime[2];
+                    applyEndTimeMap["content3"] = days[1] + " " + workTime[1];
+                    applyEndTimeMap["content4"] = days[1] + " " + workTime[2];
+                    applyEndTimeMap["content5"] = days[2] + " " + workTime[1];
+                    applyEndTimeMap["content6"] = days[2] + " " + workTime[2];
+                    applyEndTimeMap["content7"] = days[3] + " " + workTime[1];
+                    applyEndTimeMap["content8"] = days[3] + " " + workTime[2];
+                    applyEndTimeMap["content9"] = days[4] + " " + workTime[1];
+                    applyEndTimeMap["content10"] = days[4] + " " + workTime[2];
+                    applyEndTimeMap["content11"] = days[5] + " " + workTime[1];
+                    applyEndTimeMap["content12"] = days[5] + " " + workTime[2];
+                    applyEndTimeMap["content13"] = days[6] + " " + workTime[1];
+                    applyEndTimeMap["content14"] = days[6] + " " + workTime[2];
 
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -215,7 +216,7 @@
             if((contentId !== "time1") && (contentId !== "time2")) {
                 $(this).css("background-color", "#0066AA");
                 $(this).css("color", "#FFFFFF");
-                $("#applyTime").text(applyBeginTimeMap[contentId] + " - " + applyEndTimeMap[contentId]);
+                $("#applyTime").text("Apply Time: from " + applyBeginTimeMap[contentId].substr(0, 16) + " to " + applyEndTimeMap[contentId].substr(0, 16));
                 chooseContent = contentId;
             }
         })

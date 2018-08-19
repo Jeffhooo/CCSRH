@@ -31,6 +31,7 @@
         }
         #comment {
             width: 1000px;
+            height: 50px;
         }
         #buttons {
             margin-top: 10px;
@@ -138,8 +139,8 @@
                                     "<td>" + application.applicationId + "</td>" +
                                     "<td>" + application.staffId + "</td>" +
                                     "<td>" + application.staffName + "</td>" +
-                                    "<td>" + application.endTime + "</td>" +
                                     "<td>" + application.beginTime + "</td>" +
+                                    "<td>" + application.endTime + "</td>" +
                                     "<td>" + application.applyReason + "</td>" +
                                     "<td>" + ((application.result == null)? "":application.result) + "</td></tr>";
                                 $("#applicationTable").append(tr);
@@ -181,8 +182,8 @@
                                     "<td>" + application.applicationId + "</td>" +
                                     "<td>" + application.staffId + "</td>" +
                                     "<td>" + application.staffName + "</td>" +
-                                    "<td>" + application.endTime + "</td>" +
                                     "<td>" + application.beginTime + "</td>" +
+                                    "<td>" + application.endTime + "</td>" +
                                     "<td>" + application.applyReason + "</td>" +
                                     "<td>" + ((application.result == null)? "":application.result) + "</td></tr>";
                                 $("#applicationTable").append(tr);

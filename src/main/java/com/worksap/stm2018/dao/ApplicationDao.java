@@ -51,4 +51,11 @@ public interface ApplicationDao {
      *
      */
     String generateNewId();
+
+    /**
+     * find application by id
+     *
+     *
+     */
+    ApplicationVo findById(String applicationId);
 }

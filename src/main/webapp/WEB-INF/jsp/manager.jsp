@@ -221,8 +221,60 @@
 
         $("#timetable td").click(function (event) {
             if(checkboxChange == "yes") {
+                if(confirm("You have change arrangement. Do you want to save change?")) {
+                    var chooseStaffIds = [];
+                    $("#staffTable").find("tr").each(function () {
+                        if($(this).find("input:checkbox").is(":checked")) {
+                            chooseStaffIds.push($(this).attr("id"));
+                        }
+                    });
 
+                    var sendArrangements = {
+                        staffIds: chooseStaffIds,
+                        beginTime: applyBeginTimeMap[chooseContent],
+                        endTime: applyEndTimeMap[chooseContent]
+                    };
+
+                    $.ajax({
+                        url: "updateArrangement",
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        data: JSON.stringify(sendArrangements),
+                        dataType: "json",
+                        success: function (Message) {
+                            alert(Message.msg);
+                            $.ajax({
+                                url: "loadArrangement",
+                                type: "POST",
+                                contentType: "application/json; charset=utf-8",
+                                data: JSON.stringify(load),
+                                dataType: "json",
+                                success: function (arrangements) {
+                                    curArrangement = arrangements;
+                                    $.each(arrangements, function (i, arrangement) {
+                                        var content = "";
+                                        var length = arrangement.content.length;
+                                        $.each(arrangement.content, function (j, staff) {
+                                            content += staff.name;
+                                            if(j < length-1) {
+                                                content += "</br>";
+                                            }
+                                        });
+                                        contents[i].html(content);
+                                    });
+                                },
+                                error: function (jqXHR, textStatus, errorThrown) {
+                                    alert("loadArrangement error.");
+                                }
+                            });
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            alert("updateArrangement error.");
+                        }
+                    })
+                }
             }
+            checkboxChange = "no";
             $("td").css("background-color", "#FFFFFF");
             $("td").css("color", "#000000");
             var contentId = $(this).attr("id");
@@ -270,7 +322,7 @@
         $("#staffTable").on("change", "input", function (event) {
             checkboxChange = "yes";
             event.preventDefault();
-        })
+        });
 
         $("#save").click(function () {
             var chooseStaffIds = [];
@@ -323,6 +375,7 @@
                     alert("updateArrangement error.");
                 }
             })
+            checkboxChange = "no";
         });
 
         $("#publish").click(function (event) {

@@ -2,6 +2,7 @@ package com.worksap.stm2018.service;
 
 import com.worksap.stm2018.Util.TimeUtil;
 import com.worksap.stm2018.dao.ApplicationDao;
+import com.worksap.stm2018.dao.ArrangementDao;
 import com.worksap.stm2018.dao.DaoFactory;
 import com.worksap.stm2018.dao.StaffDao;
 import com.worksap.stm2018.entity.ApplicationEntity;
@@ -20,16 +21,24 @@ import java.util.List;
 public class ApplicationServiceImpl implements ApplicationService {
     private final ApplicationDao applicationDao;
     private final StaffDao staffDao;
+    private final ArrangementDao arrangementDao;
 
     @Autowired
     public ApplicationServiceImpl(DaoFactory daoFactory) {
         this.staffDao = daoFactory.getStaffDao();
         this.applicationDao = daoFactory.getApplicationDao();
+        this.arrangementDao = daoFactory.getArrangementDao();
     }
 
     @Override
     public List<ApplicationVo> getApplications(Date beginTime, Date endTime) {
         return applicationDao.list(new Timestamp(beginTime.getTime()), new Timestamp(endTime.getTime()));
+    }
+
+    @Override
+    public ApplicationVo findById(String applicationId) {
+
+        return null;
     }
 
     @Override
@@ -56,6 +65,11 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public void accept(String applicationId, String comment) {
+        ApplicationVo application= applicationDao.findById(applicationId);
+        arrangementDao.deleteOfStaff(
+                application.getApplicantId(),
+                application.getBeginTime(),
+                application.getEndTime());
         applicationDao.addResult(applicationId, "accept", comment);
     }
 
