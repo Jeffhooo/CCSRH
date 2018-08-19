@@ -79,44 +79,52 @@
         var beginTime = "2018-8-27";
         var endTime = "2018-9-3";
         var loadPage = {beginTime: beginTime, endTime: endTime};
-        var chooseContent;
-        $.ajax({
-            url: "loadApplications",
-            type: "POST",
-            contentType: "application/json; charset=utf-8",
-            data: JSON.stringify(loadPage),
-            dataType: "json",
-            success: function(applications) {
-                $.each(applications, function (index, application) {
-                    var tr = "<tr id=\"" + application.applicationId + "\">" +
-                        "<td>" + application.staffId + "</td>" +
-                        "<td>" + application.staffName + "</td>" +
-                        "<td>" + application.beginTime + "</td>" +
-                        "<td>" + application.endTime + "</td>" +
-                        "<td>" + application.applyReason + "</td>" +
-                        "<td>" + ((application.result == null)? "" : application.result) + "</td>" +
-                        "<td>" + ((application.comment == null)? "" : application.comment) + "</td></tr>";
-                    $("#applicationTable").append(tr);
-                });
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                alert("loadApplications error.");
-            }
-        });
-        
+        var chosenContent;
+        var $chosenTr;
+
+        function loadApplications() {
+            $.ajax({
+                url: "loadApplications",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(loadPage),
+                dataType: "json",
+                success: function(applications) {
+                    $.each(applications, function (index, application) {
+                        var tr = "<tr id=\"" + application.applicationId + "\">" +
+                            "<td>" + application.staffId + "</td>" +
+                            "<td>" + application.staffName + "</td>" +
+                            "<td>" + application.beginTime + "</td>" +
+                            "<td>" + application.endTime + "</td>" +
+                            "<td>" + application.applyReason + "</td>" +
+                            "<td>" + ((application.result == null)? "" : application.result) + "</td>" +
+                            "<td>" + ((application.comment == null)? "" : application.comment) + "</td></tr>";
+                        $("#applicationTable").append(tr);
+                    });
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert("loadApplications error.");
+                }
+            });
+        }
+        loadApplications();
+
         $("#applicationTable").on("click", "tr", function () {
-            $("tr").css("background-color", "#FFFFFF");
-            $("tr").css("color", "#000000");
+            var $tr = $("tr");
+            $tr.css("background-color", "#FFFFFF");
+            $tr.css("color", "#000000");
             var contentId = $(this).attr("id");
             if(contentId !== "tableHeader") {
                 $(this).css("background-color", "#0066AA");
                 $(this).css("color", "#FFFFFF");
-                chooseContent = contentId;
+                chosenContent = contentId;
+                $chosenTr = $(this);
             }
-        })
+        });
 
         $("#accept").click(function (event) {
-            var approve = {applicationId: chooseContent, comment: $("#comment").val()};
+            var comment = $("#comment").val();
+            var approve = {applicationId: chosenContent, comment: comment};
             $.ajax({
                 url: "acceptApplication",
                 type: "POST",
@@ -125,41 +133,20 @@
                 dataType: "json",
                 success: function (Message) {
                     alert(Message.msg);
-                    $("#applicationTable tbody").empty();
                     $("#comment").val("");
-                    $.ajax({
-                        url: "loadApplications",
-                        type: "POST",
-                        contentType: "application/json; charset=utf-8",
-                        data: JSON.stringify(loadPage),
-                        dataType: "json",
-                        success: function(applications) {
-                            $.each(applications, function (index, application) {
-                                var tr = "<tr id=\"" + application.applicationId + "\">" +
-                                    "<td>" + application.staffId + "</td>" +
-                                    "<td>" + application.staffName + "</td>" +
-                                    "<td>" + application.beginTime + "</td>" +
-                                    "<td>" + application.endTime + "</td>" +
-                                    "<td>" + application.applyReason + "</td>" +
-                                    "<td>" + ((application.result == null)? "" : application.result) + "</td>" +
-                                    "<td>" + ((application.comment == null)? "" : application.comment) + "</td></tr>";
-                                $("#applicationTable").append(tr);
-                            });
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            alert("loadApplications error.");
-                        }
-                    });
+                    $chosenTr.find("td").eq(5).text("accept");
+                    $chosenTr.find("td").eq(6).text(comment);
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     alert("acceptApplication error.");
                 }
             });
             event.preventDefault();
-        })
+        });
 
         $("#reject").click(function (event) {
-            var approve = {applicationId: chooseContent, comment: $("#comment").val()};
+            var comment = $("#comment").val();
+            var approve = {applicationId: chosenContent, comment: comment};
             $.ajax({
                 url: "rejectApplication",
                 type: "POST",
@@ -168,31 +155,9 @@
                 dataType: "json",
                 success: function (Message) {
                     alert(Message.msg);
-                    $("#applicationTable tbody").empty();
                     $("#comment").val("");
-                    $.ajax({
-                        url: "loadApplications",
-                        type: "POST",
-                        contentType: "application/json; charset=utf-8",
-                        data: JSON.stringify(loadPage),
-                        dataType: "json",
-                        success: function(applications) {
-                            $.each(applications, function (index, application) {
-                                var tr = "<tr id=\"" + application.applicationId + "\">" +
-                                    "<td>" + application.staffId + "</td>" +
-                                    "<td>" + application.staffName + "</td>" +
-                                    "<td>" + application.beginTime + "</td>" +
-                                    "<td>" + application.endTime + "</td>" +
-                                    "<td>" + application.applyReason + "</td>" +
-                                    "<td>" + ((application.result == null)? "" : application.result) + "</td>" +
-                                    "<td>" + ((application.comment == null)? "" : application.comment) + "</td></tr>";
-                                $("#applicationTable").append(tr);
-                            });
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            alert("loadApplications error.");
-                        }
-                    });
+                    $chosenTr.find("td").eq(5).text("reject");
+                    $chosenTr.find("td").eq(6).text(comment);
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     alert("acceptApplication error.");

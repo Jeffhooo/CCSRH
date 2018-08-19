@@ -194,31 +194,80 @@
         applyEndTimeMap["content13"] = $days[6].text() + " " + workTime[1];
         applyEndTimeMap["content14"] = $days[6].text() + " " + workTime[2];
 
-        $.ajax({
-            async:false,
-            url: "loadArrangement",
-            type: "POST",
-            contentType: "application/json; charset=utf-8",
-            data: JSON.stringify(load),
-            dataType: "json",
-            success: function (arrangements) {
-                curArrangement = arrangements;
-                $.each(arrangements, function (i, arrangement) {
-                    var content = "";
-                    var length = arrangement.content.length;
-                    $.each(arrangement.content, function (j, staff) {
-                        content += staff.name;
-                        if(j < length-1) {
-                            content += "</br>";
+        function loadArrangement() {
+            $.ajax({
+                async:false,
+                url: "loadArrangement",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(load),
+                dataType: "json",
+                success: function (arrangements) {
+                    curArrangement = arrangements;
+                    $.each(arrangements, function (i, arrangement) {
+                        var content = "";
+                        var length = arrangement.content.length;
+                        $.each(arrangement.content, function (j, staff) {
+                            content += staff.name;
+                            if(j < length-1) {
+                                content += "</br>";
+                            }
+                        });
+                        $contents[i].html(content);
+                    });
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert("loadArrangement error.");
+                }
+            });
+        }
+        loadArrangement();
+
+        function updateArrangement(staffIds, beginTime, endTime) {
+            var sendArrangements = {
+                staffIds: staffIds,
+                beginTime: beginTime,
+                endTime: endTime
+            };
+            $.ajax({
+                async:false,
+                url: "updateArrangement",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(sendArrangements),
+                dataType: "json",
+                success: function (Message) {
+                    // alert(Message.msg);
+                    $.ajax({
+                        url: "loadArrangement",
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        data: JSON.stringify(load),
+                        dataType: "json",
+                        success: function (arrangements) {
+                            curArrangement = arrangements;
+                            $.each(arrangements, function (i, arrangement) {
+                                var content = "";
+                                var length = arrangement.content.length;
+                                $.each(arrangement.content, function (j, staff) {
+                                    content += staff.name;
+                                    if(j < length-1) {
+                                        content += "</br>";
+                                    }
+                                });
+                                $contents[i].html(content);
+                            });
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            alert("loadArrangement error.");
                         }
                     });
-                    $contents[i].html(content);
-                });
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                alert("loadArrangement error.");
-            }
-        });
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert("updateArrangement error.");
+                }
+            });
+        }
 
         $("#timetable td").click(function (event) {
             if(checkboxChange == "yes") {
@@ -229,51 +278,11 @@
                             chooseStaffIds.push($(this).attr("id"));
                         }
                     });
-
-                    var sendArrangements = {
-                        staffIds: chooseStaffIds,
-                        beginTime: applyBeginTimeMap[chooseContent],
-                        endTime: applyEndTimeMap[chooseContent]
-                    };
-
-                    $.ajax({
-                        async:false,
-                        url: "updateArrangement",
-                        type: "POST",
-                        contentType: "application/json; charset=utf-8",
-                        data: JSON.stringify(sendArrangements),
-                        dataType: "json",
-                        success: function (Message) {
-                            // alert(Message.msg);
-                            $.ajax({
-                                url: "loadArrangement",
-                                type: "POST",
-                                contentType: "application/json; charset=utf-8",
-                                data: JSON.stringify(load),
-                                dataType: "json",
-                                success: function (arrangements) {
-                                    curArrangement = arrangements;
-                                    $.each(arrangements, function (i, arrangement) {
-                                        var content = "";
-                                        var length = arrangement.content.length;
-                                        $.each(arrangement.content, function (j, staff) {
-                                            content += staff.name;
-                                            if(j < length-1) {
-                                                content += "</br>";
-                                            }
-                                        });
-                                        $contents[i].html(content);
-                                    });
-                                },
-                                error: function (jqXHR, textStatus, errorThrown) {
-                                    alert("loadArrangement error.");
-                                }
-                            });
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            alert("updateArrangement error.");
-                        }
-                    })
+                    updateArrangement(
+                        chooseStaffIds,
+                        applyBeginTimeMap[chooseContent],
+                        applyEndTimeMap[chooseContent]
+                    );
                 }
             }
             checkboxChange = "no";
@@ -334,50 +343,12 @@
                     chooseStaffIds.push($(this).attr("id"));
                 }
             });
-
-            var sendArrangements = {
-                staffIds: chooseStaffIds,
-                beginTime: applyBeginTimeMap[chooseContent],
-                endTime: applyEndTimeMap[chooseContent]
-            };
-
-            $.ajax({
-                url: "updateArrangement",
-                type: "POST",
-                contentType: "application/json; charset=utf-8",
-                data: JSON.stringify(sendArrangements),
-                dataType: "json",
-                success: function (Message) {
-                    // alert(Message.msg);
-                    $.ajax({
-                        url: "loadArrangement",
-                        type: "POST",
-                        contentType: "application/json; charset=utf-8",
-                        data: JSON.stringify(load),
-                        dataType: "json",
-                        success: function (arrangements) {
-                            curArrangement = arrangements;
-                            $.each(arrangements, function (i, arrangement) {
-                                var content = "";
-                                var length = arrangement.content.length;
-                                $.each(arrangement.content, function (j, staff) {
-                                    content += staff.name;
-                                    if(j < length-1) {
-                                        content += "</br>";
-                                    }
-                                });
-                                $contents[i].html(content);
-                            });
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            alert("loadArrangement error.");
-                        }
-                    });
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    alert("updateArrangement error.");
-                }
-            })
+            updateArrangement(
+                chooseStaffIds,
+                applyBeginTimeMap[chooseContent],
+                applyEndTimeMap[chooseContent]
+            );
+            alert("Arrangement is saved");
             checkboxChange = "no";
         });
 

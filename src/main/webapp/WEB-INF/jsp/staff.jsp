@@ -131,84 +131,6 @@
         $contents[12] = $("#content13");
         $contents[13] = $("#content14");
 
-
-        loadStaffTimetable(userId, loadBeginDate[curIndex], loadEndDate[curIndex]);
-
-        $.ajax({
-            url: "checkPublish",
-            type: "POST",
-            contentType: "application/json; charset=utf-8",
-            data: JSON.stringify(3),
-            dataType: "json",
-            success: function (Message) {
-                nextWeekPublish = Message.msg;
-                if(nextWeekPublish == "published") {
-                    var $newMessage = $("#newMessage");
-                    $newMessage.text("New Message: Timetable of next week has been published.");
-                    $newMessage.show();
-                }
-            },
-            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                alert("checkPublish error.");
-            }
-        });
-
-        $("#lastWeek").click(function () {
-            if(curIndex > minIndex) {
-                curIndex--;
-                loadStaffTimetable(userId, loadBeginDate[curIndex], loadEndDate[curIndex]);
-            } else {
-                alert("No more history.");
-            }
-        });
-
-        $("#nextWeek").click(function () {
-            if(curIndex < maxIndex) {
-                if(curIndex == maxIndex-1) {
-                    if(nextWeekPublish == "published") {
-                        curIndex++;
-                        var loadArrangement = {
-                            title:"Staff",
-                            staffId:userId,
-                            beginTime:loadBeginDate[curIndex],
-                            endTime:loadEndDate[curIndex]
-                        };
-                        $.ajax({
-                            url: "loadNextWeekArrangement",
-                            type: "POST",
-                            contentType: "application/json; charset=utf-8",
-                            data: JSON.stringify(loadArrangement),
-                            dataType: "json",
-                            success: function(timetable) {
-                                var days = timetable.days;
-                                $.each(days, function (i, day) {
-                                    $days[i].text(day);
-                                });
-                                var times = timetable.times;
-                                $.each(times, function (i, time) {
-                                    $times[i].text(time);
-                                });
-                                var contents = timetable.content;
-                                $.each(contents, function (i, content) {
-                                    $contents[i].text(content);
-                                });
-                            },
-                            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                                alert("load next week arrangement error.");
-                            }
-                        });
-                    } else {
-                        alert("No new arrangement.")
-                    }
-                } else {
-                    curIndex++;
-                    loadStaffTimetable(userId, loadBeginDate[curIndex], loadEndDate[curIndex]);
-                }
-            } else {
-                alert("No new arrangement.")
-            }
-        });
-
         function loadStaffTimetable(userId, begin, end) {
             var loadPage = {
                 title:"Staff",
@@ -241,6 +163,89 @@
                 }
             });
         }
+        loadStaffTimetable(userId, loadBeginDate[curIndex], loadEndDate[curIndex]);
+
+        function checkPublish() {
+            $.ajax({
+                url: "checkPublish",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(3),
+                dataType: "json",
+                success: function (Message) {
+                    nextWeekPublish = Message.msg;
+                    if(nextWeekPublish == "published") {
+                        var $newMessage = $("#newMessage");
+                        $newMessage.text("New Message: Timetable of next week has been published.");
+                        $newMessage.show();
+                    }
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    alert("checkPublish error.");
+                }
+            });
+        }
+        checkPublish();
+
+        $("#lastWeek").click(function () {
+            if(curIndex > minIndex) {
+                curIndex--;
+                loadStaffTimetable(userId, loadBeginDate[curIndex], loadEndDate[curIndex]);
+            } else {
+                alert("No more history.");
+            }
+        });
+
+        function loadNextWeekArrangement() {
+            var loadArrangement = {
+                title:"Staff",
+                staffId:userId,
+                beginTime:loadBeginDate[curIndex],
+                endTime:loadEndDate[curIndex]
+            };
+            $.ajax({
+                url: "loadNextWeekArrangement",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(loadArrangement),
+                dataType: "json",
+                success: function(timetable) {
+                    var days = timetable.days;
+                    $.each(days, function (i, day) {
+                        $days[i].text(day);
+                    });
+                    var times = timetable.times;
+                    $.each(times, function (i, time) {
+                        $times[i].text(time);
+                    });
+                    var contents = timetable.content;
+                    $.each(contents, function (i, content) {
+                        $contents[i].text(content);
+                    });
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    alert("load next week arrangement error.");
+                }
+            });
+        }
+
+        $("#nextWeek").click(function () {
+            if(curIndex < maxIndex) {
+                if(curIndex == maxIndex-1) {
+                    if(nextWeekPublish == "published") {
+                        curIndex++;
+                        loadNextWeekArrangement();
+                    } else {
+                        alert("No new arrangement.")
+                    }
+                } else {
+                    curIndex++;
+                    loadStaffTimetable(userId, loadBeginDate[curIndex], loadEndDate[curIndex]);
+                }
+            } else {
+                alert("No new arrangement.")
+            }
+        });
 
         $("#logOut").click(function (event) {
             if(confirm("Are you sure to log out?")) {
