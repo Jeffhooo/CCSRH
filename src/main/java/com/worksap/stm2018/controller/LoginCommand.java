@@ -5,7 +5,7 @@ public class LoginCommand {
 
 	private String password;
 
-	public String getPassword() {
+	String getPassword() {
 		return password;
 	}
 
@@ -13,7 +13,7 @@ public class LoginCommand {
 		this.password = password;
 	}
 
-	public String getUserName() {
+	String getUserName() {
 		return userName;
 	}
 

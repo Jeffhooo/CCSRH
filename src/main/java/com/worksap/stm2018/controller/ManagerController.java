@@ -1,6 +1,6 @@
 package com.worksap.stm2018.controller;
 
-import com.worksap.stm2018.Util.TimeUtil;
+import com.worksap.stm2018.util.TimeUtil;
 import com.worksap.stm2018.dto.StaffDto;
 import com.worksap.stm2018.entity.*;
 import com.worksap.stm2018.service.ApplicationService;
@@ -63,17 +63,15 @@ public class ManagerController {
     @ResponseBody
     MessageEntity rejectApplication(@RequestBody ApproveEntity entity) {
         applicationService.reject(entity.getApplicationId(), entity.getComment());
-        MessageEntity msg = new MessageEntity("Application is rejected.");
-        return msg;
+        return new MessageEntity("Application is rejected.");
     }
 
     @RequestMapping(value = "/loadArrangement", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     List<ArrangementTableEntity> loadArrangement(@RequestBody TimeEntity entity) {
-        List<ArrangementTableEntity> arrangements = arrangementService.list(
+        return arrangementService.list(
                 TimeUtil.StringToDate(entity.getBeginTime()),
                 TimeUtil.StringToDate(entity.getEndTime()));
-        return arrangements;
     }
 
     @RequestMapping(value = "/loadStaffs", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)

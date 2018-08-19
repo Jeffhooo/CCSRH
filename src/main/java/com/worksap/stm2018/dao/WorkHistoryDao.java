@@ -10,9 +10,6 @@ public interface WorkHistoryDao {
     /**
      * List the work history of staff
      *
-     * @param staffId
-     * @param beginTime
-     * @param endTime
      */
     List<WorkHistoryVo> list(String staffId, Timestamp beginTime, Timestamp endTime);
 

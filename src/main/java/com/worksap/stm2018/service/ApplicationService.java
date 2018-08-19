@@ -17,12 +17,6 @@ public interface ApplicationService {
     List<ApplicationVo> getApplications(Date beginTime, Date endTime);
 
     /**
-     * find application by id
-     *
-     */
-    ApplicationVo findById(String applicationId);
-
-    /**
      * create a new application
      *
      */
@@ -32,19 +26,13 @@ public interface ApplicationService {
      * accept a application
      *
      */
-    void accept(String applicationid, String comment);
+    void accept(String applicationId, String comment);
 
     /**
      * reject a application
      *
      */
-    void reject(String applicationid, String comment);
-
-    /**
-     * get accepted applications of a time period
-     *
-     */
-    List<ApplicationVo> getAcceptedApplications(Timestamp beginTime, Timestamp endTime);
+    void reject(String applicationId, String comment);
 
     /**
      * get application timetable

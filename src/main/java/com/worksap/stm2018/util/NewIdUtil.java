@@ -1,4 +1,4 @@
-package com.worksap.stm2018.Util;
+package com.worksap.stm2018.util;
 
 import java.util.List;
 

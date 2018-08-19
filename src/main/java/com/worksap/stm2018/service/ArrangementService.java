@@ -37,7 +37,7 @@ public interface ArrangementService {
      * get staff arrangement
      *
      */
-    List<ArrangementVo> getStaffArrangement(String staffId, Timestamp beginTime, Timestamp endTime);
+    TimetableEntity getStaffArrangement(String staffId, Date beginTime, Date endTime);
 
     /**
      * check whether the arrangement of week is publish
@@ -45,15 +45,4 @@ public interface ArrangementService {
      */
     String checkPublish(String week);
 
-    /**
-     * get next week's arrangement of a staff
-     *
-     */
-    TimetableEntity StaffNextWeekArrangement(String staffId, Date beginDate, Date endDate);
-
-    /**
-     * delete the arrangement of a staff
-     *
-     */
-    void delete(String staffId, String beginTime, String endTime);
 }

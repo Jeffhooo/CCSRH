@@ -12,9 +12,21 @@ public interface StaffDao {
      */
     List<StaffDto> list();
 
+    /**
+     * Get staff inform by id
+     *
+     */
     StaffEntity getStaff(String staffId);
 
+    /**
+     * Get staff place by id
+     *
+     */
     String getStaffPlace(String staffId);
 
+    /**
+     * Get staff name by id
+     *
+     */
     String getStaffName(String staffId);
 }

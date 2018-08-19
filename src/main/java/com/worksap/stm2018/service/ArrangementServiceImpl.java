@@ -1,10 +1,9 @@
 package com.worksap.stm2018.service;
 
-import com.worksap.stm2018.Util.TimeUtil;
+import com.worksap.stm2018.util.TimeUtil;
 import com.worksap.stm2018.dao.ArrangementDao;
 import com.worksap.stm2018.dao.DaoFactory;
 import com.worksap.stm2018.dao.StaffDao;
-import com.worksap.stm2018.dto.StaffDto;
 import com.worksap.stm2018.entity.ArrangementTableEntity;
 import com.worksap.stm2018.entity.StaffEntity;
 import com.worksap.stm2018.entity.TimetableEntity;
@@ -86,17 +85,7 @@ public class ArrangementServiceImpl implements ArrangementService {
     }
 
     @Override
-    public List<ArrangementVo> getStaffArrangement(String staffId, Timestamp beginTime, Timestamp endTime) {
-        return arrangementDao.findStaffPublish(staffId, beginTime, endTime);
-    }
-
-    @Override
-    public String checkPublish(String week) {
-        return arrangementDao.checkPublish(week);
-    }
-
-    @Override
-    public TimetableEntity StaffNextWeekArrangement(String staffId, Date beginDate, Date endDate) {
+    public TimetableEntity getStaffArrangement(String staffId, Date beginDate, Date endDate) {
         List<String> days = new ArrayList<>();
         TimeUtil.tableDays(days, beginDate);
 
@@ -124,21 +113,18 @@ public class ArrangementServiceImpl implements ArrangementService {
             } else {
                 content.add("");
             }
-            if(i%2 == 0) {
-                beginWorkTime = TimeUtil.AddHours(beginWorkTime, 8);
-                endWorkTime = TimeUtil.AddHours(endWorkTime, 8);
-            } else {
-                beginWorkTime = TimeUtil.AddHours(beginWorkTime, 16);
-                endWorkTime = TimeUtil.AddHours(endWorkTime, 16);
-            }
+            beginWorkTime = (i%2 == 0)? TimeUtil.AddHours(beginWorkTime, 8) :
+                    TimeUtil.AddHours(beginWorkTime, 16);
+            endWorkTime = (i%2 == 0)? TimeUtil.AddHours(endWorkTime, 8) :
+                    TimeUtil.AddHours(endWorkTime, 16);
         }
         timetable.setContent(content);
         return timetable;
     }
 
     @Override
-    public void delete(String staffId, String beginTime, String endTime) {
-
+    public String checkPublish(String week) {
+        return arrangementDao.checkPublish(week);
     }
 
 }

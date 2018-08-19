@@ -1,12 +1,11 @@
 package com.worksap.stm2018.service;
 
-import com.worksap.stm2018.Util.TimeUtil;
+import com.worksap.stm2018.util.TimeUtil;
 import com.worksap.stm2018.dao.ArrangementDao;
 import com.worksap.stm2018.dao.DaoFactory;
 import com.worksap.stm2018.dao.StaffDao;
 import com.worksap.stm2018.dao.WorkHistoryDao;
 import com.worksap.stm2018.entity.TimetableEntity;
-import com.worksap.stm2018.vo.ArrangementVo;
 import com.worksap.stm2018.vo.WorkHistoryVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -63,13 +62,10 @@ public class WorkHistoryServiceImpl implements WorkHistoryService {
             } else {
                 content.add("");
             }
-            if(i%2 == 0) {
-                beginWorkTime = TimeUtil.AddHours(beginWorkTime, 8);
-                endWorkTime = TimeUtil.AddHours(endWorkTime, 8);
-            } else {
-                beginWorkTime = TimeUtil.AddHours(beginWorkTime, 16);
-                endWorkTime = TimeUtil.AddHours(endWorkTime, 16);
-            }
+            beginWorkTime = (i%2 == 0)? TimeUtil.AddHours(beginWorkTime, 8) :
+                    TimeUtil.AddHours(beginWorkTime, 16);
+            endWorkTime = (i%2 == 0)? TimeUtil.AddHours(endWorkTime, 8) :
+                    TimeUtil.AddHours(endWorkTime, 16);
         }
         timetable.setContent(content);
         return timetable;

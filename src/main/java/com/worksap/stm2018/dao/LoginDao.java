@@ -6,7 +6,6 @@ public interface LoginDao {
     /**
      * Get login information from userName
      *
-     * @param userName
      */
     LoginDto getPassword(String userName);
 

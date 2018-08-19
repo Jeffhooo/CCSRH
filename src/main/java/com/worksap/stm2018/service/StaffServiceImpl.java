@@ -1,6 +1,6 @@
 package com.worksap.stm2018.service;
 
-import com.worksap.stm2018.Util.TimeUtil;
+import com.worksap.stm2018.util.TimeUtil;
 import com.worksap.stm2018.dao.*;
 import com.worksap.stm2018.dto.HolidayDto;
 import com.worksap.stm2018.dto.StaffDto;

@@ -9,8 +9,6 @@ public interface HolidayDao {
     /**
      * Get Holidays of a time period
      *
-     * @param beginTime
-     * @param endTime
      */
      List<HolidayDto> getHolidays(Timestamp beginTime, Timestamp endTime);
 }

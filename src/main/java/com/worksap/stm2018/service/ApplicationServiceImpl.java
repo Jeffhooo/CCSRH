@@ -1,6 +1,6 @@
 package com.worksap.stm2018.service;
 
-import com.worksap.stm2018.Util.TimeUtil;
+import com.worksap.stm2018.util.TimeUtil;
 import com.worksap.stm2018.dao.ApplicationDao;
 import com.worksap.stm2018.dao.ArrangementDao;
 import com.worksap.stm2018.dao.DaoFactory;
@@ -33,12 +33,6 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Override
     public List<ApplicationVo> getApplications(Date beginTime, Date endTime) {
         return applicationDao.list(new Timestamp(beginTime.getTime()), new Timestamp(endTime.getTime()));
-    }
-
-    @Override
-    public ApplicationVo findById(String applicationId) {
-
-        return null;
     }
 
     @Override
@@ -79,11 +73,6 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public List<ApplicationVo> getAcceptedApplications(Timestamp beginTime, Timestamp endTime) {
-        return applicationDao.getAcceptedApplications(beginTime, endTime);
-    }
-
-    @Override
     public TimetableEntity ApplicationsTimetable(String staffId, Date beginDate, Date endDate) {
         List<String> days = new ArrayList<>();
         TimeUtil.tableDays(days, beginDate);
@@ -110,13 +99,10 @@ public class ApplicationServiceImpl implements ApplicationService {
             } else {
                 content.add(Integer.toString(applicationVos.size()));
             }
-            if(i%2 == 0) {
-                beginWorkTime = TimeUtil.AddHours(beginWorkTime, 8);
-                endWorkTime = TimeUtil.AddHours(endWorkTime, 8);
-            } else {
-                beginWorkTime = TimeUtil.AddHours(beginWorkTime, 16);
-                endWorkTime = TimeUtil.AddHours(endWorkTime, 16);
-            }
+            beginWorkTime = (i%2 == 0)? TimeUtil.AddHours(beginWorkTime, 8) :
+                    TimeUtil.AddHours(beginWorkTime, 16);
+            endWorkTime = (i%2 == 0)? TimeUtil.AddHours(endWorkTime, 8) :
+                    TimeUtil.AddHours(endWorkTime, 16);
         }
         timetable.setContent(content);
         return timetable;

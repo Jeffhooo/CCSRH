@@ -1,12 +1,11 @@
 package com.worksap.stm2018.controller;
 
-import com.worksap.stm2018.Util.TimeUtil;
+import com.worksap.stm2018.util.TimeUtil;
 import com.worksap.stm2018.entity.*;
 import com.worksap.stm2018.service.ApplicationService;
 import com.worksap.stm2018.service.ArrangementService;
 import com.worksap.stm2018.service.ServiceFactory;
 import com.worksap.stm2018.service.WorkHistoryService;
-import com.worksap.stm2018.vo.ApplicationVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Controller
@@ -59,8 +57,7 @@ public class StaffController {
     @ResponseBody
     MessageEntity submitApplication(@RequestBody SubmitApplicationEntity entity) {
         applicationService.create(entity);
-        MessageEntity message = new MessageEntity("Your application is submitted.");
-        return message;
+        return new MessageEntity("Your application is submitted.");
     }
 
     @RequestMapping(value = "/checkPublish", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -72,7 +69,7 @@ public class StaffController {
     @RequestMapping(value = "/loadNextWeekArrangement", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     TimetableEntity loadNextWeekArrangement(@RequestBody RequestTimetableEntity entity) {
-        return arrangementService.StaffNextWeekArrangement(
+        return arrangementService.getStaffArrangement(
                 entity.getStaffId(),
                 TimeUtil.StringToDate(entity.getBeginTime()),
                 TimeUtil.StringToDate(entity.getEndTime())
