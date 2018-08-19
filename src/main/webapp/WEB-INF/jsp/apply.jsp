@@ -25,7 +25,7 @@
         }
         .container {
             margin-top: 5%;
-            margin-left: auto;
+            margin-left: 15%;
             margin-right: auto;
             margin-bottom: auto;
         }
@@ -121,7 +121,34 @@
         workTime[1] = "16:00:00";
         workTime[2] = "23:00:00";
         var chooseContent;
+        var $days = [];
+        $days[0] = $("#day1");
+        $days[1] = $("#day2");
+        $days[2] = $("#day3");
+        $days[3] = $("#day4");
+        $days[4] = $("#day5");
+        $days[5] = $("#day6");
+        $days[6] = $("#day7");
 
+        var $times = [];
+        $times[0] = $("#time1");
+        $times[1] = $("#time2");
+
+        var $contents = [];
+        $contents[0] = $("#content1");
+        $contents[1] = $("#content2");
+        $contents[2] = $("#content3");
+        $contents[3] = $("#content4");
+        $contents[4] = $("#content5");
+        $contents[5] = $("#content6");
+        $contents[6] = $("#content7");
+        $contents[7] = $("#content8");
+        $contents[8] = $("#content9");
+        $contents[9] = $("#content10");
+        $contents[10] = $("#content11");
+        $contents[11] = $("#content12");
+        $contents[12] = $("#content13");
+        $contents[13] = $("#content14");
 
         loadApplicationTimetable(userId, loadBeginDate[curIndex], loadEndDate[curIndex]);
 
@@ -132,6 +159,7 @@
                 beginTime:beginTime,
                 endTime:endTime };
             $.ajax({
+                async:false,
                 url: "loadApplicationTimetable",
                 type: "POST",
                 contentType: "application/json; charset=utf-8",
@@ -139,38 +167,23 @@
                 dataType: "json",
                 success: function(timetable) {
                     var days = timetable.days;
-                    $("#day1").text(days[0]);
-                    $("#day2").text(days[1]);
-                    $("#day3").text(days[2]);
-                    $("#day4").text(days[3]);
-                    $("#day5").text(days[4]);
-                    $("#day6").text(days[5]);
-                    $("#day7").text(days[6]);
-
+                    $.each(days, function (i, day) {
+                        $days[i].text(day);
+                    });
                     var times = timetable.times;
-                    $("#time1").text(times[0]);
-                    $("#time2").text(times[1]);
+                    $.each(times, function (i, time) {
+                        $times[i].text(time);
+                    });
                     if(times[0] == "9:00-17:00") {
                         workTime[0] = "09:00:00";
                         workTime[1] = "17:00:00";
                         workTime[2] = "24:00:00";
                     }
 
-                    var content = timetable.content;
-                    $("#content1").text(content[0]);
-                    $("#content2").text(content[1]);
-                    $("#content3").text(content[2]);
-                    $("#content4").text(content[3]);
-                    $("#content5").text(content[4]);
-                    $("#content6").text(content[5]);
-                    $("#content7").text(content[6]);
-                    $("#content8").text(content[7]);
-                    $("#content9").text(content[8]);
-                    $("#content10").text(content[9]);
-                    $("#content11").text(content[10]);
-                    $("#content12").text(content[11]);
-                    $("#content13").text(content[12]);
-                    $("#content14").text(content[13]);
+                    var contents = timetable.content;
+                    $.each(contents, function (i, content) {
+                        $contents[i].text(content);
+                    });
 
                     applyBeginTimeMap["content1"] = days[0] + " " + workTime[0];
                     applyBeginTimeMap["content2"] = days[0] + " " + workTime[1];
@@ -216,7 +229,7 @@
             if((contentId !== "time1") && (contentId !== "time2")) {
                 $(this).css("background-color", "#0066AA");
                 $(this).css("color", "#FFFFFF");
-                $("#applyTime").text("Apply Time: from " + applyBeginTimeMap[contentId].substr(0, 16) + " to " + applyEndTimeMap[contentId].substr(0, 16));
+                $("#applyTime").text("Apply Time: " + applyBeginTimeMap[contentId].substr(0, 16) + "-" + applyEndTimeMap[contentId].substr(11, 5));
                 chooseContent = contentId;
             }
         })

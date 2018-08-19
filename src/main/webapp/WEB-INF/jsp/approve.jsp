@@ -15,7 +15,7 @@
     <style>
         .container {
             margin-top: 5%;
-            margin-left: auto;
+            margin-left: 10%;
             margin-right: auto;
             margin-bottom: auto;
         }

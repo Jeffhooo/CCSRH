@@ -15,7 +15,7 @@
     <style>
         .container {
             margin-top: 5%;
-            margin-left: auto;
+            margin-left: 10%;
             margin-right: auto;
             margin-bottom: auto;
         }
@@ -28,9 +28,6 @@
             text-align: center;
             width: 200px;
             height: 50px;
-        }
-        #comment {
-            width: 1000px;
         }
         #buttons {
             margin-top: 10px;

@@ -25,7 +25,7 @@
         }
         .container {
             margin-top: 5%;
-            margin-left: auto;
+            margin-left: 10%;
             margin-right: auto;
             margin-bottom: auto;
         }
@@ -33,7 +33,7 @@
             float: left;
         }
         #rightBlock {
-            margin-left: 900px;
+            margin-left: 850px;
             margin-top: 45px;
         }
         #logOut {
@@ -117,46 +117,46 @@
         workTime[1] = "16:00:00";
         workTime[2] = "23:00:00";
 
-        var contents = [];
-        contents[0] = $("#content1");
-        contents[1] = $("#content2");
-        contents[2] = $("#content3");
-        contents[3] = $("#content4");
-        contents[4] = $("#content5");
-        contents[5] = $("#content6");
-        contents[6] = $("#content7");
-        contents[7] = $("#content8");
-        contents[8] = $("#content9");
-        contents[9] = $("#content10");
-        contents[10] = $("#content11");
-        contents[11] = $("#content12");
-        contents[12] = $("#content13");
-        contents[13] = $("#content14");
+        var $contents = [];
+        $contents[0] = $("#content1");
+        $contents[1] = $("#content2");
+        $contents[2] = $("#content3");
+        $contents[3] = $("#content4");
+        $contents[4] = $("#content5");
+        $contents[5] = $("#content6");
+        $contents[6] = $("#content7");
+        $contents[7] = $("#content8");
+        $contents[8] = $("#content9");
+        $contents[9] = $("#content10");
+        $contents[10] = $("#content11");
+        $contents[11] = $("#content12");
+        $contents[12] = $("#content13");
+        $contents[13] = $("#content14");
 
         var contentIndex = {};
-        contentIndex[contents[0].attr("id")] = 0;
-        contentIndex[contents[1].attr("id")] = 1;
-        contentIndex[contents[2].attr("id")] = 2;
-        contentIndex[contents[3].attr("id")] = 3;
-        contentIndex[contents[4].attr("id")] = 4;
-        contentIndex[contents[5].attr("id")] = 5;
-        contentIndex[contents[6].attr("id")] = 6;
-        contentIndex[contents[7].attr("id")] = 7;
-        contentIndex[contents[8].attr("id")] = 8;
-        contentIndex[contents[9].attr("id")] = 9;
-        contentIndex[contents[10].attr("id")] = 10;
-        contentIndex[contents[11].attr("id")] = 11;
-        contentIndex[contents[12].attr("id")] = 12;
-        contentIndex[contents[13].attr("id")] = 13;
+        contentIndex[$contents[0].attr("id")] = 0;
+        contentIndex[$contents[1].attr("id")] = 1;
+        contentIndex[$contents[2].attr("id")] = 2;
+        contentIndex[$contents[3].attr("id")] = 3;
+        contentIndex[$contents[4].attr("id")] = 4;
+        contentIndex[$contents[5].attr("id")] = 5;
+        contentIndex[$contents[6].attr("id")] = 6;
+        contentIndex[$contents[7].attr("id")] = 7;
+        contentIndex[$contents[8].attr("id")] = 8;
+        contentIndex[$contents[9].attr("id")] = 9;
+        contentIndex[$contents[10].attr("id")] = 10;
+        contentIndex[$contents[11].attr("id")] = 11;
+        contentIndex[$contents[12].attr("id")] = 12;
+        contentIndex[$contents[13].attr("id")] = 13;
 
-        var days = [];
-        days[0] = $("#day1");
-        days[1] = $("#day2");
-        days[2] = $("#day3");
-        days[3] = $("#day4");
-        days[4] = $("#day5");
-        days[5] = $("#day6");
-        days[6] = $("#day7");
+        var $days = [];
+        $days[0] = $("#day1");
+        $days[1] = $("#day2");
+        $days[2] = $("#day3");
+        $days[3] = $("#day4");
+        $days[4] = $("#day5");
+        $days[5] = $("#day6");
+        $days[6] = $("#day7");
 
         var times = [];
         times[0] = $("#time1");
@@ -164,37 +164,38 @@
 
         var applyBeginTimeMap = {};
         var applyEndTimeMap = {};
-        applyBeginTimeMap["content1"] = days[0].text() + " " + workTime[0];
-        applyBeginTimeMap["content2"] = days[0].text() + " " + workTime[1];
-        applyBeginTimeMap["content3"] = days[1].text() + " " + workTime[0];
-        applyBeginTimeMap["content4"] = days[1].text() + " " + workTime[1];
-        applyBeginTimeMap["content5"] = days[2].text() + " " + workTime[0];
-        applyBeginTimeMap["content6"] = days[2].text() + " " + workTime[1];
-        applyBeginTimeMap["content7"] = days[3].text() + " " + workTime[0];
-        applyBeginTimeMap["content8"] = days[3].text() + " " + workTime[1];
-        applyBeginTimeMap["content9"] = days[4].text() + " " + workTime[0];
-        applyBeginTimeMap["content10"] = days[4].text() + " " + workTime[1];
-        applyBeginTimeMap["content11"] = days[5].text() + " " + workTime[0];
-        applyBeginTimeMap["content12"] = days[5].text() + " " + workTime[1];
-        applyBeginTimeMap["content13"] = days[6].text() + " " + workTime[0];
-        applyBeginTimeMap["content14"] = days[6].text() + " " + workTime[1];
+        applyBeginTimeMap["content1"] = $days[0].text() + " " + workTime[0];
+        applyBeginTimeMap["content2"] = $days[0].text() + " " + workTime[1];
+        applyBeginTimeMap["content3"] = $days[1].text() + " " + workTime[0];
+        applyBeginTimeMap["content4"] = $days[1].text() + " " + workTime[1];
+        applyBeginTimeMap["content5"] = $days[2].text() + " " + workTime[0];
+        applyBeginTimeMap["content6"] = $days[2].text() + " " + workTime[1];
+        applyBeginTimeMap["content7"] = $days[3].text() + " " + workTime[0];
+        applyBeginTimeMap["content8"] = $days[3].text() + " " + workTime[1];
+        applyBeginTimeMap["content9"] = $days[4].text() + " " + workTime[0];
+        applyBeginTimeMap["content10"] = $days[4].text() + " " + workTime[1];
+        applyBeginTimeMap["content11"] = $days[5].text() + " " + workTime[0];
+        applyBeginTimeMap["content12"] = $days[5].text() + " " + workTime[1];
+        applyBeginTimeMap["content13"] = $days[6].text() + " " + workTime[0];
+        applyBeginTimeMap["content14"] = $days[6].text() + " " + workTime[1];
 
-        applyEndTimeMap["content1"] = days[0].text() + " " + workTime[1];
-        applyEndTimeMap["content2"] = days[0].text() + " " + workTime[2];
-        applyEndTimeMap["content3"] = days[1].text() + " " + workTime[1];
-        applyEndTimeMap["content4"] = days[1].text() + " " + workTime[2];
-        applyEndTimeMap["content5"] = days[2].text() + " " + workTime[1];
-        applyEndTimeMap["content6"] = days[2].text() + " " + workTime[2];
-        applyEndTimeMap["content7"] = days[3].text() + " " + workTime[1];
-        applyEndTimeMap["content8"] = days[3].text() + " " + workTime[2];
-        applyEndTimeMap["content9"] = days[4].text() + " " + workTime[1];
-        applyEndTimeMap["content10"] = days[4].text() + " " + workTime[2];
-        applyEndTimeMap["content11"] = days[5].text() + " " + workTime[1];
-        applyEndTimeMap["content12"] = days[5].text() + " " + workTime[2];
-        applyEndTimeMap["content13"] = days[6].text() + " " + workTime[1];
-        applyEndTimeMap["content14"] = days[6].text() + " " + workTime[2];
+        applyEndTimeMap["content1"] = $days[0].text() + " " + workTime[1];
+        applyEndTimeMap["content2"] = $days[0].text() + " " + workTime[2];
+        applyEndTimeMap["content3"] = $days[1].text() + " " + workTime[1];
+        applyEndTimeMap["content4"] = $days[1].text() + " " + workTime[2];
+        applyEndTimeMap["content5"] = $days[2].text() + " " + workTime[1];
+        applyEndTimeMap["content6"] = $days[2].text() + " " + workTime[2];
+        applyEndTimeMap["content7"] = $days[3].text() + " " + workTime[1];
+        applyEndTimeMap["content8"] = $days[3].text() + " " + workTime[2];
+        applyEndTimeMap["content9"] = $days[4].text() + " " + workTime[1];
+        applyEndTimeMap["content10"] = $days[4].text() + " " + workTime[2];
+        applyEndTimeMap["content11"] = $days[5].text() + " " + workTime[1];
+        applyEndTimeMap["content12"] = $days[5].text() + " " + workTime[2];
+        applyEndTimeMap["content13"] = $days[6].text() + " " + workTime[1];
+        applyEndTimeMap["content14"] = $days[6].text() + " " + workTime[2];
 
         $.ajax({
+            async:false,
             url: "loadArrangement",
             type: "POST",
             contentType: "application/json; charset=utf-8",
@@ -211,7 +212,7 @@
                             content += "</br>";
                         }
                     });
-                    contents[i].html(content);
+                    $contents[i].html(content);
                 });
             },
             error: function (jqXHR, textStatus, errorThrown) {
@@ -236,13 +237,14 @@
                     };
 
                     $.ajax({
+                        async:false,
                         url: "updateArrangement",
                         type: "POST",
                         contentType: "application/json; charset=utf-8",
                         data: JSON.stringify(sendArrangements),
                         dataType: "json",
                         success: function (Message) {
-                            alert(Message.msg);
+                            // alert(Message.msg);
                             $.ajax({
                                 url: "loadArrangement",
                                 type: "POST",
@@ -260,7 +262,7 @@
                                                 content += "</br>";
                                             }
                                         });
-                                        contents[i].html(content);
+                                        $contents[i].html(content);
                                     });
                                 },
                                 error: function (jqXHR, textStatus, errorThrown) {
@@ -275,8 +277,9 @@
                 }
             }
             checkboxChange = "no";
-            $("td").css("background-color", "#FFFFFF");
-            $("td").css("color", "#000000");
+            var $td = $("td");
+            $td.css("background-color", "#FFFFFF");
+            $td.css("color", "#000000");
             var contentId = $(this).attr("id");
             if((contentId !== "time1") && (contentId !== "time2")) {
                 $(this).css("background-color", "#0066AA");
@@ -293,9 +296,9 @@
                         $("#staffTable tbody").empty();
                         $.each(staffs, function (i, staff) {
                             var tr = "<tr id=\"" +
-                                staff.id + "\"><td style=\"width: 40px; height: 100px; text-align: center\"><input type=\"checkbox\"/></td><td style=\"width: 160px; height: 100px;\"> Name: " +
-                                staff.name + "<br/> Place: " +
-                                staff.place + "<br/> Language: <br/>" +
+                                staff.id + "\"><td style=\"width: 40px; height: 100px; text-align: center\"><input type=\"checkbox\"/></td><td style=\"width: 180px; height: 100px;\">&nbspName:" +
+                                staff.name + "<br/>&nbspPlace: " +
+                                staff.place + "<br/>&nbspLanguage: <br/>&nbsp" +
                                 staff.language1 + ", " +
                                 staff.language2 + "</td><td hidden id=\"" +
                                 staff.name + "\"></td></tr>";
@@ -345,7 +348,7 @@
                 data: JSON.stringify(sendArrangements),
                 dataType: "json",
                 success: function (Message) {
-                    alert(Message.msg);
+                    // alert(Message.msg);
                     $.ajax({
                         url: "loadArrangement",
                         type: "POST",
@@ -363,7 +366,7 @@
                                         content += "</br>";
                                     }
                                 });
-                                contents[i].html(content);
+                                $contents[i].html(content);
                             });
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
@@ -400,12 +403,12 @@
 
         $("#revoke").click(function (event) {
             if(confirm("Are you sure to revoke the arrangement?")) {
-                var revodeTime = {beginTime: beginTime, endTime: endTime};
+                var revokeTime = {beginTime: beginTime, endTime: endTime};
                 $.ajax({
                     url: "revoke",
                     type: "POST",
                     contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify(revodeTime),
+                    data: JSON.stringify(revokeTime),
                     dataType: "json",
                     success:function (Message) {
                         alert(Message.msg);
@@ -426,7 +429,7 @@
         });
 
         $("#staffTable").on("click", "td", function () {
-            if($(this).attr("style") == "width: 160px; height: 100px;") {
+            if($(this).attr("style") == "width: 180px; height: 100px;") {
                 var href = "staffWorkHistory" + $(this).parent().attr("id");
                 if(confirm("Do you want to view " + $(this).next("td").attr("id") + "\"s work history?")) {
                     window.location.href = href;
@@ -442,7 +445,7 @@
             report += "Language Service Check: ";
             var languageReport = "";
             $.each(curArrangement, function (i, arrangement) {
-                var time = days[Math.floor(i/2)].text() + " " + times[i%2].text();
+                var time = $days[Math.floor(i/2)].text() + " " + times[i%2].text();
                 var checkList = ["no", "no", "no"];
                 $.each(arrangement.content, function (j, staff) {
                     checkList[languageToIndex[staff.language1]] = "yes";
@@ -472,7 +475,7 @@
             var busyHourReport = "";
             $.each(curArrangement, function (i, arrangement) {
                 if(i == 4 || i == 6) {
-                    var time = days[Math.floor(i/2)].text() + " " + times[i%2].text();
+                    var time = $days[Math.floor(i/2)].text() + " " + times[i%2].text();
                     if(arrangement.content.length < 3) {
                         busyHourReport += time + ": Less than 3 staff work at busy hours.\n";
                     }
