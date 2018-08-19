@@ -15,16 +15,16 @@
     <style>
         .container {
             margin-top: 5%;
-            margin-left: 10%;
+            margin-left: 5%;
             margin-right: auto;
             margin-bottom: auto;
         }
-        #applicationId, #staffId, #staffName, #result{
+        #staffId, #staffName, #result{
             text-align: center;
             width: 100px;
             height: 50px;
         }
-        #beginTime, #endTime, #applyReason {
+        #beginTime, #endTime, #applyReason, #commentTableHeader {
             text-align: center;
             width: 200px;
             height: 50px;
@@ -45,13 +45,13 @@
     <table class="table-bordered" id="applicationTable">
         <thead>
         <tr id="tableHeader">
-            <th id="applicationId">Apply Id</th>
             <th id="staffId">Staff Id</th>
             <th id="staffName">Staff Name</th>
             <th id="beginTime">Begin Time</th>
             <th id="endTime">End Time</th>
             <th id="applyReason">Apply Reason</th>
             <th id="result">Result</th>
+            <th id="commentTableHeader">Comment</th>
         </tr>
         </thead>
         <tbody></tbody>
@@ -81,15 +81,15 @@
             success: function(applications) {
                 $.each(applications, function (index, application) {
                     var tr = "<tr id=\"" + application.applicationId + "\">" +
-                        "<td>" + application.applicationId + "</td>" +
                         "<td>" + application.staffId + "</td>" +
                         "<td>" + application.staffName + "</td>" +
                         "<td>" + application.beginTime + "</td>" +
                         "<td>" + application.endTime + "</td>" +
                         "<td>" + application.applyReason + "</td>" +
-                        "<td>" + ((application.result == null)? "":application.result) + "</td></tr>";
+                        "<td>" + ((application.result == null)? "" : application.result) + "</td>" +
+                        "<td>" + ((application.comment == null)? "" : application.comment) + "</td></tr>";
                     $("#applicationTable").append(tr);
-                })
+                });
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 alert("loadApplications error.");

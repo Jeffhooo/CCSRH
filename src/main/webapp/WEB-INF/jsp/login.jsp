@@ -23,6 +23,9 @@
         #signIn {
             margin-top: 10px;
         }
+        .form-signin-heading {
+            text-align: center;
+        }
     </style>
     <title>Sign in</title>
    </head>
