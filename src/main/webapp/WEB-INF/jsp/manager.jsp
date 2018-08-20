@@ -25,7 +25,7 @@
         }
         .container {
             margin-top: 5%;
-            margin-left: 10%;
+            margin-left: auto;
             margin-right: auto;
             margin-bottom: auto;
         }
@@ -39,12 +39,15 @@
         #logOut {
             float: right;
         }
+        #newMessage {
+            margin-bottom: 5px;
+        }
     </style>
     <title>Manager</title>
 </head>
 <body>
 <div class="container">
-
+    <div id="newMessage">New Message: 2018-8-27 is Test Festival of Asia/Tokyo</div>
         <div id="leftBlock">
             <div id="userId" hidden>${userId}</div>
             <p id="buttons">

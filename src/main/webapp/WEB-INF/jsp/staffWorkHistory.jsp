@@ -24,7 +24,7 @@
         }
         .container {
             margin-top: 5%;
-            margin-left: 15%;
+            margin-left: auto;
             margin-right: auto;
             margin-bottom: auto;
         }
