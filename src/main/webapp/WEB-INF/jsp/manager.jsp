@@ -403,7 +403,7 @@
         });
 
         $("#staffTable").on("click", "td", function () {
-            if($(this).attr("style") == "width: 180px; height: 100px;") {
+            if($(this).is($(this).parent("tr").children().eq(1))) {
                 var href = "staffWorkHistory" + $(this).parent().attr("id");
                 if(confirm("Do you want to view " + $(this).next("td").attr("id") + "\"s work history?")) {
                     window.location.href = href;
