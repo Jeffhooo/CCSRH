@@ -99,7 +99,7 @@
         loadEndDate[1] = "2018-8-27";
         loadEndDate[2] = "2018-9-3";
         var curIndex = 1;
-        var maxIndex = 2;
+        var maxIndex = 1;
         var minIndex = 0;
         var nextWeekPublish;
         var $days = [];
@@ -178,6 +178,7 @@
                         var $newMessage = $("#newMessage");
                         $newMessage.text("New Message: Timetable of next week has been published.");
                         $newMessage.show();
+                        maxIndex++;
                     }
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -231,15 +232,10 @@
 
         $("#nextWeek").click(function () {
             if(curIndex < maxIndex) {
-                if(curIndex == maxIndex-1) {
-                    if(nextWeekPublish == "published") {
-                        curIndex++;
-                        loadNextWeekArrangement();
-                    } else {
-                        alert("No new arrangement.")
-                    }
+                curIndex++;
+                if(curIndex == maxIndex && nextWeekPublish == "published") {
+                    loadNextWeekArrangement();
                 } else {
-                    curIndex++;
                     loadStaffTimetable(userId, loadBeginDate[curIndex], loadEndDate[curIndex]);
                 }
             } else {

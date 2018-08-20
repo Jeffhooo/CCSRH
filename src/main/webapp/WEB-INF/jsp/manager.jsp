@@ -47,11 +47,10 @@
 </head>
 <body>
 <div class="container">
-    <div id="newMessage">New Message: 2018-8-27 is Test Festival of Asia/Tokyo</div>
         <div id="leftBlock">
             <div id="userId" hidden>${userId}</div>
             <p id="buttons">
-                <button id="approveApplication" type="button" class="btn btn-primary">Approve application</button>
+                <button id="approveApplication" type="button" class="btn btn-primary">Approve</button>
                 <button id="save" type="button" class="btn btn-primary">Save</button>
                 <button id="check" type="button" class="btn btn-primary">Check</button>
                 <button id="publish" type="button" class="btn btn-primary">Publish</button>
@@ -110,6 +109,9 @@
         $("#approveApplication").click(function () {
             window.location.href = "approveApplication"
         });
+
+        $("#save").prop("disabled", true);
+
         var beginTime = "2018-8-27";
         var endTime = "2018-9-3";
         var load = {beginTime: beginTime, endTime: endTime};
@@ -288,6 +290,7 @@
                     );
                 }
             }
+            $("#save").prop("disabled", true);
             checkboxChange = "no";
             var $td = $("td");
             $td.css("background-color", "#FFFFFF");
@@ -336,6 +339,7 @@
         var checkboxChange = "no";
         $("#staffTable").on("change", "input", function (event) {
             checkboxChange = "yes";
+            $("#save").prop("disabled", false);
             event.preventDefault();
         });
 
@@ -353,6 +357,7 @@
             );
             alert("Arrangement is saved");
             checkboxChange = "no";
+            $("#save").prop("disabled", true);
         });
 
         $("#publish").click(function (event) {
