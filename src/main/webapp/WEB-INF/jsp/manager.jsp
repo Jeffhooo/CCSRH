@@ -24,6 +24,7 @@
         footer{
             position:absolute;
             bottom:0;
+            margin-top: 5px;
             margin-bottom: 5px;
             text-align: center;
         }
@@ -74,6 +75,18 @@
         }
         #buttons {
             margin-top: 10%;
+        }
+        #workdays {
+            margin-top: 10px;
+            font-size: 20px;
+        }
+        #languageConfig, #English, #Chinese, #Japanese {
+            font-size: 20px;
+            display: inline;
+        }
+        #checkReport {
+            font-size: 20px;
+            margin-bottom: 20px;
         }
     </style>
     <title>Manager</title>
@@ -140,8 +153,22 @@
                 </tr>
                 </tbody>
             </table>
-            <%--<h2 class="form-signin-heading" id="checkConfigurationHeader">Check Configuration:</h2>--%>
-            <%--<div id=""></div>--%>
+            <h2 class="form-signin-heading" id="checkConfigurationHeader">Check Configuration:</h2>
+            <div id="languageConfig">Language Service: </div>
+            <p id="English"><input id="EnglishCheckbox" type="checkbox">English</p>
+            <p id="Chinese"><input id="ChineseCheckbox" type="checkbox">Chinese</p>
+            <p id="Japanese"><input id="JapaneseCheckbox" type="checkbox">Japanese</p>
+            <div id="workdays">Work Days of a Week: <select id="workdaySelect">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+            </select></div>
+            <h2 class="form-signin-heading" id="checkReportHeader">Check Report:</h2>
+            <div id="checkReport"></div>
 
         </div>
         <div id="rightBlock">
@@ -338,8 +365,6 @@
             window.location.href = "approveApplication"
         });
 
-        $("#save").prop("disabled", true);
-
         var beginTime = "2018-8-27";
         var endTime = "2018-9-3";
         var load = {beginTime: beginTime, endTime: endTime};
@@ -426,6 +451,12 @@
         applyEndTimeMap["content12"] = $days[5].text() + " " + workTime[2];
         applyEndTimeMap["content13"] = $days[6].text() + " " + workTime[1];
         applyEndTimeMap["content14"] = $days[6].text() + " " + workTime[2];
+
+        var $lanuageCheckbox = {
+            Chinese: $("#ChineseCheckbox"),
+            English: $("#EnglishCheckbox"),
+            Japanese: $("#JapaneseCheckbox")
+        };
 
         var $publish = $("#publish");
         var $revoke = $("#revoke");
@@ -665,45 +696,30 @@
                     checkList[languageToIndex[staff.language2]] = "yes";
                 });
                 var lack = "";
-                if(checkList[0] == "no") {
+                if(checkList[0] == "no" && $lanuageCheckbox["English"].is( ":checked")) {
                     lack += " " + IndexToLanguage[0];
                 }
-                if(checkList[1] == "no") {
+                if(checkList[1] == "no" && $lanuageCheckbox["Chinese"].is( ":checked")) {
                     lack += " " + IndexToLanguage[1];
                 }
-                if(checkList[2] == "no") {
+                if(checkList[2] == "no" && $lanuageCheckbox["Japanese"].is( ":checked")) {
                     lack += " " + IndexToLanguage[2];
                 }
                 if(lack !== "") {
-                    languageReport += time + ": Lack of" + lack + " service.\n";
+                    languageReport += time + ": Lack of" + lack + " service.<br/>";
                 }
             });
             if(languageReport !== "") {
-                report += "Fail\n" + languageReport + "\n\n";
+                report += "Fail<br/>" + languageReport + "<br/>";
             } else {
-                report += "Pass\n\n";
+                report += "Pass<br/>";
             }
 
-            report += "Busy Hours Check: ";
-            var busyHourReport = "";
-            $.each(curArrangement, function (i, arrangement) {
-                if(i == 4 || i == 6) {
-                    var time = $days[Math.floor(i/2)].text() + " " + times[i%2].text();
-                    if(arrangement.content.length < 3) {
-                        busyHourReport += time + ": Less than 3 staff work at busy hours.\n";
-                    }
-                }
-            });
-            if(busyHourReport !== "") {
-                report += "Fail\n" + busyHourReport +"\n\n";
-            } else {
-                report += "Pass\n\n"
-            }
-
-            report += "Over Work Check: ";
+            report += "Work Days Check: ";
             var overWorkReport = "";
             var checkMap = {};
             var names = {};
+            var checkDays = parseInt($("#workdaySelect").val());
             $.each(curArrangement, function (i, arrangement) {
                 $.each(arrangement.content, function (j, staff) {
                     if(checkMap[staff.name] == null) {
@@ -715,16 +731,16 @@
                 });
             });
             $.each(names, function (i, name) {
-                if(checkMap[name] > 5) {
-                    overWorkReport += name + " work for more than 5 days.\n";
+                if(checkMap[name] > checkDays) {
+                    overWorkReport += name + " work for more than " + checkDays + " days.<br/>";
                 }
             });
             if(overWorkReport !== "") {
-                report += " Fail\n" + overWorkReport + "\n\n";
+                report += " Fail<br/>" + overWorkReport + "<br/>";
             } else {
-                report += " Pass\n\n";
+                report += " Pass<br/>";
             }
-            alert(report);
+            $("#checkReport").html(report);
         });
 
         $("#logOutConfirm").click(function (event) {
@@ -735,6 +751,11 @@
         loadArrangement();
         checkPublishStatus();
         $contents[0].click();
+        $("#save").prop("disabled", true);
+        $.each($lanuageCheckbox, function () {
+            $(this).prop("checked", true);
+        })
+        $("#workdaySelect").val("5");
     })
 </script>
 </html>
