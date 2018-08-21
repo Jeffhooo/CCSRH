@@ -122,4 +122,11 @@ public class ManagerController {
         return new ModelAndView("staffWorkHistory", "userId", staffId);
     }
 
+    @RequestMapping(value = "/checkPublishStatus", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    PublishStatusEntity checkPublishStatus(@RequestBody TimeEntity entity) {
+        return arrangementService.hasPublishArrangement(
+                TimeUtil.StringToDate(entity.getBeginTime()),
+                TimeUtil.StringToDate(entity.getEndTime()));
+    }
 }

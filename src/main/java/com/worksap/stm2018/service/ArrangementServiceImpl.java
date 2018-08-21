@@ -1,5 +1,6 @@
 package com.worksap.stm2018.service;
 
+import com.worksap.stm2018.entity.PublishStatusEntity;
 import com.worksap.stm2018.util.TimeUtil;
 import com.worksap.stm2018.dao.ArrangementDao;
 import com.worksap.stm2018.dao.DaoFactory;
@@ -127,4 +128,24 @@ public class ArrangementServiceImpl implements ArrangementService {
         return arrangementDao.checkPublish(week);
     }
 
+    @Override
+    public PublishStatusEntity hasPublishArrangement(Date beginDate, Date endDate) {
+        List<String> statusList = arrangementDao.getArrangementStatus(
+                new Timestamp(beginDate.getTime()),
+                new Timestamp(endDate.getTime())
+        );
+        String hasPublished = "false";
+        String hasUnpublished = "false";
+        for(String status : statusList) {
+            if(status != null && status.equals("published") && hasPublished.equals("false")) {
+                hasPublished = "true";
+            } else if((status == null || !status.equals("published")) && hasUnpublished.equals("false")){
+                hasUnpublished = "true";
+            }
+            if(hasPublished.equals("true") && hasUnpublished.equals("true")) {
+                break;
+            }
+        }
+        return new PublishStatusEntity(hasPublished, hasUnpublished);
+    }
 }

@@ -13,11 +13,55 @@
     <link rel="stylesheet" href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
 
     <style>
+        html{
+            height:100%;
+        }
+        body{
+            min-height:100%;
+            margin:0;
+            padding:0;
+            position:relative;
+        }
+        footer{
+            position:absolute;
+            bottom:0;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+        .navbar {
+            background-color: steelblue;
+        }
+        .navbar-brand {
+            color: white;
+        }
+        #brand {
+            color: white;
+        }
+        #logOut {
+            color: white;
+            margin-left: 780px;
+        }
+        button {
+            background-color: steelblue;
+        }
+        .nav > li > a:hover {
+            background-color: lightsteelblue;
+        }
+        .nav > li > a:visited{
+            background-color: lightsteelblue;
+        }
         .container {
-            margin-top: 5%;
+            margin-top: auto;
             margin-left: auto;
             margin-right: auto;
             margin-bottom: auto;
+        }
+        #applicationTable {
+            margin-top: 10%;
+        }
+        #applicationTable td {
+            text-align: center;
+            height: 50px;
         }
         #staffId, #staffName, #result{
             text-align: center;
@@ -36,16 +80,25 @@
         #buttons {
             margin-top: 10px;
         }
-        #applicationTable td {
-            text-align: center;
-            height: 50px;
-        }
     </style>
 
     <title>Approve</title>
 </head>
 <body>
 <div class="container">
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#" id="brand">Call Center Rostering Helper</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a id="logOut" data-toggle="modal" data-target="#LogOutModal">Log Out</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
     <form class="form-signin" id="approveForm">
         <table class="table-bordered" id="applicationTable">
             <thead>
@@ -65,12 +118,144 @@
         <h2 class="form-signin-heading" id="CommentHeader">Comment:</h2>
         <label for="comment" class="sr-only">Comment</label>
         <textarea type="text" id="comment" class="form-control" name = "comment" placeholder="Comment"></textarea>
+    </form>
         <p id="buttons">
-            <button class="btn btn-primary" id="accept" type="submit">Accept</button>
-            <button class="btn btn-primary" id="reject" type="submit">Reject</button>
+            <button class="btn btn-primary" id="accept" type="button">Accept</button>
+            <button class="btn btn-primary" id="reject" type="button">Reject</button>
             <button class="btn btn-primary" id="back" type="button" onclick="history.go(-1);">Back</button>
         </p>
-    </form>
+
+    <footer class="copyright">
+        &copy; 2018 Works Applications Co., Ltd. All Right Reserved<br>
+    </footer>
+</div>
+<div class="modal fade" id="LogOutModal" tabindex="-1" role="dialog" aria-labelledby="LogOutModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="LogOutModalLabel">
+                    Log Out
+                </h4>
+            </div>
+            <div class="modal-body">
+                Are you sure to log out?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="logOutConfirm">Yes</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<div class="modal fade" id="acceptModal" tabindex="-1" role="dialog" aria-labelledby="acceptModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="acceptModalLabel">
+                    Accept
+                </h4>
+            </div>
+            <div class="modal-body">
+                Are you sure to accept this applications?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="acceptConfirm">Yes</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<div class="modal fade" id="rejectModal" tabindex="-1" role="dialog" aria-labelledby="rejectModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="rejectModalLabel">
+                    Reject
+                </h4>
+            </div>
+            <div class="modal-body">
+                Are you sure to reject this applications?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="rejectConfirm">Yes</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<div class="modal fade" id="isAcceptedModal" tabindex="-1" role="dialog" aria-labelledby="isAcceptedModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="isAcceptedModalLabel">
+                    Accept
+                </h4>
+            </div>
+            <div class="modal-body">
+                Application is accepted.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<div class="modal fade" id="isRejectedModal" tabindex="-1" role="dialog" aria-labelledby="isRejectedModalLabel" aria-hidden="true">
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                &times;
+            </button>
+            <h4 class="modal-title" id="isRejectedModalLabel">
+                Reject
+            </h4>
+        </div>
+        <div class="modal-body">
+            Application is rejected.
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+        </div>
+    </div><!-- /.modal-content -->
+</div><!-- /.modal -->
+</div>
+
+<div class="modal fade" id="haveToChooseOneModal" tabindex="-1" role="dialog" aria-labelledby="haveToChooseOneModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="haveToChooseOneModalLabel">
+                    Approve
+                </h4>
+            </div>
+            <div class="modal-body">
+                You have to choose an application.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
 </div>
 
 </body>
@@ -79,7 +264,7 @@
         var beginTime = "2018-8-27";
         var endTime = "2018-9-3";
         var loadPage = {beginTime: beginTime, endTime: endTime};
-        var chosenContent;
+        var chosenContent = null;
         var $chosenTr;
 
         function loadApplications() {
@@ -115,7 +300,7 @@
             $tr.css("color", "#000000");
             var contentId = $(this).attr("id");
             if(contentId !== "tableHeader") {
-                $(this).css("background-color", "#0066AA");
+                $(this).css("background-color", "steelblue");
                 $(this).css("color", "#FFFFFF");
                 chosenContent = contentId;
                 $chosenTr = $(this);
@@ -123,6 +308,24 @@
         });
 
         $("#accept").click(function (event) {
+            if(chosenContent == null) {
+                $("#haveToChooseOneModal").modal("toggle");
+            } else {
+                $("#acceptModal").modal("toggle");
+            }
+            event.preventDefault();
+        });
+
+        $("#reject").click(function (event) {
+            if(chosenContent == null) {
+                $("#haveToChooseOneModal").modal("toggle");
+            } else {
+                $("#rejectModal").modal("toggle");
+            }
+            event.preventDefault();
+        });
+
+        $("#acceptConfirm").click(function (event) {
             var comment = $("#comment").val();
             var approve = {applicationId: chosenContent, comment: comment};
             $.ajax({
@@ -132,7 +335,8 @@
                 data: JSON.stringify(approve),
                 dataType: "json",
                 success: function (Message) {
-                    alert(Message.msg);
+                    $("#isAcceptedModal").modal("toggle");
+                    $("#acceptModal").modal("hide");
                     $("#comment").val("");
                     $chosenTr.find("td").eq(5).text("accept");
                     $chosenTr.find("td").eq(6).text(comment);
@@ -144,7 +348,7 @@
             event.preventDefault();
         });
 
-        $("#reject").click(function (event) {
+        $("#rejectConfirm").click(function (event) {
             var comment = $("#comment").val();
             var approve = {applicationId: chosenContent, comment: comment};
             $.ajax({
@@ -154,7 +358,8 @@
                 data: JSON.stringify(approve),
                 dataType: "json",
                 success: function (Message) {
-                    alert(Message.msg);
+                    $("#isRejectedModal").modal("toggle");
+                    $("#rejectModal").modal("hide");
                     $("#comment").val("");
                     $chosenTr.find("td").eq(5).text("reject");
                     $chosenTr.find("td").eq(6).text(comment);
@@ -164,7 +369,12 @@
                 }
             });
             event.preventDefault();
-        })
+        });
+
+        $("#logOutConfirm").click(function (event) {
+            window.location.href = "/";
+            event.preventDefault();
+        });
     });
 </script>
 </html>

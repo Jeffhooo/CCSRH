@@ -12,28 +12,80 @@
     <script src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
     <style>
+        html{
+            height:100%;
+        }
+        body{
+            min-height:100%;
+            margin:0;
+            padding:0;
+            position:relative;
+        }
+        footer{
+            position:absolute;
+            bottom:0;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+        .navbar {
+            background-color: steelblue;
+        }
+        .navbar-brand {
+            color: white;
+        }
+        #brand, #homePage, #about, #contact, #logOut {
+            color: white;
+        }
+
+        button {
+            background-color: steelblue;
+        }
+        .nav > li > a:hover {
+            background-color: lightsteelblue;
+        }
+        .nav > li > a:visited{
+            background-color: lightsteelblue;
+        }
         .table-bordered td{
             text-align: center;
-            width: 100px;
+            width: 110px;
             height: 150px;
         }
         .table-bordered th{
             text-align: center;
-            width: 100px;
+            width: 110px;
             height: 50px;
         }
         .container {
-            margin-top: 5%;
+            margin-top: auto;
             margin-left: auto;
             margin-right: auto;
             margin-bottom: auto;
+        }
+        #buttons {
+            margin-top: 10%;
         }
     </style>
     <title>Work History</title>
 </head>
 <body>
     <div class="container">
-        <div id="userId" hidden>${userId}</div>
+        <!-- Fixed navbar -->
+        <nav class="navbar navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#" id="brand">Call Center Rostering Helper</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="#" id="homePage">Home</a></li>
+                        <li><a href="#" id="about">About</a></li>
+                        <li><a href="#" id="contact">Contact</a></li>
+                        <li><a id="logOut" data-toggle="modal" data-target="#LogOutModal">Log Out</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
         <p id="buttons">
             <button id="lastWeek" type="button" class="btn btn-primary">Last Week</button>
             <button id="nextWeek" type="button" class="btn btn-primary">Next Week</button>
@@ -76,6 +128,31 @@
             </tr>
             </tbody>
         </table>
+    </div>
+    <div id="userId" hidden>${userId}</div>
+    <footer class="copyright">
+        &copy; 2018 Works Applications Co., Ltd. All Right Reserved<br>
+    </footer>
+    <div class="modal fade" id="LogOutModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        Log Out
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    Are you sure to log out?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="logOutConfirm">Yes</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
     </div>
 </body>
 <script type="text/javascript">
@@ -172,6 +249,11 @@
                 }
             });
         }
+
+        $("#logOutConfirm").click(function (event) {
+            window.location.href = "/";
+            event.preventDefault();
+        });
     })
 </script>
 </html>

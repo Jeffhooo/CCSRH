@@ -61,4 +61,11 @@ public interface ArrangementDao {
      *
      */
     String checkPublish(String week);
+
+    /**
+     * check whether the arrangement of week is published
+     *
+     *
+     */
+    List<String> getArrangementStatus(Timestamp beginTime, Timestamp endTime);
 }

@@ -12,19 +12,56 @@
     <script src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
     <style>
+        html{
+            height:100%;
+        }
+        body{
+            min-height:100%;
+            margin:0;
+            padding:0;
+            position:relative;
+        }
+        footer{
+            position:absolute;
+            bottom:0;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+        .navbar {
+            background-color: steelblue;
+        }
+        .navbar-brand {
+            color: white;
+        }
+        #brand {
+            color: white;
+        }
+        #logOut {
+            color: white;
+            margin-left: 800px;
+        }
+        button {
+            background-color: steelblue;
+        }
+        .nav > li > a:hover {
+            background-color: lightsteelblue;
+        }
+        .nav > li > a:visited{
+            background-color: lightsteelblue;
+        }
         #timetable td{
             text-align: center;
-            width: 100px;
+            width: 110px;
             height: 150px;
             word-break:break-all;
         }
         #timetable th{
             text-align: center;
-            width: 100px;
+            width: 110px;
             height: 50px;
         }
         .container {
-            margin-top: 5%;
+            margin-top: auto;
             margin-left: auto;
             margin-right: auto;
             margin-bottom: auto;
@@ -33,30 +70,40 @@
             float: left;
         }
         #rightBlock {
-            margin-left: 850px;
-            margin-top: 45px;
+            margin-left: 900px;
         }
-        #logOut {
-            float: right;
-        }
-        #newMessage {
-            margin-bottom: 5px;
+        #buttons {
+            margin-top: 10%;
         }
     </style>
     <title>Manager</title>
 </head>
 <body>
 <div class="container">
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#" id="brand">Call Center Rostering Helper</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a id="logOut" data-toggle="modal" data-target="#LogOutModal">Log Out</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <p id="buttons">
+        <button id="approveApplication" type="button" class="btn btn-primary">Approve</button>
+        <button id="save" type="button" class="btn btn-primary" data-toggle="modal" data-target="#saveModal">Save</button>
+        <button id="check" type="button" class="btn btn-primary" >Check</button>
+        <button id="publish" type="button" class="btn btn-primary" data-toggle="modal" data-target="#publishModal">Publish</button>
+        <button id="revoke" type="button" class="btn btn-primary" data-toggle="modal" data-target="#revokeModal">Revoke</button>
+    </p>
+
+    <div>
         <div id="leftBlock">
-            <div id="userId" hidden>${userId}</div>
-            <p id="buttons">
-                <button id="approveApplication" type="button" class="btn btn-primary">Approve</button>
-                <button id="save" type="button" class="btn btn-primary">Save</button>
-                <button id="check" type="button" class="btn btn-primary">Check</button>
-                <button id="publish" type="button" class="btn btn-primary">Publish</button>
-                <button id="revoke" type="button" class="btn btn-primary">Revoke</button>
-                <button id="logOut" type="button" class="btn btn-primary">Log Out</button>
-            </p>
             <table class="table-bordered" id="timetable">
                 <thead>
                 <tr>
@@ -93,6 +140,9 @@
                 </tr>
                 </tbody>
             </table>
+            <%--<h2 class="form-signin-heading" id="checkConfigurationHeader">Check Configuration:</h2>--%>
+            <%--<div id=""></div>--%>
+
         </div>
         <div id="rightBlock">
             <table class="table-bordered" id="staffTable">
@@ -102,7 +152,185 @@
                 </tbody>
             </table>
         </div>
+    </div>
+    <div id="userId" hidden>${userId}</div>
+    <footer class="copyright">
+        &copy; 2018 Works Applications Co., Ltd. All Right Reserved<br>
+    </footer>
 </div>
+<div class="modal fade" id="LogOutModal" tabindex="-1" role="dialog" aria-labelledby="LogOutModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="LogOutModalLabel">
+                    Log Out
+                </h4>
+            </div>
+            <div class="modal-body">
+                Are you sure to log out?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="logOutConfirm">Yes</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<div class="modal fade" id="saveModal" tabindex="-1" role="dialog" aria-labelledby="saveModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="saveModalLabel">
+                    Save
+                </h4>
+            </div>
+            <div class="modal-body">
+                Are you sure to save changes?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="cancelAskForSave">Cancel</button>
+                <button type="button" class="btn btn-primary" id="saveConfirm">Yes</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<div class="modal fade" id="isSavedModal" tabindex="-1" role="dialog" aria-labelledby="isSavedModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="isSavedModalLabel">
+                    Save
+                </h4>
+            </div>
+            <div class="modal-body">
+                Arrangement is saved.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<div class="modal fade" id="askForSaveModal" tabindex="-1" role="dialog" aria-labelledby="askForSaveModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="askForSaveModalLabel">
+                    Save
+                </h4>
+            </div>
+            <div class="modal-body">
+                You have change arrangement? Are you sure to save change?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="askForSaveConfirm">Yes</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<div class="modal fade" id="publishModal" tabindex="-1" role="dialog" aria-labelledby="publishModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="publishModalLabel">
+                    Publish
+                </h4>
+            </div>
+            <div class="modal-body">
+                Are you sure to publish arrangement?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="publishConfirm">Yes</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<div class="modal fade" id="revokeModal" tabindex="-1" role="dialog" aria-labelledby="revokeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="revokeModalLabel">
+                    Revoke
+                </h4>
+            </div>
+            <div class="modal-body">
+                Are you sure to revoke arrangement?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="revokeConfirm">Yes</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<div class="modal fade" id="isPublishedModal" tabindex="-1" role="dialog" aria-labelledby="isPublishedModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="isPublishedModalLabel">
+                    Publish
+                </h4>
+            </div>
+            <div class="modal-body">
+                The arrangement is published.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<div class="modal fade" id="isRevokedModal" tabindex="-1" role="dialog" aria-labelledby="isRevokedModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="isRevokedModalLabel">
+                    Revoke
+                </h4>
+            </div>
+            <div class="modal-body">
+                The arrangement is revoked.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
 </body>
 <script type="text/javascript">
     $(document).ready(function () {
@@ -199,6 +427,9 @@
         applyEndTimeMap["content13"] = $days[6].text() + " " + workTime[1];
         applyEndTimeMap["content14"] = $days[6].text() + " " + workTime[2];
 
+        var $publish = $("#publish");
+        var $revoke = $("#revoke");
+
         function loadArrangement() {
             $.ajax({
                 async:false,
@@ -226,7 +457,32 @@
                 }
             });
         }
-        loadArrangement();
+
+        function checkPublishStatus() {
+            $.ajax({
+                url: "checkPublishStatus",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(load),
+                dataType: "json",
+                success: function (publishStatus) {
+                    if(publishStatus.hasUnpublished == "true") {
+                        $publish.prop("disabled", false)
+                    } else {
+                        $publish.prop("disabled", true)
+                    }
+
+                    if(publishStatus.hasPublished == "true") {
+                        $revoke.prop("disabled", false)
+                    } else {
+                        $revoke.prop("disabled", true)
+                    }
+                },
+                error: function () {
+                    alert("checkPublishStatus error.");
+                }
+            })
+        }
 
         function updateArrangement(staffIds, beginTime, endTime) {
             var sendArrangements = {
@@ -242,31 +498,8 @@
                 data: JSON.stringify(sendArrangements),
                 dataType: "json",
                 success: function (Message) {
-                    // alert(Message.msg);
-                    $.ajax({
-                        url: "loadArrangement",
-                        type: "POST",
-                        contentType: "application/json; charset=utf-8",
-                        data: JSON.stringify(load),
-                        dataType: "json",
-                        success: function (arrangements) {
-                            curArrangement = arrangements;
-                            $.each(arrangements, function (i, arrangement) {
-                                var content = "";
-                                var length = arrangement.content.length;
-                                $.each(arrangement.content, function (j, staff) {
-                                    content += staff.name;
-                                    if(j < length-1) {
-                                        content += "</br>";
-                                    }
-                                });
-                                $contents[i].html(content);
-                            });
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            alert("loadArrangement error.");
-                        }
-                    });
+                    loadArrangement();
+                    checkPublishStatus();
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     alert("updateArrangement error.");
@@ -274,31 +507,16 @@
             });
         }
 
-        $("#timetable td").click(function (event) {
-            if(checkboxChange == "yes") {
-                if(confirm("You have change arrangement. Do you want to save change?")) {
-                    var chooseStaffIds = [];
-                    $("#staffTable").find("tr").each(function () {
-                        if($(this).find("input:checkbox").is(":checked")) {
-                            chooseStaffIds.push($(this).attr("id"));
-                        }
-                    });
-                    updateArrangement(
-                        chooseStaffIds,
-                        applyBeginTimeMap[chooseContent],
-                        applyEndTimeMap[chooseContent]
-                    );
-                }
-            }
+        function showStaffs() {
             $("#save").prop("disabled", true);
             checkboxChange = "no";
             var $td = $("td");
             $td.css("background-color", "#FFFFFF");
             $td.css("color", "#000000");
-            var contentId = $(this).attr("id");
+            var contentId = $choosenItem.attr("id");
             if((contentId !== "time1") && (contentId !== "time2")) {
-                $(this).css("background-color", "#0066AA");
-                $(this).css("color", "#FFFFFF");
+                $choosenItem.css("background-color", "steelblue");
+                $choosenItem.css("color", "#FFFFFF");
                 chooseContent = contentId;
                 var loadStaffs = {beginTime: applyBeginTimeMap[chooseContent], endTime: applyEndTimeMap[chooseContent]};
                 $.ajax({
@@ -333,6 +551,16 @@
                     }
                 });
             }
+        }
+
+        var $choosenItem;
+        $("#timetable td").click(function (event) {
+            $choosenItem = $(this);
+            if(checkboxChange == "yes") {
+                $("#askForSaveModal").modal("toggle");
+            } else {
+                showStaffs();
+            }
             event.preventDefault();
         });
 
@@ -343,7 +571,7 @@
             event.preventDefault();
         });
 
-        $("#save").click(function () {
+        function save(){
             var chooseStaffIds = [];
             $("#staffTable").find("tr").each(function () {
                 if($(this).find("input:checkbox").is(":checked")) {
@@ -355,55 +583,61 @@
                 applyBeginTimeMap[chooseContent],
                 applyEndTimeMap[chooseContent]
             );
-            alert("Arrangement is saved");
+            $("#isSavedModal").modal("toggle");
             checkboxChange = "no";
             $("#save").prop("disabled", true);
+        }
+
+        $("#saveConfirm").click(function () {
+            save();
+            $("#saveModal").modal("hide");
+        });
+        $("#cancelAskForSave").click(function () {
+            showStaffs();
+        })
+        $("#askForSaveConfirm").click(function () {
+            save();
+            $("#askForSaveModal").modal("hide");
+            showStaffs();
         });
 
-        $("#publish").click(function (event) {
-            if(confirm("Are you sure to publish the arrangement?")) {
-                var publishTime = {beginTime: beginTime, endTime: endTime};
-                $.ajax({
-                    url: "publish",
-                    type: "POST",
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify(publishTime),
-                    dataType: "json",
-                    success:function (Message) {
-                        alert(Message.msg);
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        alert("publish error.");
-                    }
-                });
-            }
+        $("#publishConfirm").click(function (event) {
+            var publishTime = {beginTime: beginTime, endTime: endTime};
+            $.ajax({
+                url: "publish",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(publishTime),
+                dataType: "json",
+                success:function (Message) {
+                    $("#isPublishedModal").modal("toggle");
+                    $("#publishModal").modal("hide");
+                    checkPublishStatus();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert("publish error.");
+                }
+            });
             event.preventDefault();
         });
 
-        $("#revoke").click(function (event) {
-            if(confirm("Are you sure to revoke the arrangement?")) {
-                var revokeTime = {beginTime: beginTime, endTime: endTime};
-                $.ajax({
-                    url: "revoke",
-                    type: "POST",
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify(revokeTime),
-                    dataType: "json",
-                    success:function (Message) {
-                        alert(Message.msg);
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        alert("revoke error.");
-                    }
-                });
-            }
-            event.preventDefault();
-        });
-
-        $("#logOut").click(function (event) {
-            if(confirm("Are you sure to log out?")) {
-                window.location.href = "/";
-            }
+        $("#revokeConfirm").click(function (event) {
+            var revokeTime = {beginTime: beginTime, endTime: endTime};
+            $.ajax({
+                url: "revoke",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(revokeTime),
+                dataType: "json",
+                success:function (Message) {
+                    $("#isRevokedModal").modal("toggle");
+                    $("#revokeModal").modal("hide");
+                    checkPublishStatus();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert("revoke error.");
+                }
+            });
             event.preventDefault();
         });
 
@@ -492,6 +726,15 @@
             }
             alert(report);
         });
+
+        $("#logOutConfirm").click(function (event) {
+            window.location.href = "/";
+            event.preventDefault();
+        });
+
+        loadArrangement();
+        checkPublishStatus();
+        $contents[0].click();
     })
 </script>
 </html>

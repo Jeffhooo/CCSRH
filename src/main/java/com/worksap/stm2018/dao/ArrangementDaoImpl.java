@@ -34,6 +34,7 @@ public class ArrangementDaoImpl implements ArrangementDao {
     private static final String UPDATE_PUBLISH_SQL = "update publish_history set status = 'published' where week = ?";
     private static final String REVOKE_PUBLISH_SQL = "update publish_history set status = '' where week = ?";
     private static final String CHECK_PUBLISH_SQL = "select status from publish_history where week = ?";
+    private static final String SELECT_STATUS_SQL = "select status from arrangement where begin_time >= ? and end_time <= ?";
 
     @Override
     public List<ArrangementVo> list(Timestamp beginTime, Timestamp endTime) {
@@ -122,5 +123,13 @@ public class ArrangementDaoImpl implements ArrangementDao {
         return DataAccessUtils.requiredSingleResult(template.query(CHECK_PUBLISH_SQL,
                 ps -> ps.setString(1, week),
                 (rs, rowNum) -> rs.getString(1)));
+    }
+
+    @Override
+    public List<String> getArrangementStatus(Timestamp beginTime, Timestamp endTime) {
+        return template.query(SELECT_STATUS_SQL,
+                ps -> { ps.setTimestamp(1, beginTime);
+                        ps.setTimestamp(2, endTime);},
+                (rs, rowNum) -> rs.getString(1));
     }
 }

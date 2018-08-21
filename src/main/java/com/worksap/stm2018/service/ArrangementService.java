@@ -1,6 +1,7 @@
 package com.worksap.stm2018.service;
 
 import com.worksap.stm2018.entity.ArrangementTableEntity;
+import com.worksap.stm2018.entity.PublishStatusEntity;
 import com.worksap.stm2018.entity.TimetableEntity;
 import com.worksap.stm2018.vo.ArrangementVo;
 
@@ -44,5 +45,11 @@ public interface ArrangementService {
      *
      */
     String checkPublish(String week);
+
+    /**
+     * check whether has published arrangement
+     *
+     */
+    PublishStatusEntity hasPublishArrangement(Date beginDate, Date endDate);
 
 }

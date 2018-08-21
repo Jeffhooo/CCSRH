@@ -13,18 +13,55 @@
     <script src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
     <style>
+        html{
+            height:100%;
+        }
+        body{
+            min-height:100%;
+            margin:0;
+            padding:0;
+            position:relative;
+        }
+        footer{
+            position:absolute;
+            bottom:0;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+        .navbar {
+            background-color: steelblue;
+        }
+        .navbar-brand {
+            color: white;
+        }
+        #brand {
+            color: white;
+        }
+        #logOut {
+            color: white;
+            margin-left: 570px;
+        }
+        button {
+            background-color: steelblue;
+        }
+        .nav > li > a:hover {
+            background-color: lightsteelblue;
+        }
+        .nav > li > a:visited{
+            background-color: lightsteelblue;
+        }
         #timetable td{
-            width: 100px;
+            width: 110px;
             height: 150px;
             text-align: center;
         }
         #timetable th{
-            width: 100px;
+            width: 110px;
             height: 50px;
             text-align: center;
         }
         .container {
-            margin-top: 5%;
+            margin-top: auto;
             margin-left: auto;
             margin-right: auto;
             margin-bottom: auto;
@@ -33,7 +70,7 @@
             margin-top: 20px
         }
         #applyReason {
-            width: 800px;
+            width: 880px;
             height: 50px;
             text-align: left;
         }
@@ -48,12 +85,28 @@
             height: 20px;
             font-size: 20px
         }
+        #applicationForm {
+            margin-top: 10%;
+        }
     </style>
     <title>Apply</title>
 </head>
 <body>
 <div class="container">
-    <div id="userId" hidden>${userId}</div>
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#" id="brand">Call Center Rostering Helper</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a id="logOut" data-toggle="modal" data-target="#LogOutModal">Log Out</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
     <form class="form-signin" id="applicationForm">
         <table class="table-bordered" id="timetable">
             <thead>
@@ -102,6 +155,91 @@
             <button class="btn btn-primary" id="back" type="button" onclick="history.go(-1);">Back</button>
         </p>
     </form>
+    <div id="userId" hidden>${userId}</div>
+    <footer class="copyright">
+        &copy; 2018 Works Applications Co., Ltd. All Right Reserved<br>
+    </footer>
+</div>
+<div class="modal fade" id="LogOutModal" tabindex="-1" role="dialog" aria-labelledby="logOutModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    Log Out
+                </h4>
+            </div>
+            <div class="modal-body">
+                Are you sure to log out?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="logOutConfirm">Yes</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+<div class="modal fade" id="RemindModal" tabindex="-1" role="dialog" aria-labelledby="RemindModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="RemindModalLabel">
+                    Submit
+                </h4>
+            </div>
+            <div class="modal-body">
+                You have to choose a time.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+<div class="modal fade" id="SubmitModal" tabindex="-1" role="dialog" aria-labelledby="SubmitModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="SubmitModalLabel">
+                    Submit
+                </h4>
+            </div>
+            <div class="modal-body" id="SubmitModalBody">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="submitConfirm">Yes</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+<div class="modal fade" id="isSubmittedModal" tabindex="-1" role="dialog" aria-labelledby="isSubmittedModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="isSubmittedModalLabel">
+                    Submit
+                </h4>
+            </div>
+            <div class="modal-body">
+                Application is submitted.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
 </div>
 </body>
 <script type="text/javascript">
@@ -120,7 +258,7 @@
         workTime[0] = "08:00:00";
         workTime[1] = "16:00:00";
         workTime[2] = "23:00:00";
-        var chooseContent;
+        var chooseContent = null;
         var $days = [];
         $days[0] = $("#day1");
         $days[1] = $("#day2");
@@ -227,14 +365,14 @@
             $("td").css("color", "#000000");
             var contentId = $(this).attr("id");
             if((contentId !== "time1") && (contentId !== "time2")) {
-                $(this).css("background-color", "#0066AA");
+                $(this).css("background-color", "steelblue");
                 $(this).css("color", "#FFFFFF");
                 $("#applyTime").text("Apply Time: " + applyBeginTimeMap[contentId].substr(0, 16) + "-" + applyEndTimeMap[contentId].substr(11, 5));
                 chooseContent = contentId;
             }
-        })
+        });
 
-        $("#submit").click(function (event) {
+        $("#submitConfirm").click(function (event) {
             var application = {staffId: userId, applyReason: $("#applyReason").val(),
                 beginTime: applyBeginTimeMap[chooseContent], endTime: applyEndTimeMap[chooseContent]};
             $.ajax({
@@ -244,8 +382,10 @@
                 data: JSON.stringify(application),
                 dataType: "json",
                 success: function (Message) {
-                    alert(Message.msg);
-                    history.go(-1);
+                    $("#isSubmittedModal").modal("toggle");
+                    $("#SubmitModal").modal("hide");
+                    loadApplicationTimetable(userId, loadBeginDate[curIndex], loadEndDate[curIndex]);
+                    $("#applyReason").val("");
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
                     alert("Submit application error.");
@@ -253,6 +393,26 @@
             });
             event.preventDefault();
         })
+
+        $("#submit").click(function (event) {
+            if(chooseContent == null) {
+                $("#RemindModal").modal("toggle");
+            } else {
+                $("#SubmitModalBody").html("Apply Time: " +
+                    applyBeginTimeMap[chooseContent].substr(0, 16) +
+                    "-" + applyEndTimeMap[chooseContent].substr(11, 5) +
+                    "<br/> Apply Reason: " +
+                    $("#applyReason").val() +
+                    "<br/> Are you sure to submit this application?");
+                $("#SubmitModal").modal("toggle");
+            }
+            event.preventDefault();
+        });
+
+        $("#logOutConfirm").click(function (event) {
+            window.location.href = "/";
+            event.preventDefault();
+        });
     });
 </script>
 </html>
