@@ -21,7 +21,7 @@
             padding:0;
             position:relative;
         }
-        footer{
+        #footer{
             position:absolute;
             bottom:0;
             margin-top: 5px;
@@ -29,7 +29,7 @@
             text-align: center;
         }
         .navbar {
-            background-color: steelblue;
+            background-color: lightseagreen;
         }
         .navbar-brand {
             color: white;
@@ -39,16 +39,26 @@
         }
         #logOut {
             color: white;
-            margin-left: 800px;
+            margin-left: 420px;
         }
-        button {
-            background-color: steelblue;
+        #approveApplication, #staffManagement, #settings {
+            color: white;
+        }
+        .btn-primary {
+            background-color: lightseagreen;
+            border: lightseagreen;
+        }
+        .btn-primary:hover {
+            background-color: mediumseagreen;
+        }
+        .btn-primary:visited {
+            background-color: lightseagreen;
         }
         .nav > li > a:hover {
-            background-color: lightsteelblue;
+            background-color: mediumseagreen;
         }
         .nav > li > a:visited{
-            background-color: lightsteelblue;
+            background-color: lightseagreen;
         }
         #timetable td{
             text-align: center;
@@ -84,10 +94,6 @@
             font-size: 20px;
             display: inline;
         }
-        #checkReport {
-            font-size: 20px;
-            margin-bottom: 20px;
-        }
     </style>
     <title>Manager</title>
 </head>
@@ -101,6 +107,9 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
+                    <li><a id="approveApplication">Approve Applications</a></li>
+                    <li><a id="staffManagement">Staff Management</a></li>
+                    <li><a id="settings">Settings</a></li>
                     <li><a id="logOut" data-toggle="modal" data-target="#LogOutModal">Log Out</a></li>
                 </ul>
             </div>
@@ -108,7 +117,6 @@
     </nav>
 
     <p id="buttons">
-        <button id="approveApplication" type="button" class="btn btn-primary">Approve</button>
         <button id="save" type="button" class="btn btn-primary" data-toggle="modal" data-target="#saveModal">Save</button>
         <button id="check" type="button" class="btn btn-primary" >Check</button>
         <button id="publish" type="button" class="btn btn-primary" data-toggle="modal" data-target="#publishModal">Publish</button>
@@ -153,23 +161,6 @@
                 </tr>
                 </tbody>
             </table>
-            <h2 class="form-signin-heading" id="checkConfigurationHeader">Check Configuration:</h2>
-            <div id="languageConfig">Language Service: </div>
-            <p id="English"><input id="EnglishCheckbox" type="checkbox">English</p>
-            <p id="Chinese"><input id="ChineseCheckbox" type="checkbox">Chinese</p>
-            <p id="Japanese"><input id="JapaneseCheckbox" type="checkbox">Japanese</p>
-            <div id="workdays">Work Days of a Week: <select id="workdaySelect">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-            </select></div>
-            <h2 class="form-signin-heading" id="checkReportHeader">Check Report:</h2>
-            <div id="checkReport"></div>
-
         </div>
         <div id="rightBlock">
             <table class="table-bordered" id="staffTable">
@@ -181,12 +172,12 @@
         </div>
     </div>
     <div id="userId" hidden>${userId}</div>
-    <footer class="copyright">
-        &copy; 2018 Works Applications Co., Ltd. All Right Reserved<br>
+    <footer class="copyright" id="footer">
+        &copy; 2018 Works Applications Co., Ltd. All Right Reserved
     </footer>
+    <div class="modal-dialog">
 </div>
 <div class="modal fade" id="LogOutModal" tabindex="-1" role="dialog" aria-labelledby="LogOutModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
@@ -222,7 +213,7 @@
                 Are you sure to save changes?
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" id="cancelAskForSave">Cancel</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                 <button type="button" class="btn btn-primary" id="saveConfirm">Yes</button>
             </div>
         </div><!-- /.modal-content -->
@@ -265,7 +256,7 @@
                 You have change arrangement? Are you sure to save change?
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="cancelAskForSave">Cancel</button>
                 <button type="button" class="btn btn-primary" id="askForSaveConfirm">Yes</button>
             </div>
         </div><!-- /.modal-content -->
@@ -358,11 +349,58 @@
     </div><!-- /.modal -->
 </div>
 
+<div class="modal fade" id="viewHistoryModal" tabindex="-1" role="dialog" aria-labelledby="viewHistoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="viewHistoryModalLabel">
+                    View History
+                </h4>
+            </div>
+            <div class="modal-body" id="viewHistoryModalBody">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="viewHistoryConfirm">Yes</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<div class="modal fade" id="checkReportModal" tabindex="-1" role="dialog" aria-labelledby="checkReportModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="checkReportModalLabel">
+                    Check Report
+                </h4>
+            </div>
+            <div class="modal-body" id="checkReportModalBody">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
 </body>
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#approveApplication").click(function () {
-            window.location.href = "approveApplication"
+        $("#approveApplication").click(function (event) {
+            window.location.href = "approveApplication";
+            event.preventDefault();
+        });
+
+        $("#settings").click(function (event) {
+            window.location.href = "managerSettings";
+            event.preventDefault();
         });
 
         var beginTime = "2018-8-27";
@@ -546,7 +584,7 @@
             $td.css("color", "#000000");
             var contentId = $choosenItem.attr("id");
             if((contentId !== "time1") && (contentId !== "time2")) {
-                $choosenItem.css("background-color", "steelblue");
+                $choosenItem.css("background-color", "lightseagreen");
                 $choosenItem.css("color", "#FFFFFF");
                 chooseContent = contentId;
                 var loadStaffs = {beginTime: applyBeginTimeMap[chooseContent], endTime: applyEndTimeMap[chooseContent]};
@@ -672,75 +710,101 @@
             event.preventDefault();
         });
 
+        var $choosenStaffTd;
         $("#staffTable").on("click", "td", function () {
+            $choosenStaffTd = $(this);
             if($(this).is($(this).parent("tr").children().eq(1))) {
-                var href = "staffWorkHistory" + $(this).parent().attr("id");
-                if(confirm("Do you want to view " + $(this).next("td").attr("id") + "\"s work history?")) {
-                    window.location.href = href;
-                }
+                $("#viewHistoryModalBody").text("Do you want to view " + $(this).next("td").attr("id") + "\"s work history?");
+                $("#viewHistoryModal").modal("toggle");
             }
         });
 
+        $("#viewHistoryConfirm").click(function (event) {
+            window.location.href = "staffWorkHistory" + $choosenStaffTd.parent().attr("id");;
+            event.preventDefault();
+        });
+
         $("#check").click(function () {
-            var report = "";
-            var languageToIndex = {English: 0, Chinese: 1, Japanese: 2};
-            var IndexToLanguage = ["English", "Chinese", "Japanese"];
+            var checkDays;
+            var serviceLanguage = {
+                Chinese: "no",
+                English: "no",
+                Japanese: "no"
+            };
+            $.ajax({
+                url: "getCheckSettings",
+                type: "GET",
+                dataType: "json",
+                success: function (checkSettings) {
+                    checkDays = parseInt(checkSettings.workdays);
+                    $.each(checkSettings.languages, function (i, language) {
+                        serviceLanguage[language] = "yes";
+                    });
 
-            report += "Language Service Check: ";
-            var languageReport = "";
-            $.each(curArrangement, function (i, arrangement) {
-                var time = $days[Math.floor(i/2)].text() + " " + times[i%2].text();
-                var checkList = ["no", "no", "no"];
-                $.each(arrangement.content, function (j, staff) {
-                    checkList[languageToIndex[staff.language1]] = "yes";
-                    checkList[languageToIndex[staff.language2]] = "yes";
-                });
-                var lack = "";
-                if(checkList[0] == "no" && $lanuageCheckbox["English"].is( ":checked")) {
-                    lack += " " + IndexToLanguage[0];
-                }
-                if(checkList[1] == "no" && $lanuageCheckbox["Chinese"].is( ":checked")) {
-                    lack += " " + IndexToLanguage[1];
-                }
-                if(checkList[2] == "no" && $lanuageCheckbox["Japanese"].is( ":checked")) {
-                    lack += " " + IndexToLanguage[2];
-                }
-                if(lack !== "") {
-                    languageReport += time + ": Lack of" + lack + " service.<br/>";
-                }
-            });
-            if(languageReport !== "") {
-                report += "Fail<br/>" + languageReport + "<br/>";
-            } else {
-                report += "Pass<br/>";
-            }
+                    var report = "";
+                    var languageToIndex = {English: 0, Chinese: 1, Japanese: 2};
+                    var IndexToLanguage = ["English", "Chinese", "Japanese"];
 
-            report += "Work Days Check: ";
-            var overWorkReport = "";
-            var checkMap = {};
-            var names = {};
-            var checkDays = parseInt($("#workdaySelect").val());
-            $.each(curArrangement, function (i, arrangement) {
-                $.each(arrangement.content, function (j, staff) {
-                    if(checkMap[staff.name] == null) {
-                        checkMap[staff.name] = 1;
+                    report += "Language Service Check: ";
+                    var languageReport = "";
+                    $.each(curArrangement, function (i, arrangement) {
+                        var time = $days[Math.floor(i/2)].text() + " " + times[i%2].text();
+                        var checkList = ["no", "no", "no"];
+                        $.each(arrangement.content, function (j, staff) {
+                            checkList[languageToIndex[staff.language1]] = "yes";
+                            checkList[languageToIndex[staff.language2]] = "yes";
+                        });
+                        var lack = "";
+                        if(checkList[0] == "no" && serviceLanguage["English"] == "yes") {
+                            lack += " " + IndexToLanguage[0];
+                        }
+                        if(checkList[1] == "no" && serviceLanguage["Chinese"] == "yes") {
+                            lack += " " + IndexToLanguage[1];
+                        }
+                        if(checkList[2] == "no" && serviceLanguage["Japanese"] == "yes") {
+                            lack += " " + IndexToLanguage[2];
+                        }
+                        if(lack !== "") {
+                            languageReport += time + ": Lack of" + lack + " service.<br/>";
+                        }
+                    });
+                    if(languageReport !== "") {
+                        report += "Fail<br/>" + languageReport + "<br/>";
                     } else {
-                        checkMap[staff.name] += 1;
+                        report += "Pass<br/>";
                     }
-                    names[staff.name] = staff.name;
-                });
-            });
-            $.each(names, function (i, name) {
-                if(checkMap[name] > checkDays) {
-                    overWorkReport += name + " work for more than " + checkDays + " days.<br/>";
+
+                    report += "Work Days Check: ";
+                    var overWorkReport = "";
+                    var checkMap = {};
+                    var names = {};
+                    $.each(curArrangement, function (i, arrangement) {
+                        $.each(arrangement.content, function (j, staff) {
+                            if(checkMap[staff.name] == null) {
+                                checkMap[staff.name] = 1;
+                            } else {
+                                checkMap[staff.name] += 1;
+                            }
+                            names[staff.name] = staff.name;
+                        });
+                    });
+                    $.each(names, function (i, name) {
+                        if(checkMap[name] > checkDays) {
+                            overWorkReport += name + " work for more than " + checkDays + " days.<br/>";
+                        }
+                    });
+                    if(overWorkReport !== "") {
+                        report += " Fail<br/>" + overWorkReport + "<br/>";
+                    } else {
+                        report += " Pass<br/>";
+                    }
+                    $("#checkReportModalBody").html(report);
+                    $("#checkReportModal").modal("toggle");
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert("getCheckSettings error.");
                 }
             });
-            if(overWorkReport !== "") {
-                report += " Fail<br/>" + overWorkReport + "<br/>";
-            } else {
-                report += " Pass<br/>";
-            }
-            $("#checkReport").html(report);
         });
 
         $("#logOutConfirm").click(function (event) {

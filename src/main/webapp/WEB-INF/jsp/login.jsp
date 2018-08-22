@@ -26,6 +26,16 @@
         .form-signin-heading {
             text-align: center;
         }
+        .btn-primary {
+            background-color: lightseagreen;
+            border: lightseagreen;
+        }
+        .btn-primary:hover {
+            background-color: mediumseagreen;
+        }
+        .btn-primary:visited {
+            background-color: lightseagreen;
+        }
     </style>
     <title>Log In</title>
    </head>

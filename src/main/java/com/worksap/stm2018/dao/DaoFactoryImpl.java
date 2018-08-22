@@ -11,17 +11,24 @@ public class DaoFactoryImpl implements DaoFactory {
     private final LoginDao loginDao;
     private final StaffDao staffDao;
     private final WorkHistoryDao workHistoryDao;
+    private final SettingsDao settingsDao;
 
 
     @Autowired
-    public DaoFactoryImpl(ArrangementDao arrangementDao, ApplicationDao applicationDao, HolidayDao holidayDao,
-                          LoginDao loginDao, StaffDao staffDao, WorkHistoryDao workHistoryDao) {
+    public DaoFactoryImpl(ArrangementDao arrangementDao,
+                          ApplicationDao applicationDao,
+                          HolidayDao holidayDao,
+                          LoginDao loginDao,
+                          StaffDao staffDao,
+                          WorkHistoryDao workHistoryDao,
+                          SettingsDao settingsDao) {
         this.arrangementDao = arrangementDao;
         this.applicationDao = applicationDao;
         this.holidayDao = holidayDao;
         this.loginDao = loginDao;
         this.staffDao = staffDao;
         this.workHistoryDao = workHistoryDao;
+        this.settingsDao = settingsDao;
     }
 
     @Override
@@ -52,5 +59,10 @@ public class DaoFactoryImpl implements DaoFactory {
     @Override
     public WorkHistoryDao getWorkHistoryDao() {
         return workHistoryDao;
+    }
+
+    @Override
+    public SettingsDao getSettingsDao() {
+        return settingsDao;
     }
 }

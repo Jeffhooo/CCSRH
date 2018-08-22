@@ -10,18 +10,21 @@ public class ServiceFactoryImpl implements ServiceFactory {
     private final LoginService loginService;
     private final StaffService staffService;
     private final WorkHistoryService workHistoryService;
+    private final SettingsService settingsService;
 
     @Autowired
     public ServiceFactoryImpl(ApplicationService applicationService,
                               ArrangementService arrangementService,
                               LoginService loginService,
                               StaffService staffService,
-                              WorkHistoryService workHistoryService) {
+                              WorkHistoryService workHistoryService,
+                              SettingsService settingsService) {
         this.applicationService = applicationService;
         this.arrangementService = arrangementService;
         this.loginService = loginService;
         this.staffService = staffService;
         this.workHistoryService = workHistoryService;
+        this.settingsService = settingsService;
     }
 
     @Override
@@ -47,5 +50,10 @@ public class ServiceFactoryImpl implements ServiceFactory {
     @Override
     public WorkHistoryService getWorkHistoryService() {
         return workHistoryService;
+    }
+
+    @Override
+    public SettingsService getSettingsService() {
+        return settingsService;
     }
 }

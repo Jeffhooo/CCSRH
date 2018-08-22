@@ -29,7 +29,7 @@
             text-align: center;
         }
         .navbar {
-            background-color: steelblue;
+            background-color: lightseagreen;
         }
         .navbar-brand {
             color: white;
@@ -41,14 +41,21 @@
             color: white;
             margin-left: 780px;
         }
-        button {
-            background-color: steelblue;
+        .btn-primary {
+            background-color: lightseagreen;
+            border: lightseagreen;
+        }
+        .btn-primary:hover {
+            background-color: mediumseagreen;
+        }
+        .btn-primary:visited {
+            background-color: lightseagreen;
         }
         .nav > li > a:hover {
-            background-color: lightsteelblue;
+            background-color: mediumseagreen;
         }
         .nav > li > a:visited{
-            background-color: lightsteelblue;
+            background-color: lightseagreen;
         }
         .container {
             margin-top: auto;
@@ -300,7 +307,7 @@
             $tr.css("color", "#000000");
             var contentId = $(this).attr("id");
             if(contentId !== "tableHeader") {
-                $(this).css("background-color", "steelblue");
+                $(this).css("background-color", "lightseagreen");
                 $(this).css("color", "#FFFFFF");
                 chosenContent = contentId;
                 $chosenTr = $(this);

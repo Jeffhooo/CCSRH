@@ -7,4 +7,5 @@ public interface DaoFactory {
     LoginDao getLoginDao();
     StaffDao getStaffDao();
     WorkHistoryDao getWorkHistoryDao();
+    SettingsDao getSettingsDao();
 }

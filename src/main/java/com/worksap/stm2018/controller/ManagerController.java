@@ -1,19 +1,20 @@
 package com.worksap.stm2018.controller;
 
+import com.worksap.stm2018.dto.CheckSettingsDto;
+import com.worksap.stm2018.dto.HolidayDto;
+import com.worksap.stm2018.service.*;
 import com.worksap.stm2018.util.TimeUtil;
 import com.worksap.stm2018.dto.StaffDto;
 import com.worksap.stm2018.entity.*;
-import com.worksap.stm2018.service.ApplicationService;
-import com.worksap.stm2018.service.ArrangementService;
-import com.worksap.stm2018.service.ServiceFactory;
-import com.worksap.stm2018.service.StaffService;
 import com.worksap.stm2018.vo.ApplicationVo;
+import com.worksap.stm2018.vo.HolidayVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,17 +23,24 @@ public class ManagerController {
     private ApplicationService applicationService;
     private ArrangementService arrangementService;
     private StaffService staffService;
+    private SettingsService settingsService;
 
     @Autowired
     public ManagerController(ServiceFactory serviceFactory) {
         this.applicationService = serviceFactory.getApplicationService();
         this.arrangementService = serviceFactory.getArrangementService();
         this.staffService = serviceFactory.getStaffService();
+        this.settingsService = serviceFactory.getSettingsService();
     }
 
     @RequestMapping(value = "/approveApplication")
     ModelAndView approveApplication() {
         return new ModelAndView("approve");
+    }
+
+    @RequestMapping(value = "/managerSettings")
+    ModelAndView managerSettings() {
+        return new ModelAndView("managerSettings");
     }
 
     @RequestMapping(value = "/loadApplications", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -128,5 +136,54 @@ public class ManagerController {
         return arrangementService.hasPublishArrangement(
                 TimeUtil.StringToDate(entity.getBeginTime()),
                 TimeUtil.StringToDate(entity.getEndTime()));
+    }
+
+    @RequestMapping(value = "/getCheckSettings", method = RequestMethod.GET)
+    @ResponseBody
+    CheckSettingsEntity getCheckSettings() {
+        CheckSettingsDto checkSettingsDto = settingsService.getCheckSettings();
+        return new CheckSettingsEntity(checkSettingsDto.getWorkDays(), Arrays.asList(checkSettingsDto.getServiceLanguages()));
+    }
+
+    @RequestMapping(value = "/updateCheckSettings", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    MessageEntity updateCheckSettings(@RequestBody CheckSettingsEntity entity) {
+        List<String> languagesList = entity.getLanguages();
+        String[] languagesArray = new String[languagesList.size()];
+        for(int i = 0; i < languagesList.size(); i++) {
+            languagesArray[i] = languagesList.get(i);
+        }
+        settingsService.updateCheckSettings(new CheckSettingsDto(entity.getWorkdays(), languagesArray));
+        return new MessageEntity("ok");
+    }
+
+    @RequestMapping(value = "/getHolidaysSettings", method = RequestMethod.GET)
+    @ResponseBody
+    List<HolidayEntity> getHolidaysSettings() {
+        return settingsService.getAllHolidays().stream().map(n -> new HolidayEntity(
+                n.getId(),
+                n.getName(),
+                n.getPlace(),
+                TimeUtil.timestampToString(n.getBeginTime()),
+                TimeUtil.timestampToString(n.getEndTime())))
+                .collect(Collectors.toList());
+    }
+
+    @RequestMapping(value = "/createNewHoliday", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    MessageEntity createNewHoliday(@RequestBody  HolidayEntity entity) {
+        settingsService.putNewHoliday(new HolidayVo.Builder()
+                .name(entity.getName())
+                .place(entity.getPlace())
+                .beginTime(TimeUtil.StringToTimestamp(entity.getBeginTime()))
+                .endTime(TimeUtil.StringToTimestamp(entity.getEndTime())).build());
+        return new MessageEntity("ok");
+    }
+
+    @RequestMapping(value = "/deleteHoliday", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    MessageEntity deleteHoliday(@RequestBody String holidayId) {
+        settingsService.deleteById(holidayId);
+        return new MessageEntity("ok");
     }
 }

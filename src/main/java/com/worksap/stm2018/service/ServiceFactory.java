@@ -6,4 +6,5 @@ public interface ServiceFactory {
     LoginService getLoginService();
     StaffService getStaffService();
     WorkHistoryService getWorkHistoryService();
+    SettingsService getSettingsService();
 }

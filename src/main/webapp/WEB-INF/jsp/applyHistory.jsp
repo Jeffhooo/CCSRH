@@ -28,7 +28,7 @@
             text-align: center;
         }
         .navbar {
-            background-color: steelblue;
+            background-color: lightseagreen;
         }
         .navbar-brand {
             color: white;
@@ -40,14 +40,21 @@
             color: white;
             margin-left: 570px;
         }
-        button {
-            background-color: steelblue;
+        .btn-primary {
+            background-color: lightseagreen;
+            border: lightseagreen;
+        }
+        .btn-primary:hover {
+            background-color: mediumseagreen;
+        }
+        .btn-primary:visited {
+            background-color: lightseagreen;
         }
         .nav > li > a:hover {
-            background-color: lightsteelblue;
+            background-color: mediumseagreen;
         }
         .nav > li > a:visited{
-            background-color: lightsteelblue;
+            background-color: lightseagreen;
         }
         .container {
             margin-top: auto;
