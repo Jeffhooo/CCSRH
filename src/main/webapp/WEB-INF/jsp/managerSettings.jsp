@@ -81,7 +81,7 @@
             display: inline;
         }
         #setHolidayName {
-            margin-top: 20px;
+            margin-top: 10px;
             margin-left: 33px;
         }
 
@@ -99,6 +99,10 @@
         #holidayTable td {
             text-align: center;
             height: 50px;
+        }
+        #createNewHolidayHeader {
+            font-size: 20px;
+            margin-top: 10px;
         }
     </style>
     <title>Manager Settings</title>
@@ -132,15 +136,24 @@
         <tbody>
         </tbody>
     </table>
+
     <button id="delete" type="button" class="btn btn-primary">Delete</button>
-    <div id="setHolidayName">Name:<input class="form-inline" id="holidayNameInput"></div>
+
+    <h3 id="createNewHolidayHeader">Create New Holiday:</h3>
+    <div id="setHolidayName">
+        Name:<input class="form-inline" id="holidayNameInput">
+    </div>
     <div id="setHolidayPlace">Place: <select id="holidayPlaceSelect">
         <option value="Asia/Shanghai">Asia/Shanghai</option>
         <option value="Asia/Tokyo">Asia/Tokyo</option>
         <option value="Asia/Singapore">Asia/Singapore</option>
     </select></div>
-    <div id="setHolidayBeginTime">Begin Time:<input class="form-inline" id="holidayBeginTimeInput"></div>
-    <div id="setHolidayEndTime">End Time:<input class="form-inline" id="holidayEndTimeInput"></div>
+    <div id="setHolidayBeginTime">
+        Begin Time:<input class="form-inline" id="holidayBeginTimeInput">&nbspFormat Example:2018-08-01 00:00:00
+    </div>
+    <div id="setHolidayEndTime">
+        End Time:<input class="form-inline" id="holidayEndTimeInput">&nbspFormat Example:2018-08-02 00:00:00
+    </div>
     <button id="createNewHoliday" type="button" class="btn btn-primary">Create</button>
 
     <h2 class="form-signin-heading" id="checkConfigurationHeader">Check Settings:</h2>
