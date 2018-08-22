@@ -325,7 +325,27 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
-
+<div class="modal fade" id="LogOutModal" tabindex="-1" role="dialog" aria-labelledby="LogOutModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="LogOutModalLabel">
+                    Log Out
+                </h4>
+            </div>
+            <div class="modal-body">
+                Are you sure to log out?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="logOutConfirm">Yes</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
 </body>
 <script type="text/javascript">
     $(document).ready(function () {
@@ -504,6 +524,11 @@
                     alert("deleteHoliday error.");
                 }
             });
+            event.preventDefault();
+        });
+
+        $("#logOutConfirm").click(function (event) {
+            window.location.href = "/";
             event.preventDefault();
         });
 
