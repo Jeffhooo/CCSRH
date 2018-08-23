@@ -91,7 +91,7 @@ public class ApplicationServiceImpl implements ApplicationService {
         Date beginWorkTime = TimeUtil.AddHours(beginDate, workTimeOfPlace);
         Date endWorkTime = TimeUtil.AddHours(beginWorkTime, 8);
         for(int i = 0; i < 14; i++) {
-            List<ApplicationVo> applicationVos = applicationDao.list(
+            List<ApplicationVo> applicationVos = applicationDao.listNotReject(
                     new Timestamp(beginWorkTime.getTime()),
                             new Timestamp(endWorkTime.getTime()));
             if(applicationVos.isEmpty()) {

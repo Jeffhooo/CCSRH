@@ -2,6 +2,7 @@ package com.worksap.stm2018.dao;
 
 import com.worksap.stm2018.dto.StaffDto;
 import com.worksap.stm2018.entity.StaffEntity;
+import com.worksap.stm2018.vo.StaffVo;
 
 import java.util.List;
 
@@ -29,4 +30,22 @@ public interface StaffDao {
      *
      */
     String getStaffName(String staffId);
+
+    /**
+     * Insert new staff
+     *
+     */
+    void insert(StaffDto newStaff);
+
+    /**
+     * get staffs id
+     *
+     */
+    List<String> getStaffsId();
+
+    /**
+     * delete staffs by id
+     *
+     */
+    void deleteById(String staffId);
 }

@@ -29,7 +29,7 @@ public class SettingsServiceImpl implements SettingsService{
     }
 
     @Override
-    public void deleteById(String holidayId) {
+    public void deleteHolidayById(String holidayId) {
         holidayDao.deleteById(holidayId);
     }
 

@@ -11,6 +11,9 @@
     <script src="webjars/jquery/3.3.1/jquery.min.js"></script>
     <script src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/jquery.datepick.css">
+    <script type="text/javascript" src="js/jquery.plugin.js"></script>
+    <script type="text/javascript" src="js/jquery.datepick.js"></script>
     <style>
         html{
             height:100%;
@@ -104,6 +107,9 @@
             font-size: 20px;
             margin-top: 10px;
         }
+        #bottomSpace {
+            height: 100px;
+        }
     </style>
     <title>Manager Settings</title>
 </head>
@@ -149,10 +155,10 @@
         <option value="Asia/Singapore">Asia/Singapore</option>
     </select></div>
     <div id="setHolidayBeginTime">
-        Begin Time:<input class="form-inline" id="holidayBeginTimeInput">&nbspFormat Example:2018-08-01 00:00:00
+        Begin Time:<input class="form-inline" id="holidayBeginTimeInput">
     </div>
     <div id="setHolidayEndTime">
-        End Time:<input class="form-inline" id="holidayEndTimeInput">&nbspFormat Example:2018-08-02 00:00:00
+        End Time:<input class="form-inline" id="holidayEndTimeInput">
     </div>
     <button id="createNewHoliday" type="button" class="btn btn-primary">Create</button>
 
@@ -173,6 +179,7 @@
     <button id="apply" type="button" class="btn btn-primary" data-toggle="modal" data-target="#applyCheckSettingsModal">Apply</button>
     <button id="back" type="button" class="btn btn-primary" onclick="history.go(-1);">Back</button>
 
+    <div id="bottomSpace"></div>
     <footer class="copyright">
         &copy; 2018 Works Applications Co., Ltd. All Right Reserved<br>
     </footer>
@@ -325,6 +332,70 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
+
+<div class="modal fade" id="emptyHolidayNameModal" tabindex="-1" role="dialog" aria-labelledby="emptyHolidayNameModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="emptyHolidayNameModalLabel">
+                    Delete Holiday
+                </h4>
+            </div>
+            <div class="modal-body">
+                Holiday name is empty.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<div class="modal fade" id="emptyHolidayBeginTimeModal" tabindex="-1" role="dialog" aria-labelledby="emptyHolidayBeginTimeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="emptyHolidayBeginTimeModalLabel">
+                    The
+                </h4>
+            </div>
+            <div class="modal-body">
+                Holiday begin time is empty.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<div class="modal fade" id="emptyHolidayEndTimeModal" tabindex="-1" role="dialog" aria-labelledby="emptyHolidayEndTimeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="emptyHolidayEndTimeModalLabel">
+                    Delete Holiday
+                </h4>
+            </div>
+            <div class="modal-body">
+                Holiday end time is empty.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
 <div class="modal fade" id="LogOutModal" tabindex="-1" role="dialog" aria-labelledby="LogOutModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -402,16 +473,16 @@
             var nameInput = $("#holidayNameInput").val();
             var placeInput = $("#holidayPlaceSelect").val();
             var canCreate = true;
-            if(!timeFormatReg.test(beginTimeInput)) {
-                alert(" BeginTime is not regular.")
-                canCreate = false;
-            }
-            if(!timeFormatReg.test(endTimeInput)) {
-                alert("EndTime is not regular.")
-                canCreate = false;
-            }
             if(nameInput == "") {
-                alert("Holiday name is empty.")
+                $("#emptyHolidayNameModal").modal("toggle");
+                canCreate = false;
+            }
+            if(beginTimeInput == "") {
+                $("#emptyHolidayBeginTimeModal").modal("toggle");
+                canCreate = false;
+            }
+            if(endTimeInput == "") {
+                $("#emptyHolidayEndTimeModal").modal("toggle");
                 canCreate = false;
             }
             if(canCreate) {
@@ -419,7 +490,7 @@
                     "<br/> Place: " + placeInput +
                     "<br/> Begin Time: " + beginTimeInput +
                     "<br/> End Time: " + endTimeInput +
-                    "<br/> Are you sure to create is holiday?";
+                    "<br/> Are you sure to create this holiday?";
                 $("#createNewHolidayModalBody").html(dialogBody);
                 $("#createNewHolidayModal").modal("toggle");
             }
@@ -531,6 +602,9 @@
             window.location.href = "/";
             event.preventDefault();
         });
+
+        $("#holidayBeginTimeInput").datepick({dateFormat: 'yyyy-mm-dd'});
+        $("#holidayEndTimeInput").datepick({dateFormat: 'yyyy-mm-dd'});
 
         loadCheckSettings();
         loadHolidaysSettings();

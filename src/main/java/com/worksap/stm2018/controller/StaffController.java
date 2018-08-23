@@ -69,11 +69,17 @@ public class StaffController {
     @RequestMapping(value = "/loadNextWeekArrangement", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     TimetableEntity loadNextWeekArrangement(@RequestBody RequestTimetableEntity entity) {
-        return arrangementService.getStaffArrangement(
-                entity.getStaffId(),
-                TimeUtil.StringToDate(entity.getBeginTime()),
-                TimeUtil.StringToDate(entity.getEndTime())
-        );
+        if(entity.getTitle().equals("Manager")) {
+            return arrangementService.getStaffArrangementForManager(
+                    entity.getStaffId(),
+                    TimeUtil.StringToDate(entity.getBeginTime()),
+                    TimeUtil.StringToDate(entity.getEndTime()));
+        } else {
+            return arrangementService.getStaffArrangement(
+                    entity.getStaffId(),
+                    TimeUtil.StringToDate(entity.getBeginTime()),
+                    TimeUtil.StringToDate(entity.getEndTime()));
+        }
     }
 
     @RequestMapping(value = "/loadStaffApplications", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)

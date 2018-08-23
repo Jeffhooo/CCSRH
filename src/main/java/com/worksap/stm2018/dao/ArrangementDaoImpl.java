@@ -20,7 +20,9 @@ public class ArrangementDaoImpl implements ArrangementDao {
     }
 
     private static final String LIST_SQL = "select * from arrangement where begin_time >= ? and end_time <= ?";
-    private static final String FIND_SQL = "select * from arrangement where status = 'published' and " +
+    private static final String FIND_STAFF_PUBLISHED_SQL = "select * from arrangement where status = 'published' and " +
+            "staff_id = ? and begin_time >= ? and end_time <= ?";
+    private static final String FIND_STAFF_ALL_SQL = "select * from arrangement where " +
             "staff_id = ? and begin_time >= ? and end_time <= ?";
     private static final String DELETE_SQL = "delete from arrangement where begin_time >= ? and end_time <= ?";
     private static final String DELETE_OF_STAFF_SQL = "delete from arrangement where staff_id = ? and begin_time >= ? and end_time <= ?";
@@ -52,7 +54,7 @@ public class ArrangementDaoImpl implements ArrangementDao {
 
     @Override
     public List<ArrangementVo> findStaffPublish(String staffId, Timestamp beginTime, Timestamp endTime) {
-        return template.query(FIND_SQL,
+        return template.query(FIND_STAFF_PUBLISHED_SQL,
                 ps -> { ps.setString(1, staffId);
                         ps.setTimestamp(2, beginTime);
                         ps.setTimestamp(3, endTime);},
@@ -63,6 +65,21 @@ public class ArrangementDaoImpl implements ArrangementDao {
                                                            .endTime(rs.getTimestamp(5))
                                                            .status(rs.getString(6))
                                                            .build());
+    }
+
+    @Override
+    public List<ArrangementVo> findStaffAll(String staffId, Timestamp beginTime, Timestamp endTime) {
+        return template.query(FIND_STAFF_ALL_SQL,
+                ps -> { ps.setString(1, staffId);
+                    ps.setTimestamp(2, beginTime);
+                    ps.setTimestamp(3, endTime);},
+                (rs, rowNum) -> new ArrangementVo.Builder().arrangementId(rs.getString(1))
+                        .staffId(rs.getString(2))
+                        .staffName(rs.getString(3))
+                        .beginTime(rs.getTimestamp(4))
+                        .endTime(rs.getTimestamp(5))
+                        .status(rs.getString(6))
+                        .build());
     }
 
     @Override

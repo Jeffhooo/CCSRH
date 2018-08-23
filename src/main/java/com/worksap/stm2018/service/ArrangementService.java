@@ -41,6 +41,12 @@ public interface ArrangementService {
     TimetableEntity getStaffArrangement(String staffId, Date beginTime, Date endTime);
 
     /**
+     * get staff arrangement for manager
+     *
+     */
+    TimetableEntity getStaffArrangementForManager(String staffId, Date beginTime, Date endTime);
+
+    /**
      * check whether the arrangement of week is publish
      *
      */

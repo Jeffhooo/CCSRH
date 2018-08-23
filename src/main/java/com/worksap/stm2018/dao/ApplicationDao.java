@@ -13,6 +13,12 @@ public interface ApplicationDao {
     List<ApplicationVo> list(Timestamp beginTime, Timestamp endTime);
 
     /**
+     * List the applications of a time period
+     *
+     */
+    List<ApplicationVo> listNotReject(Timestamp beginTime, Timestamp endTime);
+
+    /**
      * find the applications of a staff
      *
      */

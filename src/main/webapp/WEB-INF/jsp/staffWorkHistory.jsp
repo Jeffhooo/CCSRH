@@ -71,6 +71,9 @@
         #buttons {
             margin-top: 10%;
         }
+        #bottomSpace {
+            height: 100px;
+        }
     </style>
     <title>Work History</title>
 </head>
@@ -134,11 +137,12 @@
             </tr>
             </tbody>
         </table>
+        <div id="userId" hidden>${userId}</div>
+        <div id="bottomSpace"></div>
+        <footer class="copyright">
+            &copy; 2018 Works Applications Co., Ltd. All Right Reserved<br>
+        </footer>
     </div>
-    <div id="userId" hidden>${userId}</div>
-    <footer class="copyright">
-        &copy; 2018 Works Applications Co., Ltd. All Right Reserved<br>
-    </footer>
     <div class="modal fade" id="LogOutModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -160,6 +164,48 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal -->
     </div>
+
+    <div class="modal fade" id="noHistoryModal" tabindex="-1" role="dialog" aria-labelledby="noHistoryModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="noHistoryModalLabel">
+                        Timetable
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    No more history.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+
+    <div class="modal fade" id="noArrangementModal" tabindex="-1" role="dialog" aria-labelledby="noArrangementModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="noArrangementModalLabel">
+                        Timetable
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    No new arrangement.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
 </body>
 <script type="text/javascript">
     $(document).ready(function () {
@@ -167,11 +213,13 @@
         var loadBeginDate = [];
         loadBeginDate[0] = "2018-8-13";
         loadBeginDate[1] = "2018-8-20";
+        loadBeginDate[2] = "2018-8-27";
         var loadEndDate = [];
         loadEndDate[0] = "2018-8-20";
         loadEndDate[1] = "2018-8-27";
+        loadEndDate[2] = "2018-9-3";
         var curIndex = 1;
-        var maxIndex = 1;
+        var maxIndex = 2;
         var minIndex = 0;
 
         var $days = [];
@@ -210,16 +258,20 @@
                 curIndex--;
                 loadStaffTimetable(userId, loadBeginDate[curIndex], loadEndDate[curIndex]);
             } else {
-                alert("No more history.");
+                $("#noHistoryModal").modal("toggle");
             }
         });
 
         $("#nextWeek").click(function () {
             if(curIndex < maxIndex) {
                 curIndex++;
-                loadStaffTimetable(userId, loadBeginDate[curIndex], loadEndDate[curIndex]);
+                if(curIndex == maxIndex) {
+                    loadNextWeekArrangement();
+                } else {
+                    loadStaffTimetable(userId, loadBeginDate[curIndex], loadEndDate[curIndex]);
+                }
             } else {
-                alert("No more history.");
+                $("#noArrangementModal").modal("toggle");
             }
         });
 
@@ -252,6 +304,39 @@
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
                     alert("load staff timetable error.");
+                }
+            });
+        }
+
+        function loadNextWeekArrangement() {
+            var loadArrangement = {
+                title:"Manager",
+                staffId:userId,
+                beginTime:loadBeginDate[curIndex],
+                endTime:loadEndDate[curIndex]
+            };
+            $.ajax({
+                url: "loadNextWeekArrangement",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(loadArrangement),
+                dataType: "json",
+                success: function(timetable) {
+                    var days = timetable.days;
+                    $.each(days, function (i, day) {
+                        $days[i].text(day);
+                    });
+                    var times = timetable.times;
+                    $.each(times, function (i, time) {
+                        $times[i].text(time);
+                    });
+                    var contents = timetable.content;
+                    $.each(contents, function (i, content) {
+                        $contents[i].text(content);
+                    });
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    alert("load next week arrangement error.");
                 }
             });
         }

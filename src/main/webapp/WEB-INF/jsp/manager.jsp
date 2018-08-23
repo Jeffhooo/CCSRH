@@ -86,13 +86,8 @@
         #buttons {
             margin-top: 10%;
         }
-        #workdays {
-            margin-top: 10px;
-            font-size: 20px;
-        }
-        #languageConfig, #English, #Chinese, #Japanese {
-            font-size: 20px;
-            display: inline;
+        #bottomSpace {
+            height: 100px;
         }
     </style>
     <title>Manager</title>
@@ -172,12 +167,14 @@
         </div>
     </div>
     <div id="userId" hidden>${userId}</div>
+    <div id="bottomSpace"></div>
     <footer class="copyright" id="footer">
         &copy; 2018 Works Applications Co., Ltd. All Right Reserved
     </footer>
-    <div class="modal-dialog">
 </div>
+
 <div class="modal fade" id="LogOutModal" tabindex="-1" role="dialog" aria-labelledby="LogOutModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
@@ -400,6 +397,11 @@
 
         $("#settings").click(function (event) {
             window.location.href = "managerSettings";
+            event.preventDefault();
+        });
+
+        $("#staffManagement").click(function (event) {
+            window.location.href = "staffManagement";
             event.preventDefault();
         });
 
@@ -710,17 +712,17 @@
             event.preventDefault();
         });
 
-        var $choosenStaffTd;
+        var $chosenStaffTd;
         $("#staffTable").on("click", "td", function () {
-            $choosenStaffTd = $(this);
+            $chosenStaffTd = $(this);
             if($(this).is($(this).parent("tr").children().eq(1))) {
-                $("#viewHistoryModalBody").text("Do you want to view " + $(this).next("td").attr("id") + "\"s work history?");
+                $("#viewHistoryModalBody").text("Do you want to view " + $(this).next("td").attr("id") + "\"s timetable?");
                 $("#viewHistoryModal").modal("toggle");
             }
         });
 
         $("#viewHistoryConfirm").click(function (event) {
-            window.location.href = "staffWorkHistory" + $choosenStaffTd.parent().attr("id");;
+            window.location.href = "staffWorkHistory" + $chosenStaffTd.parent().attr("id");;
             event.preventDefault();
         });
 

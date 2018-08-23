@@ -35,5 +35,5 @@ public interface SettingsService {
      * delete holiday by id
      *
      */
-    void deleteById(String holidayId);
+    void deleteHolidayById(String holidayId);
 }

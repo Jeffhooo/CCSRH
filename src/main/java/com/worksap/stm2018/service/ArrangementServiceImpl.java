@@ -124,6 +124,44 @@ public class ArrangementServiceImpl implements ArrangementService {
     }
 
     @Override
+    public TimetableEntity getStaffArrangementForManager(String staffId, Date beginDate, Date endDate) {
+        List<String> days = new ArrayList<>();
+        TimeUtil.tableDays(days, beginDate);
+
+        List<String> times = new ArrayList<>();
+        String staffPlace = staffDao.getStaffPlace(staffId);
+        TimeUtil.tableTimes("Staff", staffPlace, times);
+
+        TimetableEntity timetable = new TimetableEntity();
+        timetable.setDays(days);
+        timetable.setTimes(times);
+
+        String staffName = staffDao.getStaffName(staffId);
+        List<String> content = new ArrayList<>();
+        int workTimeOfPlace = TimeUtil.getWorkTime(staffPlace);
+
+        Date beginWorkTime = TimeUtil.AddHours(beginDate, workTimeOfPlace);
+        Date endWorkTime = TimeUtil.AddHours(beginWorkTime, 8);
+        for(int i = 0; i < 14; i++) {
+            List<ArrangementVo> arrangementVos = arrangementDao.findStaffAll(
+                    staffId,
+                    new Timestamp(beginWorkTime.getTime()),
+                    new Timestamp(endWorkTime.getTime()));
+            if(!arrangementVos.isEmpty()) {
+                content.add(staffName);
+            } else {
+                content.add("");
+            }
+            beginWorkTime = (i%2 == 0)? TimeUtil.AddHours(beginWorkTime, 8) :
+                    TimeUtil.AddHours(beginWorkTime, 16);
+            endWorkTime = (i%2 == 0)? TimeUtil.AddHours(endWorkTime, 8) :
+                    TimeUtil.AddHours(endWorkTime, 16);
+        }
+        timetable.setContent(content);
+        return timetable;
+    }
+
+    @Override
     public String checkPublish(String week) {
         return arrangementDao.checkPublish(week);
     }

@@ -17,4 +17,6 @@ public class StaffEntity {
         this.language1 = language1;
         this.language2 = language2;
     }
+
+    public StaffEntity(){}
 }

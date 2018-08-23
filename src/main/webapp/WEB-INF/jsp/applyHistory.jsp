@@ -82,6 +82,9 @@
             text-align: center;
             height: 50px;
         }
+        #bottomSpace {
+            height: 100px;
+        }
     </style>
     <title>Apply History</title>
 </head>
@@ -118,6 +121,7 @@
         <button class="btn btn-primary" id="back" type="button" onclick="history.go(-1);">Back</button>
     </div>
     <div id="userId" hidden>${userId}</div>
+    <div id="bottomSpace"></div>
     <footer class="copyright">
         &copy; 2018 Works Applications Co., Ltd. All Right Reserved<br>
     </footer>

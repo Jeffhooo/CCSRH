@@ -36,23 +36,35 @@
         .btn-primary:visited {
             background-color: lightseagreen;
         }
+        #bottomSpace {
+            height: 100px;
+        }
+        footer{
+            position:absolute;
+            bottom:0;
+            margin-bottom: 5px;
+            text-align: center;
+        }
     </style>
     <title>Log In</title>
    </head>
    <body>
-            <div class="container">
-                    <c:if test="${!empty error}">
-                        <font color="red"><c:out value="${error}" /></font>
-                    </c:if>
-                    <form class="form-signin" action="<c:url value="check"/>" method="post">
-                        <h2 class="form-signin-heading">Staff Rostering Helper</h2>
-                        <label for="inputUsername" class="sr-only">User Name</label>
-                        <input type="username" id="inputUsername" class="form-control" name = "userName" placeholder="User Name" required autofocus>
-                        <label for="inputPassword" class="sr-only">Password</label>
-                        <input type="password" id="inputPassword" class="form-control" name = "password" placeholder="Password" required>
-                        <button class="btn btn-lg btn-primary btn-block" id="signIn" type="submit">Log In</button>
-                    </form>
-            </div>
-
+   <div class="container">
+       <c:if test="${!empty error}">
+           <font color="red"><c:out value="${error}" /></font>
+       </c:if>
+       <form class="form-signin" action="<c:url value="check"/>" method="post">
+           <h2 class="form-signin-heading">Staff Rostering Helper</h2>
+           <label for="inputUsername" class="sr-only">User Name</label>
+           <input type="username" id="inputUsername" class="form-control" name = "userName" placeholder="User Name" required autofocus>
+           <label for="inputPassword" class="sr-only">Password</label>
+           <input type="password" id="inputPassword" class="form-control" name = "password" placeholder="Password" required>
+           <button class="btn btn-lg btn-primary btn-block" id="signIn" type="submit">Log In</button>
+       </form>
+       <div id="bottomSpace"></div>
+       <footer class="copyright">
+           &copy; 2018 Works Applications Co., Ltd. All Right Reserved<br>
+       </footer>
+   </div>
    </body>
 </html>

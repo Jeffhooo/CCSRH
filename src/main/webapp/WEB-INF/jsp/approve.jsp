@@ -87,6 +87,9 @@
         #buttons {
             margin-top: 10px;
         }
+        #bottomSpace {
+            height: 100px;
+        }
     </style>
 
     <title>Approve</title>
@@ -132,6 +135,7 @@
             <button class="btn btn-primary" id="back" type="button" onclick="history.go(-1);">Back</button>
         </p>
 
+    <div id="bottomSpace"></div>
     <footer class="copyright">
         &copy; 2018 Works Applications Co., Ltd. All Right Reserved<br>
     </footer>

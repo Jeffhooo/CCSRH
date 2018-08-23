@@ -20,11 +20,12 @@ public class ApplicationDaoImpl implements ApplicationDao {
     }
 
     private static final String LIST_SQL = "select * from applications where begin_time >= ? and end_time <= ? order by begin_time";
+    private static final String LIST_NOT_REJECT_SQL = "select * from applications where begin_time >= ? and end_time <= ? and result != 'reject' order by begin_time";
     private static final String FIND_SQL = "select * from applications where applicant_id = ? and begin_time >= ? and end_time <= ? order by begin_time";
     private static final String FIND_BY_ID_SQL = "select * from applications where application_id = ?";
     private static final String SELECT_ID_SQL = "select application_id from applications";
     private static final String INSERT_SQL = "insert into applications(application_id, applicant_id, applicant_name, " +
-            "apply_reason, begin_time, end_time) values(?, ?, ?, ?, ?, ?)";
+            "apply_reason, begin_time, end_time, result) values(?, ?, ?, ?, ?, ?, '')";
     private static final String ADD_RESULT_SQL = "update applications set result = ?, comment = ? where application_id = ?";
     private static final String SELECT_ACCEPT_SQL = "select * from applications where result = 'accept' " +
             "and begin_time <= ? and end_time >= ? order by begin_time";
@@ -35,6 +36,22 @@ public class ApplicationDaoImpl implements ApplicationDao {
         return template.query(LIST_SQL,
                 ps -> {ps.setTimestamp(1, beginTime);
                        ps.setTimestamp(2, endTime);},
+                (rs, rowNum) -> new ApplicationVo.Builder()
+                        .applicationId(rs.getString(1))
+                        .applicantId(rs.getString(2))
+                        .applicantName(rs.getString(3))
+                        .applyReason(rs.getString(4))
+                        .beginTime(rs.getTimestamp(5))
+                        .endTime(rs.getTimestamp(6))
+                        .result(rs.getString(7))
+                        .comment(rs.getString(8)).build());
+    }
+
+    @Override
+    public List<ApplicationVo> listNotReject(Timestamp beginTime, Timestamp endTime) {
+        return template.query(LIST_NOT_REJECT_SQL,
+                ps -> {ps.setTimestamp(1, beginTime);
+                    ps.setTimestamp(2, endTime);},
                 (rs, rowNum) -> new ApplicationVo.Builder()
                         .applicationId(rs.getString(1))
                         .applicantId(rs.getString(2))

@@ -1,19 +1,20 @@
 package com.worksap.stm2018.controller;
 
 import com.worksap.stm2018.dto.CheckSettingsDto;
-import com.worksap.stm2018.dto.HolidayDto;
 import com.worksap.stm2018.service.*;
 import com.worksap.stm2018.util.TimeUtil;
 import com.worksap.stm2018.dto.StaffDto;
 import com.worksap.stm2018.entity.*;
 import com.worksap.stm2018.vo.ApplicationVo;
 import com.worksap.stm2018.vo.HolidayVo;
+import com.worksap.stm2018.vo.StaffVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -41,6 +42,11 @@ public class ManagerController {
     @RequestMapping(value = "/managerSettings")
     ModelAndView managerSettings() {
         return new ModelAndView("managerSettings");
+    }
+
+    @RequestMapping(value = "/staffManagement")
+    ModelAndView staffManagement() {
+        return new ModelAndView("staffManagement");
     }
 
     @RequestMapping(value = "/loadApplications", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -172,18 +178,60 @@ public class ManagerController {
     @RequestMapping(value = "/createNewHoliday", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     MessageEntity createNewHoliday(@RequestBody  HolidayEntity entity) {
+        int timeOffset = 0;
+        String place = entity.getPlace();
+        if(place.equals("Asia/Tokyo")) {
+            timeOffset = -1;
+        }
         settingsService.putNewHoliday(new HolidayVo.Builder()
                 .name(entity.getName())
                 .place(entity.getPlace())
-                .beginTime(TimeUtil.StringToTimestamp(entity.getBeginTime()))
-                .endTime(TimeUtil.StringToTimestamp(entity.getEndTime())).build());
+                .beginTime(new Timestamp(
+                        TimeUtil.AddHours(
+                                TimeUtil.StringToDate(entity.getEndTime()), timeOffset).getTime()))
+                .endTime(new Timestamp(
+                        TimeUtil.AddHours(
+                                TimeUtil.StringToDate(entity.getEndTime()), timeOffset+24).getTime()))
+                .build());
         return new MessageEntity("ok");
     }
 
     @RequestMapping(value = "/deleteHoliday", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     MessageEntity deleteHoliday(@RequestBody String holidayId) {
-        settingsService.deleteById(holidayId);
+        settingsService.deleteHolidayById(holidayId);
+        return new MessageEntity("ok");
+    }
+
+    @RequestMapping(value = "/deleteStaff", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    MessageEntity deleteStaff(@RequestBody String staffId) {
+        staffService.deleteById(staffId);
+        return new MessageEntity("ok");
+    }
+
+    @RequestMapping(value = "/getStaffs", method = RequestMethod.GET)
+    @ResponseBody
+    List<StaffEntity> getStaffs() {
+        List<StaffEntity> staffEntities = staffService.getAllStaffs().stream().map(n -> new StaffEntity(
+                n.getId(),
+                n.getName(),
+                n.getPlace(),
+                n.getLanguage1(),
+                n.getLanguage2()
+        )).collect(Collectors.toList());
+        return staffEntities;
+    }
+
+    @RequestMapping(value = "/createNewStaff", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    MessageEntity createNewStaff(@RequestBody StaffEntity entity) {
+        staffService.put(new StaffVo.Builder()
+                .name(entity.getName())
+                .place(entity.getPlace())
+                .language1(entity.getLanguage1())
+                .language2(entity.getLanguage2())
+                .build());
         return new MessageEntity("ok");
     }
 }

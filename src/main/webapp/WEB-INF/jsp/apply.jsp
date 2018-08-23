@@ -95,6 +95,9 @@
         #applicationForm {
             margin-top: 10%;
         }
+        #bottomSpace {
+            height: 100px;
+        }
     </style>
     <title>Apply</title>
 </head>
@@ -163,6 +166,7 @@
         </p>
     </form>
     <div id="userId" hidden>${userId}</div>
+    <div id="bottomSpace"></div>
     <footer class="copyright">
         &copy; 2018 Works Applications Co., Ltd. All Right Reserved<br>
     </footer>

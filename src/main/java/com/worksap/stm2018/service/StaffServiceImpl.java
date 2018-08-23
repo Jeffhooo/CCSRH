@@ -1,11 +1,13 @@
 package com.worksap.stm2018.service;
 
+import com.worksap.stm2018.util.NewIdUtil;
 import com.worksap.stm2018.util.TimeUtil;
 import com.worksap.stm2018.dao.*;
 import com.worksap.stm2018.dto.HolidayDto;
 import com.worksap.stm2018.dto.StaffDto;
 import com.worksap.stm2018.vo.ApplicationVo;
 import com.worksap.stm2018.vo.ArrangementVo;
+import com.worksap.stm2018.vo.StaffVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -74,5 +76,27 @@ public class StaffServiceImpl implements StaffService {
             staffs.remove(staff);
         }
         return staffs;
+    }
+
+    @Override
+    public List<StaffDto> getAllStaffs() {
+        return staffDao.list();
+    }
+
+    @Override
+    public void put(StaffVo newStaff) {
+        String newId = NewIdUtil.generateNewId(staffDao.getStaffsId());
+        staffDao.insert(new StaffDto(
+                newId,
+                newStaff.getName(),
+                newStaff.getPlace(),
+                newStaff.getLanguage1(),
+                newStaff.getLanguage2()
+        ));
+    }
+
+    @Override
+    public void deleteById(String staffId) {
+        staffDao.deleteById(staffId);
     }
 }

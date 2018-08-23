@@ -13,10 +13,16 @@ public interface ArrangementDao {
     List<ArrangementVo> list(Timestamp beginTime, Timestamp endTime);
 
     /**
-     * find the list of arrangement of a staff for a time period
+     * find the list of published arrangement of a staff for a time period
      *
      */
     List<ArrangementVo> findStaffPublish(String staffId, Timestamp beginTime, Timestamp endTime);
+
+    /**
+     * find the list of all arrangement of a staff for a time period
+     *
+     */
+    List<ArrangementVo> findStaffAll(String staffId, Timestamp beginTime, Timestamp endTime);
 
     /**
      * delete arrangement of a time period
