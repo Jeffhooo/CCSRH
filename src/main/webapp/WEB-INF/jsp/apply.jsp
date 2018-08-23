@@ -23,6 +23,7 @@
             position:relative;
         }
         footer{
+            margin-left: 250px;
             position:absolute;
             bottom:0;
             margin-bottom: 5px;
@@ -42,6 +43,7 @@
             margin-left: 570px;
         }
         .btn-primary {
+            margin-top: 5px;
             background-color: lightseagreen;
             border: lightseagreen;
         }
@@ -92,11 +94,28 @@
             height: 20px;
             font-size: 20px
         }
-        #applicationForm {
+        #applicationTable {
             margin-top: 10%;
         }
         #bottomSpace {
             height: 100px;
+        }
+        #resultHeader{
+            text-align: center;
+            width: 100px;
+            height: 50px;
+        }
+        #beginTimeHeader, #endTimeHeader, #applyReasonTableHeader, #commentTableHeader {
+            text-align: center;
+            width: 195px;
+            height: 50px;
+        }
+        #applicationTable td {
+            text-align: center;
+            height: 50px;
+        }
+        #applicationForm {
+            margin-top: 20px;
         }
     </style>
     <title>Apply</title>
@@ -117,7 +136,24 @@
         </div>
     </nav>
 
+    <table class="table-bordered" id="applicationTable">
+        <thead>
+        <tr id="tableHeader">
+            <th id="beginTimeHeader">Begin Time</th>
+            <th id="endTimeHeader">End Time</th>
+            <th id="applyReasonTableHeader">Apply Reason</th>
+            <th id="resultHeader">Result</th>
+            <th id="commentTableHeader">Comment</th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <button class="btn btn-primary" id="openCreate" type="button">New</button>
+    <button class="btn btn-primary" id="back" type="button" onclick="history.go(-1);">Back</button>
+
     <form class="form-signin" id="applicationForm">
+        <h3 id="createNewHolidayHeader">Create New Application:</h3>
         <table class="table-bordered" id="timetable">
             <thead>
             <tr>
@@ -162,9 +198,9 @@
         <textarea type="text" id="applyReason" class="form-control" name = "applyReason" placeholder="Apply Reason"></textarea>
         <p id="buttons">
             <button class="btn btn-primary" id="submit" type="submit">Submit</button>
-            <button class="btn btn-primary" id="back" type="button" onclick="history.go(-1);">Back</button>
         </p>
     </form>
+
     <div id="userId" hidden>${userId}</div>
     <div id="bottomSpace"></div>
     <footer class="copyright">
@@ -255,14 +291,53 @@
 </body>
 <script type="text/javascript">
     $(document).ready(function () {
+        var now = new Date(); //current date
+        var nowDayOfWeek = now.getDay(); //the day number of this week
+        var nowDay = now.getDate(); //current day
+        var nowMonth = now.getMonth(); //current month
+        var nowYear = now.getYear(); //current year
+        nowYear += (nowYear < 2000) ? 1900 : 0; //
+
+        //format date：yyyy-MM-dd
+        function formatDate(date) {
+            var myyear = date.getFullYear();
+            var mymonth = date.getMonth()+1;
+            var myweekday = date.getDate();
+
+            if(mymonth < 10){
+                mymonth = "0" + mymonth;
+            }
+            if(myweekday < 10){
+                myweekday = "0" + myweekday;
+            }
+            return (myyear+"-"+mymonth + "-" + myweekday);
+        }
+
+        //get begin date of this week
+        function getWeekBeginDate() {
+            var weekBeginDate = new Date(nowYear, nowMonth, nowDay - nowDayOfWeek + 1);
+            return formatDate(weekBeginDate);
+        }
+
+        //get end date of this week
+        function getWeekEndDate() {
+            var weekEndDate = new Date(nowYear, nowMonth, nowDay - nowDayOfWeek + 8);
+            return formatDate(weekEndDate);
+        }
+
+        function getOffsetBeginDate(dayOffset) {
+            var date = new Date(nowYear, nowMonth, nowDay - nowDayOfWeek + dayOffset + 1);
+            return formatDate(date);
+        }
+
+        function getOffsetEndDate(dayOffset) {
+            var date = new Date(nowYear, nowMonth, nowDay - nowDayOfWeek + dayOffset + 8);
+            return formatDate(date);
+        }
+
         var userId = $("#userId").text();
-        var loadBeginDate = new Array();
-        loadBeginDate[0] = "2018-8-27"
-        var loadEndDate = new Array();
-        loadEndDate[0] = "2018-9-3"
-        var curIndex = 0;
-        var maxIndex = 0;
-        var minIndex = 0;
+        var loadBeginDate = getOffsetBeginDate(7);
+        var loadEndDate = getOffsetEndDate(7)
         var applyBeginTimeMap = {};
         var applyEndTimeMap = {};
         var workTime = new Array();
@@ -299,7 +374,7 @@
         $contents[12] = $("#content13");
         $contents[13] = $("#content14");
 
-        loadApplicationTimetable(userId, loadBeginDate[curIndex], loadEndDate[curIndex]);
+        loadApplicationTimetable(userId, loadBeginDate, loadEndDate);
 
         function loadApplicationTimetable(userId, beginTime, endTime) {
             var loadPage = {
@@ -371,6 +446,35 @@
             });
         }
 
+        function loadApplicationList(userId, beginTime, endTime) {
+            var requestInfo = {
+                staffId: userId,
+                beginTime: beginTime,
+                endTime: endTime
+            };
+            $.ajax({
+                url: "loadStaffApplications",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(requestInfo),
+                dataType: "json",
+                success: function(applications) {
+                    $.each(applications, function (index, application) {
+                        var tr = "<tr id=\"" + application.applicationId + "\">" +
+                            "<td>" + application.beginTime + "</td>" +
+                            "<td>" + application.endTime + "</td>" +
+                            "<td>" + application.applyReason + "</td>" +
+                            "<td>" + ((application.result == null)? "" : application.result) + "</td>" +
+                            "<td>" + ((application.comment == null)? "" : application.comment) + "</td></tr>";
+                        $("#applicationTable").append(tr);
+                    });
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert("loadApplications error.");
+                }
+            });
+        }
+
         $("td").click(function () {
             $("td").css("background-color", "#FFFFFF");
             $("td").css("color", "#000000");
@@ -395,15 +499,17 @@
                 success: function (Message) {
                     $("#isSubmittedModal").modal("toggle");
                     $("#SubmitModal").modal("hide");
-                    loadApplicationTimetable(userId, loadBeginDate[curIndex], loadEndDate[curIndex]);
+                    loadApplicationTimetable(userId, loadBeginDate, loadEndDate);
                     $("#applyReason").val("");
+                    $("#applicationTable tbody").empty();
+                    loadApplicationList(userId, loadBeginDate, loadEndDate);
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
                     alert("Submit application error.");
                 }
             });
             event.preventDefault();
-        })
+        });
 
         $("#submit").click(function (event) {
             if(chooseContent == null) {
@@ -424,6 +530,14 @@
             window.location.href = "/";
             event.preventDefault();
         });
+
+        $("#openCreate").click(function (event) {
+            $("#applicationForm").show();
+            event.preventDefault();
+        });
+
+        loadApplicationList(userId, loadBeginDate, loadEndDate);
+        $("#applicationForm").hide();
     });
 </script>
 </html>

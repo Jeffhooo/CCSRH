@@ -22,6 +22,7 @@
             position:relative;
         }
         footer{
+            margin-left: 250px;
             position:absolute;
             bottom:0;
             margin-bottom: 5px;
@@ -82,7 +83,7 @@
         #setStaffName, #setPlace, #setLanguage1, #setLanguage2 {
             margin-top: 10px;
         }
-        #create, #back {
+        #create {
             margin-top: 10px;
             display: inline;
         }
@@ -92,6 +93,9 @@
         }
         #bottomSpace {
             height: 100px;
+        }
+        #delete, #openCreate, #back {
+            display: inline;
         }
     </style>
     <title>Staff Management</title>
@@ -127,36 +131,39 @@
         </tbody>
     </table>
 
+    <button id="openCreate" type="button" class="btn btn-primary">New</button>
     <button id="delete" type="button" class="btn btn-primary">Delete</button>
-
-    <h3 id="createNewStaffHeader">Create New Staff:</h3>
-    <div id="setStaffName">
-        Name:<input class="form-inline" id="staffNameInput">
-    </div>
-    <div id="setPlace">Place:
-        <select id="placeSelect">
-            <option value="Asia/Shanghai">Asia/Shanghai</option>
-            <option value="Asia/Tokyo">Asia/Tokyo</option>
-            <option value="Asia/Singapore">Asia/Singapore</option>
-        </select>
-    </div>
-    <div id="setLanguage1">First Language:
-        <select id="language1Select">
-            <option value="Chinese">Chinese</option>
-            <option value="English">English</option>
-            <option value="Japanese">Japanese</option>
-        </select>
-    </div>
-    <div id="setLanguage2">Second Language:
-        <select id="language2Select">
-            <option value="Chinese">Chinese</option>
-            <option value="English">English</option>
-            <option value="Japanese">Japanese</option>
-        </select>
-    </div>
-
-    <button id="create" type="button" class="btn btn-primary">Create</button>
     <button id="back" type="button" class="btn btn-primary" onclick="history.go(-1);">Back</button>
+
+    <div id="createNewStaffForm">
+        <h3 id="createNewStaffHeader">Create New Staff:</h3>
+        <div id="setStaffName">
+            Name:<input class="form-inline" id="staffNameInput">
+        </div>
+        <div id="setPlace">Place:
+            <select id="placeSelect">
+                <option value="Asia/Shanghai">Asia/Shanghai</option>
+                <option value="Asia/Tokyo">Asia/Tokyo</option>
+                <option value="Asia/Singapore">Asia/Singapore</option>
+            </select>
+        </div>
+        <div id="setLanguage1">First Language:
+            <select id="language1Select">
+                <option value="Chinese">Chinese</option>
+                <option value="English">English</option>
+                <option value="Japanese">Japanese</option>
+            </select>
+        </div>
+        <div id="setLanguage2">Second Language:
+            <select id="language2Select">
+                <option value="Chinese">Chinese</option>
+                <option value="English">English</option>
+                <option value="Japanese">Japanese</option>
+            </select>
+        </div>
+
+        <button id="create" type="button" class="btn btn-primary">Create</button>
+    </div>
 
     <div id="bottomSpace"></div>
 
@@ -434,7 +441,13 @@
             event.preventDefault();
         });
 
+        $("#openCreate").click(function (event) {
+            $("#createNewStaffForm").show();
+            event.preventDefault();
+        });
+
         loadStaffs();
+        $("#createNewStaffForm").hide();
     });
 </script>
 </html>

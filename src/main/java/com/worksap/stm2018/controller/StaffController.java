@@ -28,14 +28,9 @@ public class StaffController {
         this.arrangementService = serviceFactory.getArrangementService();
     }
 
-    @RequestMapping(value = "/apply{userId}")
-    ModelAndView apply(@PathVariable String userId) {
-        return new ModelAndView("apply", "userId", userId);
-    }
-
     @RequestMapping(value = "/applyHistory{userId}")
     ModelAndView applyHistory(@PathVariable String userId) {
-        return new ModelAndView("applyHistory", "userId", userId);
+        return new ModelAndView("apply", "userId", userId);
     }
     @RequestMapping(value = "/loadStaffTimetable", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody

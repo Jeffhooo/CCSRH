@@ -23,6 +23,7 @@
             position:relative;
         }
         footer{
+            margin-left: 250px;
             position:absolute;
             bottom:0;
             margin-bottom: 5px;

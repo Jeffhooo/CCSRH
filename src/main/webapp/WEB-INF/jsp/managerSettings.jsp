@@ -25,6 +25,7 @@
             position:relative;
         }
         footer{
+            margin-left: 250px;
             position:absolute;
             bottom:0;
             margin-bottom: 5px;
@@ -143,24 +144,27 @@
         </tbody>
     </table>
 
+    <button id="openCreateHoliday" type="button" class="btn btn-primary">New</button>
     <button id="delete" type="button" class="btn btn-primary">Delete</button>
 
-    <h3 id="createNewHolidayHeader">Create New Holiday:</h3>
-    <div id="setHolidayName">
-        Name:<input class="form-inline" id="holidayNameInput">
+    <div id="createNewHolidayForm">
+        <h3 id="createNewHolidayHeader">Create New Holiday:</h3>
+        <div id="setHolidayName">
+            Name:<input class="form-inline" id="holidayNameInput">
+        </div>
+        <div id="setHolidayPlace">Place: <select id="holidayPlaceSelect">
+            <option value="Asia/Shanghai">Asia/Shanghai</option>
+            <option value="Asia/Tokyo">Asia/Tokyo</option>
+            <option value="Asia/Singapore">Asia/Singapore</option>
+        </select></div>
+        <div id="setHolidayBeginTime">
+            Begin Time:<input class="form-inline" id="holidayBeginTimeInput">
+        </div>
+        <div id="setHolidayEndTime">
+            End Time:<input class="form-inline" id="holidayEndTimeInput">
+        </div>
+        <button id="createNewHoliday" type="button" class="btn btn-primary">Create</button>
     </div>
-    <div id="setHolidayPlace">Place: <select id="holidayPlaceSelect">
-        <option value="Asia/Shanghai">Asia/Shanghai</option>
-        <option value="Asia/Tokyo">Asia/Tokyo</option>
-        <option value="Asia/Singapore">Asia/Singapore</option>
-    </select></div>
-    <div id="setHolidayBeginTime">
-        Begin Time:<input class="form-inline" id="holidayBeginTimeInput">
-    </div>
-    <div id="setHolidayEndTime">
-        End Time:<input class="form-inline" id="holidayEndTimeInput">
-    </div>
-    <button id="createNewHoliday" type="button" class="btn btn-primary">Create</button>
 
     <h2 class="form-signin-heading" id="checkConfigurationHeader">Check Settings:</h2>
     <div id="languageConfig">Language Service: </div>
@@ -477,11 +481,11 @@
                 $("#emptyHolidayNameModal").modal("toggle");
                 canCreate = false;
             }
-            if(beginTimeInput == "") {
+            if(beginTimeInput == "" && canCreate !== false) {
                 $("#emptyHolidayBeginTimeModal").modal("toggle");
                 canCreate = false;
             }
-            if(endTimeInput == "") {
+            if(endTimeInput == "" && canCreate !== false) {
                 $("#emptyHolidayEndTimeModal").modal("toggle");
                 canCreate = false;
             }
@@ -603,11 +607,17 @@
             event.preventDefault();
         });
 
+        $("#openCreateHoliday").click(function (event) {
+            $("#createNewHolidayForm").show();
+            event.preventDefault();
+        });
+
         $("#holidayBeginTimeInput").datepick({dateFormat: 'yyyy-mm-dd'});
         $("#holidayEndTimeInput").datepick({dateFormat: 'yyyy-mm-dd'});
 
         loadCheckSettings();
         loadHolidaysSettings();
+        $("#createNewHolidayForm").hide();
     });
 </script>
 </html>

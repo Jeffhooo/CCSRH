@@ -22,6 +22,7 @@
             position:relative;
         }
         footer{
+            margin-left: 250px;
             position:absolute;
             bottom:0;
             margin-bottom: 5px;
@@ -74,6 +75,10 @@
         #bottomSpace {
             height: 100px;
         }
+        #logOut {
+            color: white;
+            margin-left: 570px;
+        }
     </style>
     <title>Work History</title>
 </head>
@@ -87,9 +92,6 @@
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li><a href="#" id="homePage">Home</a></li>
-                        <li><a href="#" id="about">About</a></li>
-                        <li><a href="#" id="contact">Contact</a></li>
                         <li><a id="logOut" data-toggle="modal" data-target="#LogOutModal">Log Out</a></li>
                     </ul>
                 </div>
