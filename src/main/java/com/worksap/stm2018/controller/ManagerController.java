@@ -188,7 +188,7 @@ public class ManagerController {
                 .place(entity.getPlace())
                 .beginTime(new Timestamp(
                         TimeUtil.AddHours(
-                                TimeUtil.StringToDate(entity.getEndTime()), timeOffset).getTime()))
+                                TimeUtil.StringToDate(entity.getBeginTime()), timeOffset).getTime()))
                 .endTime(new Timestamp(
                         TimeUtil.AddHours(
                                 TimeUtil.StringToDate(entity.getEndTime()), timeOffset+24).getTime()))

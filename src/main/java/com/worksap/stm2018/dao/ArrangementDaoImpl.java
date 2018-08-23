@@ -27,29 +27,32 @@ public class ArrangementDaoImpl implements ArrangementDao {
     private static final String DELETE_SQL = "delete from arrangement where begin_time >= ? and end_time <= ?";
     private static final String DELETE_OF_STAFF_SQL = "delete from arrangement where staff_id = ? and begin_time >= ? and end_time <= ?";
     private static final String SELECT_ID_SQL = "select arrangement_id from arrangement";
-    private static final String INSERT_SQL = "insert into arrangement(arrangement_id, staff_id, staff_name," +
-            " begin_time, end_time) values(?, ?, ?, ?, ?)";
+    private static final String INSERT_SQL = "insert into arrangement(arrangement_id, staff_id, staff_name, place," +
+            " begin_time, end_time, status) values(?, ?, ?, ?, ?, ?, 'unpublished')";
     private static final String PUBLISH_SQL = "update arrangement set status = 'published' " +
             "where begin_time >= ? and end_time <= ?";
-    private static final String REVOKE_SQL = "update arrangement set status = '' " +
+    private static final String REVOKE_SQL = "update arrangement set status = 'unpublished' " +
             "where begin_time >= ? and end_time <= ?";
     private static final String UPDATE_PUBLISH_SQL = "update publish_history set status = 'published' where week = ?";
     private static final String REVOKE_PUBLISH_SQL = "update publish_history set status = '' where week = ?";
     private static final String CHECK_PUBLISH_SQL = "select status from publish_history where week = ?";
     private static final String SELECT_STATUS_SQL = "select status from arrangement where begin_time >= ? and end_time <= ?";
+    private static final String DELETE_BY_PLACE_SQL = "delete from arrangement where place = ? and begin_time >= ? and end_time <= ?";
 
     @Override
     public List<ArrangementVo> list(Timestamp beginTime, Timestamp endTime) {
         return template.query(LIST_SQL,
                 ps -> { ps.setTimestamp(1, beginTime);
                         ps.setTimestamp(2, endTime);},
-                (rs, rowNum) -> new ArrangementVo.Builder().arrangementId(rs.getString(1))
-                                                           .staffId(rs.getString(2))
-                                                           .staffName(rs.getString(3))
-                                                           .beginTime(rs.getTimestamp(4))
-                                                           .endTime(rs.getTimestamp(5))
-                                                           .status(rs.getString(6))
-                                                           .build());
+                (rs, rowNum) -> new ArrangementVo.Builder()
+                        .arrangementId(rs.getString(1))
+                        .staffId(rs.getString(2))
+                        .staffName(rs.getString(3))
+                        .place(rs.getString(4))
+                        .beginTime(rs.getTimestamp(5))
+                        .endTime(rs.getTimestamp(6))
+                        .status(rs.getString(7))
+                        .build());
     }
 
     @Override
@@ -58,13 +61,15 @@ public class ArrangementDaoImpl implements ArrangementDao {
                 ps -> { ps.setString(1, staffId);
                         ps.setTimestamp(2, beginTime);
                         ps.setTimestamp(3, endTime);},
-                (rs, rowNum) -> new ArrangementVo.Builder().arrangementId(rs.getString(1))
-                                                           .staffId(rs.getString(2))
-                                                           .staffName(rs.getString(3))
-                                                           .beginTime(rs.getTimestamp(4))
-                                                           .endTime(rs.getTimestamp(5))
-                                                           .status(rs.getString(6))
-                                                           .build());
+                (rs, rowNum) -> new ArrangementVo.Builder()
+                        .arrangementId(rs.getString(1))
+                        .staffId(rs.getString(2))
+                        .staffName(rs.getString(3))
+                        .place(rs.getString(4))
+                        .beginTime(rs.getTimestamp(5))
+                        .endTime(rs.getTimestamp(6))
+                        .status(rs.getString(7))
+                        .build());
     }
 
     @Override
@@ -73,12 +78,14 @@ public class ArrangementDaoImpl implements ArrangementDao {
                 ps -> { ps.setString(1, staffId);
                     ps.setTimestamp(2, beginTime);
                     ps.setTimestamp(3, endTime);},
-                (rs, rowNum) -> new ArrangementVo.Builder().arrangementId(rs.getString(1))
+                (rs, rowNum) -> new ArrangementVo.Builder()
+                        .arrangementId(rs.getString(1))
                         .staffId(rs.getString(2))
                         .staffName(rs.getString(3))
-                        .beginTime(rs.getTimestamp(4))
-                        .endTime(rs.getTimestamp(5))
-                        .status(rs.getString(6))
+                        .place(rs.getString(4))
+                        .beginTime(rs.getTimestamp(5))
+                        .endTime(rs.getTimestamp(6))
+                        .status(rs.getString(7))
                         .build());
     }
 
@@ -105,8 +112,9 @@ public class ArrangementDaoImpl implements ArrangementDao {
                     ps -> { ps.setString(1, newId);
                         ps.setString(2, newRecord.getStaffId());
                         ps.setString(3, newRecord.getStaffName());
-                        ps.setTimestamp(4, newRecord.getBeginTime());
-                        ps.setTimestamp(5, newRecord.getEndTime());});
+                        ps.setString(4, newRecord.getPlace());
+                        ps.setTimestamp(5, newRecord.getBeginTime());
+                        ps.setTimestamp(6, newRecord.getEndTime());});
         }
     }
 
@@ -148,5 +156,14 @@ public class ArrangementDaoImpl implements ArrangementDao {
                 ps -> { ps.setTimestamp(1, beginTime);
                         ps.setTimestamp(2, endTime);},
                 (rs, rowNum) -> rs.getString(1));
+    }
+
+    @Override
+    public void deleteByPlace(String place, Timestamp beginTime, Timestamp endTime) {
+        template.update(DELETE_BY_PLACE_SQL, ps -> {
+            ps.setString(1, place);
+            ps.setTimestamp(2, beginTime);
+            ps.setTimestamp(3, endTime);
+        });
     }
 }

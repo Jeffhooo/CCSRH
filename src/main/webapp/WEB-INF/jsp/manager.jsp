@@ -39,7 +39,7 @@
         }
         #logOut {
             color: white;
-            margin-left: 420px;
+            margin-left: 300px;
         }
         #approveApplication, #staffManagement, #settings {
             color: white;
@@ -104,7 +104,7 @@
                 <ul class="nav navbar-nav">
                     <li><a id="approveApplication">Approve Applications</a></li>
                     <li><a id="staffManagement">Staff Management</a></li>
-                    <li><a id="settings">Settings</a></li>
+                    <li><a id="settings">Holiday & Check Settings</a></li>
                     <li><a id="logOut" data-toggle="modal" data-target="#LogOutModal">Log Out</a></li>
                 </ul>
             </div>
@@ -390,23 +390,42 @@
 </body>
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#approveApplication").click(function (event) {
-            window.location.href = "approveApplication";
-            event.preventDefault();
-        });
+        var now = new Date(); //current date
+        var nowDayOfWeek = now.getDay(); //the day number of this week
+        var nowDay = now.getDate(); //current day
+        var nowMonth = now.getMonth(); //current month
+        var nowYear = now.getYear(); //current year
+        nowYear += (nowYear < 2000) ? 1900 : 0; //
 
-        $("#settings").click(function (event) {
-            window.location.href = "managerSettings";
-            event.preventDefault();
-        });
+        //format date：yyyy-MM-dd
+        function formatDate(date) {
+            var myyear = date.getFullYear();
+            var mymonth = date.getMonth()+1;
+            var myweekday = date.getDate();
 
-        $("#staffManagement").click(function (event) {
-            window.location.href = "staffManagement";
-            event.preventDefault();
-        });
+            if(mymonth < 10){
+                mymonth = "0" + mymonth;
+            }
+            if(myweekday < 10){
+                myweekday = "0" + myweekday;
+            }
+            return (myyear+"-"+mymonth + "-" + myweekday);
+        }
 
-        var beginTime = "2018-8-27";
-        var endTime = "2018-9-3";
+        //get begin date of this week
+        function getNextWeekBeginDate() {
+            var weekStartDate = new Date(nowYear, nowMonth, nowDay - nowDayOfWeek + 8);
+            return formatDate(weekStartDate);
+        }
+
+        //get end date of this week
+        function getNextWeekEndDate() {
+            var weekStartDate = new Date(nowYear, nowMonth, nowDay - nowDayOfWeek + 15);
+            return formatDate(weekStartDate);
+        }
+
+        var beginTime = getNextWeekBeginDate();
+        var endTime = getNextWeekEndDate();
         var load = {beginTime: beginTime, endTime: endTime};
         var curArrangement;
         var chooseContent;
@@ -811,6 +830,21 @@
 
         $("#logOutConfirm").click(function (event) {
             window.location.href = "/";
+            event.preventDefault();
+        });
+
+        $("#approveApplication").click(function (event) {
+            window.location.href = "approveApplication";
+            event.preventDefault();
+        });
+
+        $("#settings").click(function (event) {
+            window.location.href = "managerSettings";
+            event.preventDefault();
+        });
+
+        $("#staffManagement").click(function (event) {
+            window.location.href = "staffManagement";
             event.preventDefault();
         });
 

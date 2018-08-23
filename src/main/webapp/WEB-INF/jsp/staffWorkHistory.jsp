@@ -209,18 +209,56 @@
 </body>
 <script type="text/javascript">
     $(document).ready(function () {
+        var now = new Date(); //current date
+        var nowDayOfWeek = now.getDay(); //the day number of this week
+        var nowDay = now.getDate(); //current day
+        var nowMonth = now.getMonth(); //current month
+        var nowYear = now.getYear(); //current year
+        nowYear += (nowYear < 2000) ? 1900 : 0; //
+        var dayOffset = 0;
+        var minDayOffset = -7;
+        var maxDayOffset = 7;
+
+        //format date：yyyy-MM-dd
+        function formatDate(date) {
+            var myyear = date.getFullYear();
+            var mymonth = date.getMonth()+1;
+            var myweekday = date.getDate();
+
+            if(mymonth < 10){
+                mymonth = "0" + mymonth;
+            }
+            if(myweekday < 10){
+                myweekday = "0" + myweekday;
+            }
+            return (myyear+"-"+mymonth + "-" + myweekday);
+        }
+
+        //get begin date of this week
+        function getWeekBeginDate() {
+            var weekBeginDate = new Date(nowYear, nowMonth, nowDay - nowDayOfWeek + 1);
+            return formatDate(weekBeginDate);
+        }
+
+        //get end date of this week
+        function getWeekEndDate() {
+            var weekEndDate = new Date(nowYear, nowMonth, nowDay - nowDayOfWeek + 8);
+            return formatDate(weekEndDate);
+        }
+
+        function getOffsetBeginDate(dayOffset) {
+            var date = new Date(nowYear, nowMonth, nowDay - nowDayOfWeek + dayOffset + 1);
+            return formatDate(date);
+        }
+
+        function getOffsetEndDate(dayOffset) {
+            var date = new Date(nowYear, nowMonth, nowDay - nowDayOfWeek + dayOffset + 8);
+            return formatDate(date);
+        }
+
         var userId = $("#userId").text();
-        var loadBeginDate = [];
-        loadBeginDate[0] = "2018-8-13";
-        loadBeginDate[1] = "2018-8-20";
-        loadBeginDate[2] = "2018-8-27";
-        var loadEndDate = [];
-        loadEndDate[0] = "2018-8-20";
-        loadEndDate[1] = "2018-8-27";
-        loadEndDate[2] = "2018-9-3";
-        var curIndex = 1;
-        var maxIndex = 2;
-        var minIndex = 0;
+        var loadBeginDate = getWeekBeginDate();
+        var loadEndDate = getWeekEndDate();
 
         var $days = [];
         $days[0] = $("#day1");
@@ -251,24 +289,24 @@
         $contents[12] = $("#content13");
         $contents[13] = $("#content14");
 
-        loadStaffTimetable(userId, loadBeginDate[curIndex], loadEndDate[curIndex]);
+        loadStaffTimetable(userId, loadBeginDate, loadEndDate);
 
         $("#lastWeek").click(function () {
-            if(curIndex > minIndex) {
-                curIndex--;
-                loadStaffTimetable(userId, loadBeginDate[curIndex], loadEndDate[curIndex]);
+            if(dayOffset > minDayOffset) {
+                dayOffset -= 7;
+                loadStaffTimetable(userId, getOffsetBeginDate(dayOffset), getOffsetEndDate(dayOffset));
             } else {
                 $("#noHistoryModal").modal("toggle");
             }
         });
 
         $("#nextWeek").click(function () {
-            if(curIndex < maxIndex) {
-                curIndex++;
-                if(curIndex == maxIndex) {
-                    loadNextWeekArrangement();
+            if(dayOffset < maxDayOffset) {
+                dayOffset += 7;
+                if(dayOffset == 7) {
+                    loadNextWeekArrangement(userId, getOffsetBeginDate(dayOffset), getOffsetEndDate(dayOffset));
                 } else {
-                    loadStaffTimetable(userId, loadBeginDate[curIndex], loadEndDate[curIndex]);
+                    loadStaffTimetable(userId, getOffsetBeginDate(dayOffset), getOffsetEndDate(dayOffset));
                 }
             } else {
                 $("#noArrangementModal").modal("toggle");
@@ -308,12 +346,12 @@
             });
         }
 
-        function loadNextWeekArrangement() {
+        function loadNextWeekArrangement(userId, beginDate, endDate) {
             var loadArrangement = {
                 title:"Manager",
                 staffId:userId,
-                beginTime:loadBeginDate[curIndex],
-                endTime:loadEndDate[curIndex]
+                beginTime:beginDate,
+                endTime:endDate
             };
             $.ajax({
                 url: "loadNextWeekArrangement",

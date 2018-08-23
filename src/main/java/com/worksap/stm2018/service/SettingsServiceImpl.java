@@ -1,5 +1,6 @@
 package com.worksap.stm2018.service;
 
+import com.worksap.stm2018.dao.ArrangementDao;
 import com.worksap.stm2018.dao.DaoFactory;
 import com.worksap.stm2018.dao.HolidayDao;
 import com.worksap.stm2018.dao.SettingsDao;
@@ -15,6 +16,15 @@ import java.util.List;
 @Component
 public class SettingsServiceImpl implements SettingsService{
     private SettingsDao settingsDao;
+    private HolidayDao holidayDao;
+    private ArrangementDao arrangementDao;
+
+    @Autowired
+    public SettingsServiceImpl(DaoFactory daoFactory) {
+        this.holidayDao = daoFactory.getHolidayDao();
+        this.settingsDao = daoFactory.getSettingsDao();
+        this.arrangementDao = daoFactory.getArrangementDao();
+    }
 
     @Override
     public void putNewHoliday(HolidayVo newHoliday) {
@@ -26,19 +36,15 @@ public class SettingsServiceImpl implements SettingsService{
                 newHoliday.getBeginTime(),
                 newHoliday.getEndTime()
         ));
+        arrangementDao.deleteByPlace(
+                newHoliday.getPlace(),
+                newHoliday.getBeginTime(),
+                newHoliday.getEndTime());
     }
 
     @Override
     public void deleteHolidayById(String holidayId) {
         holidayDao.deleteById(holidayId);
-    }
-
-    private HolidayDao holidayDao;
-
-    @Autowired
-    public SettingsServiceImpl(DaoFactory daoFactory) {
-        this.holidayDao = daoFactory.getHolidayDao();
-        this.settingsDao = daoFactory.getSettingsDao();
     }
 
     @Override

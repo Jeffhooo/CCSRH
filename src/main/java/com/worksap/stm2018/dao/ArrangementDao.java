@@ -74,4 +74,11 @@ public interface ArrangementDao {
      *
      */
     List<String> getArrangementStatus(Timestamp beginTime, Timestamp endTime);
+
+    /**
+     * delete arrangements of a place
+     *
+     *
+     */
+    void deleteByPlace(String place, Timestamp beginTime, Timestamp endTime);
 }

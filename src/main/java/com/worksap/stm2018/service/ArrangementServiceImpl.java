@@ -67,6 +67,7 @@ public class ArrangementServiceImpl implements ArrangementService {
                 .map(n -> new ArrangementVo.Builder()
                         .staffId(n)
                         .staffName(staffDao.getStaffName(n))
+                        .place(staffDao.getStaffPlace(n))
                         .beginTime(beginTime)
                         .endTime(endTime).build()).collect(Collectors.toList()));
     }
