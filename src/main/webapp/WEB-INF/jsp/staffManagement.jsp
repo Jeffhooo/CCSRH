@@ -39,9 +39,10 @@
         }
         #logOut {
             color: white;
-            margin-left: 780px;
+            margin-left: 360px;
         }
         .btn-primary {
+            width: 70px;
             margin-top: 5px;
             background-color: lightseagreen;
             border: lightseagreen;

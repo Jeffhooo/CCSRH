@@ -70,14 +70,14 @@ public class ManagerController {
     @ResponseBody
     MessageEntity acceptApplication(@RequestBody ApproveEntity entity) {
         applicationService.accept(entity.getApplicationId(), entity.getComment());
-        return new MessageEntity("Application is accepted.");
+        return new MessageEntity("ok");
     }
 
     @RequestMapping(value = "/rejectApplication", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     MessageEntity rejectApplication(@RequestBody ApproveEntity entity) {
         applicationService.reject(entity.getApplicationId(), entity.getComment());
-        return new MessageEntity("Application is rejected.");
+        return new MessageEntity("ok");
     }
 
     @RequestMapping(value = "/loadArrangement", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -110,7 +110,7 @@ public class ManagerController {
         arrangementService.update(entity.getStaffIds(),
                 TimeUtil.StringToTimestamp(entity.getBeginTime()),
                 TimeUtil.StringToTimestamp(entity.getEndTime()));
-        return new MessageEntity("Arrangement is saved.");
+        return new MessageEntity("ok");
     }
 
     @RequestMapping(value = "/publish", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -119,7 +119,7 @@ public class ManagerController {
         arrangementService.publish(
                 TimeUtil.StringToDate(entity.getBeginTime()),
                 TimeUtil.StringToDate(entity.getEndTime()));
-        return new MessageEntity("Arrangement is published.");
+        return new MessageEntity("ok");
     }
 
     @RequestMapping(value = "/revoke", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -128,7 +128,7 @@ public class ManagerController {
         arrangementService.revoke(
                 TimeUtil.StringToDate(entity.getBeginTime()),
                 TimeUtil.StringToDate(entity.getEndTime()));
-        return new MessageEntity("Arrangement is revoked.");
+        return new MessageEntity("ok");
     }
 
     @RequestMapping(value = "/staffWorkHistory{staffId}")

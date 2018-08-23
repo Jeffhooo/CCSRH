@@ -43,6 +43,7 @@
             margin-left: 570px;
         }
         .btn-primary {
+            width: 70px;
             margin-top: 5px;
             background-color: lightseagreen;
             border: lightseagreen;
@@ -337,7 +338,7 @@
 
         var userId = $("#userId").text();
         var loadBeginDate = getOffsetBeginDate(7);
-        var loadEndDate = getOffsetEndDate(7)
+        var loadEndDate = getOffsetEndDate(7);
         var applyBeginTimeMap = {};
         var applyEndTimeMap = {};
         var workTime = new Array();

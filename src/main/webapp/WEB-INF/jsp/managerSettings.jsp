@@ -42,9 +42,10 @@
         }
         #logOut {
             color: white;
-            margin-left: 780px;
+            margin-left: 480px;
         }
         .btn-primary {
+            width: 70px;
             margin-top: 5px;
             background-color: lightseagreen;
             border: lightseagreen;
@@ -429,7 +430,6 @@
             "English": $("#EnglishCheckbox"),
             "Japanese": $("#JapaneseCheckbox")
         };
-        var timeFormatReg = /^\d{4}[-]([0][1-9]|(1[0-2]))[-]([1-9]|([012]\d)|(3[01]))([ \t\n\x0B\f\r])(([0-1]{1}[0-9]{1})|([2]{1}[0-4]{1}))([:])(([0-5]{1}[0-9]{1}|[6]{1}[0]{1}))([:])((([0-5]{1}[0-9]{1}|[6]{1}[0]{1})))$/i;
         var chosenContent;
         var $chosenTr;
         function loadCheckSettings() {

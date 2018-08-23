@@ -52,7 +52,7 @@ public class StaffController {
     @ResponseBody
     MessageEntity submitApplication(@RequestBody SubmitApplicationEntity entity) {
         applicationService.create(entity);
-        return new MessageEntity("Your application is submitted.");
+        return new MessageEntity("ok");
     }
 
     @RequestMapping(value = "/checkPublish", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)

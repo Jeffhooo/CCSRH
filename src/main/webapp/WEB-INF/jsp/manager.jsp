@@ -45,6 +45,7 @@
             color: white;
         }
         .btn-primary {
+            width: 70px;
             background-color: lightseagreen;
             border: lightseagreen;
         }

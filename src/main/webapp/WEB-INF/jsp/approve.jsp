@@ -43,6 +43,7 @@
             margin-left: 780px;
         }
         .btn-primary {
+            width: 70px;
             background-color: lightseagreen;
             border: lightseagreen;
         }
@@ -273,13 +274,56 @@
 </body>
 <script type="text/javascript">
     $(document).ready(function () {
-        var beginTime = "2018-8-27";
-        var endTime = "2018-9-3";
-        var loadPage = {beginTime: beginTime, endTime: endTime};
+        var now = new Date(); //current date
+        var nowDayOfWeek = now.getDay(); //the day number of this week
+        var nowDay = now.getDate(); //current day
+        var nowMonth = now.getMonth(); //current month
+        var nowYear = now.getYear(); //current year
+        nowYear += (nowYear < 2000) ? 1900 : 0; //
+
+        //format date：yyyy-MM-dd
+        function formatDate(date) {
+            var myyear = date.getFullYear();
+            var mymonth = date.getMonth()+1;
+            var myweekday = date.getDate();
+
+            if(mymonth < 10){
+                mymonth = "0" + mymonth;
+            }
+            if(myweekday < 10){
+                myweekday = "0" + myweekday;
+            }
+            return (myyear+"-"+mymonth + "-" + myweekday);
+        }
+
+        //get begin date of this week
+        function getWeekBeginDate() {
+            var weekBeginDate = new Date(nowYear, nowMonth, nowDay - nowDayOfWeek + 1);
+            return formatDate(weekBeginDate);
+        }
+
+        //get end date of this week
+        function getWeekEndDate() {
+            var weekEndDate = new Date(nowYear, nowMonth, nowDay - nowDayOfWeek + 8);
+            return formatDate(weekEndDate);
+        }
+
+        function getOffsetBeginDate(dayOffset) {
+            var date = new Date(nowYear, nowMonth, nowDay - nowDayOfWeek + dayOffset + 1);
+            return formatDate(date);
+        }
+
+        function getOffsetEndDate(dayOffset) {
+            var date = new Date(nowYear, nowMonth, nowDay - nowDayOfWeek + dayOffset + 8);
+            return formatDate(date);
+        }
+        var beginTime = getOffsetBeginDate(7);
+        var endTime = getOffsetEndDate(7);
         var chosenContent = null;
         var $chosenTr;
 
-        function loadApplications() {
+        function loadApplications(beginTime, endTime) {
+            var loadPage = {beginTime: beginTime, endTime: endTime};
             $.ajax({
                 url: "loadApplications",
                 type: "POST",
@@ -304,7 +348,7 @@
                 }
             });
         }
-        loadApplications();
+        loadApplications(beginTime, endTime);
 
         $("#applicationTable").on("click", "tr", function () {
             var $tr = $("tr");
