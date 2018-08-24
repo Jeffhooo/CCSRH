@@ -32,6 +32,12 @@ public class StaffController {
     ModelAndView applyHistory(@PathVariable String userId) {
         return new ModelAndView("apply", "userId", userId);
     }
+
+    @RequestMapping(value = "/helpStaff")
+    ModelAndView applyHistory() {
+        return new ModelAndView("helpStaff");
+    }
+
     @RequestMapping(value = "/loadStaffTimetable", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     TimetableEntity loadStaffTimetable(@RequestBody RequestTimetableEntity entity) {

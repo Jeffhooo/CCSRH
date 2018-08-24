@@ -37,11 +37,11 @@
         #brand {
             color: white;
         }
-        #logOut {
+        #help {
             color: white;
-            margin-left: 300px;
+            margin-left: 250px;
         }
-        #approveApplication, #staffManagement, #settings {
+        #approveApplication, #staffManagement, #settings, #logOut {
             color: white;
         }
         .btn-primary {
@@ -107,6 +107,7 @@
                     <li><a id="approveApplication">Approve Applications</a></li>
                     <li><a id="staffManagement">Staff Management</a></li>
                     <li><a id="settings">Holiday & Check Settings</a></li>
+                    <li><a id="help">Help</a></li>
                     <li><a id="logOut" data-toggle="modal" data-target="#LogOutModal">Log Out</a></li>
                 </ul>
             </div>
@@ -847,6 +848,11 @@
 
         $("#staffManagement").click(function (event) {
             window.location.href = "staffManagement";
+            event.preventDefault();
+        });
+
+        $("#help").click(function (event) {
+            window.location.href = "helpManager";
             event.preventDefault();
         });
 

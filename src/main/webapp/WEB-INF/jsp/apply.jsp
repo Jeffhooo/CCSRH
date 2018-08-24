@@ -38,9 +38,12 @@
         #brand {
             color: white;
         }
+        #help {
+            color: white;
+            margin-left: 500px;
+        }
         #logOut {
             color: white;
-            margin-left: 570px;
         }
         .btn-default {
             margin-top: 5px;
@@ -135,6 +138,7 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
+                    <li><a id="help">Help</a></li>
                     <li><a id="logOut" data-toggle="modal" data-target="#LogOutModal">Log Out</a></li>
                 </ul>
             </div>
@@ -534,6 +538,11 @@
 
         $("#logOutConfirm").click(function (event) {
             window.location.href = "/";
+            event.preventDefault();
+        });
+
+        $("#help").click(function (event) {
+            window.location.href = "helpStaff";
             event.preventDefault();
         });
 

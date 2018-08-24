@@ -38,9 +38,9 @@
         #brand {
             color: white;
         }
-        #logOut {
+        #help {
             color: white;
-            margin-left: 400px;
+            margin-left: 350px;
         }
 
         .btn-primary {
@@ -82,7 +82,7 @@
         #bottomSpace {
             height: 100px;
         }
-        #apply {
+        #apply, #LogOut{
             color: white;
         }
     </style>
@@ -99,6 +99,7 @@
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a id="apply">Rest Time Application</a></li>
+                    <li><a id="help">Help</a></li>
                     <li><a id="logOut" data-toggle="modal" data-target="#LogOutModal">Log Out</a></li>
                 </ul>
             </div>
@@ -410,6 +411,11 @@
 
         $("#apply").click(function (event) {
             window.location.href = "applyHistory${userId}";
+            event.preventDefault();
+        });
+
+        $("#help").click(function (event) {
+            window.location.href = "helpStaff";
             event.preventDefault();
         });
 

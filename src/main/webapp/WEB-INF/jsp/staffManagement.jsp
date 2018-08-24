@@ -39,7 +39,10 @@
         }
         #logOut {
             color: white;
-            margin-left: 360px;
+        }
+        #help {
+            color: white;
+            margin-left: 300px;
         }
         .btn-default {
             margin-top: 5px;
@@ -115,6 +118,7 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
+                    <li><a id="help">Help</a></li>
                     <li><a id="logOut" data-toggle="modal" data-target="#LogOutModal">Log Out</a></li>
                 </ul>
             </div>
@@ -379,11 +383,6 @@
             })
         });
 
-        $("#logOutConfirm").click(function (event) {
-            window.location.href = "/";
-            event.preventDefault();
-        });
-
         $("#create").click(function (event) {
             var name = $("#staffNameInput").val();
             var place = $("#placeSelect").val();
@@ -453,6 +452,16 @@
 
         $("#cancelCreateStaff").click(function (event) {
             $("#createNewStaffForm").hide();
+            event.preventDefault();
+        });
+
+        $("#logOutConfirm").click(function (event) {
+            window.location.href = "/";
+            event.preventDefault();
+        });
+
+        $("#help").click(function (event) {
+            window.location.href = "helpManager";
             event.preventDefault();
         });
 

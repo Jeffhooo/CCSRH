@@ -49,6 +49,11 @@ public class ManagerController {
         return new ModelAndView("staffManagement");
     }
 
+    @RequestMapping(value = "/helpManager")
+    ModelAndView help() {
+        return new ModelAndView("helpManager");
+    }
+
     @RequestMapping(value = "/loadApplications", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     List<ApplicationEntity> loadApplications(@RequestBody TimeEntity entity) {
