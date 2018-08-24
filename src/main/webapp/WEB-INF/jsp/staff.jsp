@@ -23,7 +23,7 @@
             position:relative;
         }
         footer{
-            margin-left: 250px;
+            width: 950px;
             position:absolute;
             bottom:0;
             margin-bottom: 5px;
@@ -40,8 +40,9 @@
         }
         #logOut {
             color: white;
-            margin-left: 440px;
+            margin-left: 400px;
         }
+
         .btn-primary {
             background-color: lightseagreen;
             border: lightseagreen;
@@ -69,6 +70,7 @@
             height: 50px;
         }
         .container {
+            width: 950px;
             margin-top: auto;
             margin-left: auto;
             margin-right: auto;
@@ -92,11 +94,11 @@
     <nav class="navbar navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#" id="brand">Call Center Rostering Helper</a>
+                <a class="navbar-brand" id="brand">Call Center Rostering Helper</a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a id="apply">Apply Rest Time</a></li>
+                    <li><a id="apply">Rest Time Application</a></li>
                     <li><a id="logOut" data-toggle="modal" data-target="#LogOutModal">Log Out</a></li>
                 </ul>
             </div>

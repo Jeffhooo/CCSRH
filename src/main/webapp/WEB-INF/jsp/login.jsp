@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
     <style>
         .container {
-            width: 360px;
+            width: 450px;
             margin-top: 10%;
             margin-left: auto;
             margin-right: auto;
@@ -40,10 +40,16 @@
             height: 100px;
         }
         footer{
+            width: 450px;
             position:absolute;
             bottom:0;
             margin-bottom: 5px;
             text-align: center;
+        }
+        #inputUsername, #inputPassword, #signIn {
+            width: 360px;
+            margin-left: auto;
+            margin-right: auto;
         }
     </style>
     <title>Log In</title>
@@ -54,7 +60,7 @@
            <font color="red"><c:out value="${error}" /></font>
        </c:if>
        <form class="form-signin" action="<c:url value="check"/>" method="post">
-           <h2 class="form-signin-heading">Staff Rostering Helper</h2>
+           <h2 class="form-signin-heading">Call Center Rostering Helper</h2>
            <label for="inputUsername" class="sr-only">User Name</label>
            <input type="username" id="inputUsername" class="form-control" name = "userName" placeholder="User Name" required autofocus>
            <label for="inputPassword" class="sr-only">Password</label>

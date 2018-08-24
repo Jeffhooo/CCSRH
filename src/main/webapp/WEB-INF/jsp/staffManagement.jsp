@@ -22,7 +22,7 @@
             position:relative;
         }
         footer{
-            margin-left: 250px;
+            width: 750px;
             position:absolute;
             bottom:0;
             margin-bottom: 5px;
@@ -40,6 +40,9 @@
         #logOut {
             color: white;
             margin-left: 360px;
+        }
+        .btn-default {
+            margin-top: 5px;
         }
         .btn-primary {
             width: 70px;
@@ -60,6 +63,7 @@
             background-color: lightseagreen;
         }
         .container {
+            width: 750px;
             margin-top: auto;
             margin-left: auto;
             margin-right: auto;
@@ -84,10 +88,6 @@
         #setStaffName, #setPlace, #setLanguage1, #setLanguage2 {
             margin-top: 10px;
         }
-        #create {
-            margin-top: 10px;
-            display: inline;
-        }
         #staffTable td {
             text-align: center;
             height: 50px;
@@ -96,6 +96,9 @@
             height: 100px;
         }
         #delete, #openCreate, #back {
+            display: inline;
+        }
+        #create, #cancelCreateStaff {
             display: inline;
         }
     </style>
@@ -108,7 +111,7 @@
     <nav class="navbar navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#" id="brand">Call Center Rostering Helper</a>
+                <a class="navbar-brand" id="brand">Call Center Rostering Helper</a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -164,6 +167,7 @@
         </div>
 
         <button id="create" type="button" class="btn btn-primary">Create</button>
+        <button id="cancelCreateStaff" type="button" class="btn btn-primary">Cancel</button>
     </div>
 
     <div id="bottomSpace"></div>
@@ -444,6 +448,11 @@
 
         $("#openCreate").click(function (event) {
             $("#createNewStaffForm").show();
+            event.preventDefault();
+        });
+
+        $("#cancelCreateStaff").click(function (event) {
+            $("#createNewStaffForm").hide();
             event.preventDefault();
         });
 

@@ -23,7 +23,7 @@
             position:relative;
         }
         footer{
-            margin-left: 250px;
+            width: 1150px;
             position:absolute;
             bottom:0;
             margin-bottom: 5px;
@@ -60,6 +60,7 @@
             background-color: lightseagreen;
         }
         .container {
+            width: 1150px;
             margin-top: auto;
             margin-left: auto;
             margin-right: auto;
@@ -102,7 +103,7 @@
     <nav class="navbar navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#" id="brand">Call Center Rostering Helper</a>
+                <a class="navbar-brand" id="brand">Call Center Rostering Helper</a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">

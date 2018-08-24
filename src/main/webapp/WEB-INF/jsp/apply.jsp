@@ -23,7 +23,7 @@
             position:relative;
         }
         footer{
-            margin-left: 250px;
+            width: 950px;
             position:absolute;
             bottom:0;
             margin-bottom: 5px;
@@ -41,6 +41,9 @@
         #logOut {
             color: white;
             margin-left: 570px;
+        }
+        .btn-default {
+            margin-top: 5px;
         }
         .btn-primary {
             width: 70px;
@@ -71,6 +74,7 @@
             text-align: center;
         }
         .container {
+            width: 950px;
             margin-top: auto;
             margin-left: auto;
             margin-right: auto;
@@ -127,7 +131,7 @@
     <nav class="navbar navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#" id="brand">Call Center Rostering Helper</a>
+                <a class="navbar-brand" id="brand">Call Center Rostering Helper</a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -199,6 +203,7 @@
         <textarea type="text" id="applyReason" class="form-control" name = "applyReason" placeholder="Apply Reason"></textarea>
         <p id="buttons">
             <button class="btn btn-primary" id="submit" type="submit">Submit</button>
+            <button class="btn btn-primary" id="cancelSubmit" type="submit">Cancel</button>
         </p>
     </form>
 
@@ -534,6 +539,11 @@
 
         $("#openCreate").click(function (event) {
             $("#applicationForm").show();
+            event.preventDefault();
+        });
+
+        $("#cancelSubmit").click(function (event) {
+            $("#applicationForm").hide();
             event.preventDefault();
         });
 
