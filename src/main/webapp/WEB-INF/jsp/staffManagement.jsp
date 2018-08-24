@@ -153,6 +153,7 @@
                 <option value="Asia/Shanghai">Asia/Shanghai</option>
                 <option value="Asia/Tokyo">Asia/Tokyo</option>
                 <option value="Asia/Singapore">Asia/Singapore</option>
+                <option value="Asia/Seoul">Asia/Seoul</option>
             </select>
         </div>
         <div id="setLanguage1">First Language:
@@ -160,6 +161,7 @@
                 <option value="Chinese">Chinese</option>
                 <option value="English">English</option>
                 <option value="Japanese">Japanese</option>
+                <option value="Korean">Korean</option>
             </select>
         </div>
         <div id="setLanguage2">Second Language:
@@ -167,6 +169,7 @@
                 <option value="Chinese">Chinese</option>
                 <option value="English">English</option>
                 <option value="Japanese">Japanese</option>
+                <option value="Korean">Korean</option>
             </select>
         </div>
 
@@ -177,7 +180,7 @@
     <div id="bottomSpace"></div>
 
     <footer class="copyright">
-        &copy; 2018 Works Applications Co., Ltd. All Right Reserved<br>
+        &copy; 2018 He Junfeng All Right Reserved<br>
     </footer>
 </div>
 <div class="modal fade" id="LogOutModal" tabindex="-1" role="dialog" aria-labelledby="LogOutModalLabel" aria-hidden="true">
@@ -456,7 +459,7 @@
         });
 
         $("#logOutConfirm").click(function (event) {
-            window.location.href = "/";
+            window.location.href = "login";
             event.preventDefault();
         });
 

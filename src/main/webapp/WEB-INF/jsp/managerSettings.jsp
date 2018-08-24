@@ -86,7 +86,7 @@
         #workdays {
             margin-top: 10px;
         }
-        #languageConfig, #English, #Chinese, #Japanese {
+        #languageConfig, #English, #Chinese, #Japanese, #Korean {
             display: inline;
         }
         #apply {
@@ -168,6 +168,7 @@
             <option value="Asia/Shanghai">Asia/Shanghai</option>
             <option value="Asia/Tokyo">Asia/Tokyo</option>
             <option value="Asia/Singapore">Asia/Singapore</option>
+            <option value="Asia/Seoul">Asia/Seoul</option>
         </select></div>
         <div id="setHolidayBeginTime">
             Begin Time:<input class="form-inline" id="holidayBeginTimeInput">
@@ -184,6 +185,7 @@
     <p id="English"><input id="EnglishCheckbox" type="checkbox">English</p>
     <p id="Chinese"><input id="ChineseCheckbox" type="checkbox">Chinese</p>
     <p id="Japanese"><input id="JapaneseCheckbox" type="checkbox">Japanese</p>
+    <p id="Korean"><input id="KoreanCheckbox" type="checkbox">Korean</p>
     <div id="workdays">Work Days of a Week: <select id="workdaySelect">
         <option value="1">1</option>
         <option value="2">2</option>
@@ -198,7 +200,7 @@
 
     <div id="bottomSpace"></div>
     <footer class="copyright">
-        &copy; 2018 Works Applications Co., Ltd. All Right Reserved<br>
+        &copy; 2018 He Junfeng All Right Reserved<br>
     </footer>
 </div>
 <div class="modal fade" id="applyCheckSettingsModal" tabindex="-1" role="dialog" aria-labelledby="applyCheckSettingsModal" aria-hidden="true">
@@ -437,10 +439,11 @@
 </body>
 <script type="text/javascript">
     $(document).ready(function () {
-        var $languagCheckboxMap = {
-            "Chinese": $("#ChineseCheckbox"),
-            "English": $("#EnglishCheckbox"),
-            "Japanese": $("#JapaneseCheckbox")
+        var $languageCheckboxMap = {
+            Chinese: $("#ChineseCheckbox"),
+            English: $("#EnglishCheckbox"),
+            Japanese: $("#JapaneseCheckbox"),
+            Korean: $("#KoreanCheckbox")
         };
         var chosenContent;
         var $chosenTr;
@@ -452,7 +455,7 @@
                 success: function (checkSettings) {
                     $("#workdaySelect").val(checkSettings.workdays);
                     $.each(checkSettings.languages, function (i, language) {
-                        $languagCheckboxMap[language].attr("checked", "true");
+                        $languageCheckboxMap[language].attr("checked", "true");
                     })
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
@@ -554,6 +557,9 @@
             if($("#JapaneseCheckbox").is( ":checked" )) {
                 languages.push("Japanese");
             }
+            if($("#KoreanCheckbox").is( ":checked" )) {
+                languages.push("Korean");
+            }
             var requestEntity = {workdays: workdays, languages: languages}
             $.ajax({
                 url: "updateCheckSettings",
@@ -625,7 +631,7 @@
         });
 
         $("#logOutConfirm").click(function (event) {
-            window.location.href = "/";
+            window.location.href = "login";
             event.preventDefault();
         });
 

@@ -172,7 +172,7 @@
     <div id="userId" hidden>${userId}</div>
     <div id="bottomSpace"></div>
     <footer class="copyright" id="footer">
-        &copy; 2018 Works Applications Co., Ltd. All Right Reserved
+        &copy; 2018 He Junfeng All Right Reserved
     </footer>
 </div>
 
@@ -766,14 +766,14 @@
                     });
 
                     var report = "";
-                    var languageToIndex = {English: 0, Chinese: 1, Japanese: 2};
-                    var IndexToLanguage = ["English", "Chinese", "Japanese"];
+                    var languageToIndex = {English: 0, Chinese: 1, Japanese: 2, Korean: 3};
+                    var IndexToLanguage = ["English", "Chinese", "Japanese", "Korean"];
 
                     report += "Language Service Check: ";
                     var languageReport = "";
                     $.each(curArrangement, function (i, arrangement) {
                         var time = $days[Math.floor(i/2)].text() + " " + times[i%2].text();
-                        var checkList = ["no", "no", "no"];
+                        var checkList = ["no", "no", "no", "no"];
                         $.each(arrangement.content, function (j, staff) {
                             checkList[languageToIndex[staff.language1]] = "yes";
                             checkList[languageToIndex[staff.language2]] = "yes";
@@ -787,6 +787,9 @@
                         }
                         if(checkList[2] == "no" && serviceLanguage["Japanese"] == "yes") {
                             lack += " " + IndexToLanguage[2];
+                        }
+                        if(checkList[3] == "no" && serviceLanguage["Korean"] == "yes") {
+                            lack += " " + IndexToLanguage[3];
                         }
                         if(lack !== "") {
                             languageReport += time + ": Lack of" + lack + " service.<br/>";
@@ -832,7 +835,7 @@
         });
 
         $("#logOutConfirm").click(function (event) {
-            window.location.href = "/";
+            window.location.href = "login";
             event.preventDefault();
         });
 

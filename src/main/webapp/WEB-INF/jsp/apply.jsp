@@ -214,7 +214,7 @@
     <div id="userId" hidden>${userId}</div>
     <div id="bottomSpace"></div>
     <footer class="copyright">
-        &copy; 2018 Works Applications Co., Ltd. All Right Reserved<br>
+        &copy; 2018 He Junfeng All Right Reserved<br>
     </footer>
 </div>
 <div class="modal fade" id="LogOutModal" tabindex="-1" role="dialog" aria-labelledby="logOutModalLabel" aria-hidden="true">
@@ -537,7 +537,7 @@
         });
 
         $("#logOutConfirm").click(function (event) {
-            window.location.href = "/";
+            window.location.href = "login";
             event.preventDefault();
         });
 

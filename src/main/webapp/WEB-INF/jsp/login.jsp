@@ -52,7 +52,7 @@
             margin-right: auto;
         }
     </style>
-    <title>Log In</title>
+    <title>Call Center Rostering Helper</title>
    </head>
    <body>
    <div class="container">
@@ -69,7 +69,7 @@
        </form>
        <div id="bottomSpace"></div>
        <footer class="copyright">
-           &copy; 2018 Works Applications Co., Ltd. All Right Reserved<br>
+           &copy; 2018 He Junfeng All Right Reserved<br>
        </footer>
    </div>
    </body>
