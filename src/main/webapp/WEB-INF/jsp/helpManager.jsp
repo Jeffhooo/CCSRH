@@ -174,6 +174,11 @@
             window.location.href = "/";
             event.preventDefault();
         });
+
+        $("#brand").click(function (event) {
+            window.location.href = "managerMain";
+            event.preventDefault();
+        });
     })
 </script>
 </html>

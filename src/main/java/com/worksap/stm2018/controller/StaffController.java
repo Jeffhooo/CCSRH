@@ -33,9 +33,14 @@ public class StaffController {
         return new ModelAndView("apply", "userId", userId);
     }
 
-    @RequestMapping(value = "/helpStaff")
-    ModelAndView applyHistory() {
-        return new ModelAndView("helpStaff");
+    @RequestMapping(value = "/helpStaff{userId}")
+    ModelAndView helpStaff(@PathVariable String userId) {
+        return new ModelAndView("helpStaff", "userId", userId);
+    }
+
+    @RequestMapping(value = "/staffMain{userId}")
+    ModelAndView staffMain(@PathVariable String userId) {
+        return new ModelAndView("staff", "userId", userId);
     }
 
     @RequestMapping(value = "/loadStaffTimetable", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)

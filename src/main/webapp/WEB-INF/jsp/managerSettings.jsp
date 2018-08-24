@@ -634,6 +634,11 @@
             event.preventDefault();
         });
 
+        $("#brand").click(function (event) {
+            window.location.href = "managerMain";
+            event.preventDefault();
+        });
+
         $("#holidayBeginTimeInput").datepick({dateFormat: 'yyyy-mm-dd'});
         $("#holidayEndTimeInput").datepick({dateFormat: 'yyyy-mm-dd'});
 

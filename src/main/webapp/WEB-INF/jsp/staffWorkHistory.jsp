@@ -395,6 +395,11 @@
             window.location.href = "helpManager";
             event.preventDefault();
         });
+
+        $("#brand").click(function (event) {
+            window.location.href = "managerMain";
+            event.preventDefault();
+        });
     })
 </script>
 </html>

@@ -415,7 +415,7 @@
         });
 
         $("#help").click(function (event) {
-            window.location.href = "helpStaff";
+            window.location.href = "helpStaff${userId}";
             event.preventDefault();
         });
 

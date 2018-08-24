@@ -114,7 +114,7 @@
         reason and submit by clicking "Submit".
     </p>
     <img src="img/applyPage.png" alt="manager main page" id="applyPage">
-
+    <div id="userId" hidden>${userId}</div>
 
     <div id="bottomSpace"></div>
     <footer class="copyright">
@@ -150,6 +150,12 @@
             window.location.href = "/";
             event.preventDefault();
         });
+
+        $("#brand").click(function (event) {
+            window.location.href = "staffMain${userId}";
+            event.preventDefault();
+        });
+
     })
 </script>
 </html>
