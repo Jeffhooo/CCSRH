@@ -378,6 +378,7 @@
                 success: function (Message) {
                     $("#isCreatedStaffModal").modal("toggle");
                     $("#createNewStaffModal").modal("hide");
+                    $("#staffNameInput").val("");
                     loadStaffs();
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
@@ -399,7 +400,6 @@
                     "<br/> Are you sure to create this staff?";
                 $("#createNewStaffModalBody").html(dialogBody);
                 $("#createNewStaffModal").modal("toggle");
-                loadStaffs();
             } else {
                 $("#haveToInputNameModal").modal("toggle");
             }

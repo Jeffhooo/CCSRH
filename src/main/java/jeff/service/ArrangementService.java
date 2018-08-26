@@ -13,7 +13,7 @@ public interface ArrangementService {
      * List the arrangements of a time period
      *
      */
-    List<ArrangementTableEntity> list(Date beginDate, Date endDate);
+    ArrangementTableEntity list(Date beginDate, Date endDate);
 
     /**
      * update the arrangements of a time period

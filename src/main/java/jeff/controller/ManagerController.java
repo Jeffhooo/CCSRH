@@ -92,7 +92,7 @@ public class ManagerController {
 
     @RequestMapping(value = "/loadArrangement", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    List<ArrangementTableEntity> loadArrangement(@RequestBody TimeEntity entity) {
+    ArrangementTableEntity loadArrangement(@RequestBody TimeEntity entity) {
         return arrangementService.list(
                 TimeUtil.StringToDate(entity.getBeginTime()),
                 TimeUtil.StringToDate(entity.getEndTime()));

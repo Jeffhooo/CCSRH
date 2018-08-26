@@ -127,18 +127,18 @@
                 <thead>
                 <tr>
                     <th></th>
-                    <th id="day1">2018-8-27</th>
-                    <th id="day2">2018-8-28</th>
-                    <th id="day3">2018-8-29</th>
-                    <th id="day4">2018-8-30</th>
-                    <th id="day5">2018-8-31</th>
-                    <th id="day6">2018-9-1</th>
-                    <th id="day7">2018-9-2</th>
+                    <th id="day1"></th>
+                    <th id="day2"></th>
+                    <th id="day3"></th>
+                    <th id="day4"></th>
+                    <th id="day5"></th>
+                    <th id="day6"></th>
+                    <th id="day7"></th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
-                    <td id="time1">8:00-16:00</td>
+                    <td id="time1"></td>
                     <td id="content1"></td>
                     <td id="content3"></td>
                     <td id="content5"></td>
@@ -148,7 +148,7 @@
                     <td id="content13"></td>
                 </tr>
                 <tr>
-                    <td id="time2">16:00-23:00</td>
+                    <td id="time2"></td>
                     <td id="content2"></td>
                     <td id="content4"></td>
                     <td id="content6"></td>
@@ -478,43 +478,14 @@
         $days[5] = $("#day6");
         $days[6] = $("#day7");
 
-        var times = [];
-        times[0] = $("#time1");
-        times[1] = $("#time2");
+        var $times = [];
+        $times[0] = $("#time1");
+        $times[1] = $("#time2");
 
         var applyBeginTimeMap = {};
         var applyEndTimeMap = {};
-        applyBeginTimeMap["content1"] = $days[0].text() + " " + workTime[0];
-        applyBeginTimeMap["content2"] = $days[0].text() + " " + workTime[1];
-        applyBeginTimeMap["content3"] = $days[1].text() + " " + workTime[0];
-        applyBeginTimeMap["content4"] = $days[1].text() + " " + workTime[1];
-        applyBeginTimeMap["content5"] = $days[2].text() + " " + workTime[0];
-        applyBeginTimeMap["content6"] = $days[2].text() + " " + workTime[1];
-        applyBeginTimeMap["content7"] = $days[3].text() + " " + workTime[0];
-        applyBeginTimeMap["content8"] = $days[3].text() + " " + workTime[1];
-        applyBeginTimeMap["content9"] = $days[4].text() + " " + workTime[0];
-        applyBeginTimeMap["content10"] = $days[4].text() + " " + workTime[1];
-        applyBeginTimeMap["content11"] = $days[5].text() + " " + workTime[0];
-        applyBeginTimeMap["content12"] = $days[5].text() + " " + workTime[1];
-        applyBeginTimeMap["content13"] = $days[6].text() + " " + workTime[0];
-        applyBeginTimeMap["content14"] = $days[6].text() + " " + workTime[1];
 
-        applyEndTimeMap["content1"] = $days[0].text() + " " + workTime[1];
-        applyEndTimeMap["content2"] = $days[0].text() + " " + workTime[2];
-        applyEndTimeMap["content3"] = $days[1].text() + " " + workTime[1];
-        applyEndTimeMap["content4"] = $days[1].text() + " " + workTime[2];
-        applyEndTimeMap["content5"] = $days[2].text() + " " + workTime[1];
-        applyEndTimeMap["content6"] = $days[2].text() + " " + workTime[2];
-        applyEndTimeMap["content7"] = $days[3].text() + " " + workTime[1];
-        applyEndTimeMap["content8"] = $days[3].text() + " " + workTime[2];
-        applyEndTimeMap["content9"] = $days[4].text() + " " + workTime[1];
-        applyEndTimeMap["content10"] = $days[4].text() + " " + workTime[2];
-        applyEndTimeMap["content11"] = $days[5].text() + " " + workTime[1];
-        applyEndTimeMap["content12"] = $days[5].text() + " " + workTime[2];
-        applyEndTimeMap["content13"] = $days[6].text() + " " + workTime[1];
-        applyEndTimeMap["content14"] = $days[6].text() + " " + workTime[2];
-
-        var $lanuageCheckbox = {
+        var $languageCheckbox = {
             Chinese: $("#ChineseCheckbox"),
             English: $("#EnglishCheckbox"),
             Japanese: $("#JapaneseCheckbox")
@@ -531,18 +502,55 @@
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(load),
                 dataType: "json",
-                success: function (arrangements) {
-                    curArrangement = arrangements;
-                    $.each(arrangements, function (i, arrangement) {
-                        var content = "";
-                        var length = arrangement.content.length;
-                        $.each(arrangement.content, function (j, staff) {
-                            content += staff.name;
+                success: function (arrangementTimetable) {
+                    curArrangement = arrangementTimetable.content;
+                    var days = arrangementTimetable.days;
+                    $.each(days, function (i, day) {
+                        $days[i].text(day);
+                    });
+                    var times = arrangementTimetable.times;
+                    $.each(times, function (i, time) {
+                        $times[i].text(time);
+                    });
+                    $.each(arrangementTimetable.content, function (i, arrangement) {
+                        var nameList = "";
+                        var length = arrangement.length;
+                        $.each(arrangement, function (j, staff) {
+                            nameList += staff.name;
                             if(j < length-1) {
-                                content += "</br>";
+                                nameList += "</br>";
                             }
                         });
-                        $contents[i].html(content);
+                        $contents[i].html(nameList);
+                        applyBeginTimeMap["content1"] = $days[0].text() + " " + workTime[0];
+                        applyBeginTimeMap["content2"] = $days[0].text() + " " + workTime[1];
+                        applyBeginTimeMap["content3"] = $days[1].text() + " " + workTime[0];
+                        applyBeginTimeMap["content4"] = $days[1].text() + " " + workTime[1];
+                        applyBeginTimeMap["content5"] = $days[2].text() + " " + workTime[0];
+                        applyBeginTimeMap["content6"] = $days[2].text() + " " + workTime[1];
+                        applyBeginTimeMap["content7"] = $days[3].text() + " " + workTime[0];
+                        applyBeginTimeMap["content8"] = $days[3].text() + " " + workTime[1];
+                        applyBeginTimeMap["content9"] = $days[4].text() + " " + workTime[0];
+                        applyBeginTimeMap["content10"] = $days[4].text() + " " + workTime[1];
+                        applyBeginTimeMap["content11"] = $days[5].text() + " " + workTime[0];
+                        applyBeginTimeMap["content12"] = $days[5].text() + " " + workTime[1];
+                        applyBeginTimeMap["content13"] = $days[6].text() + " " + workTime[0];
+                        applyBeginTimeMap["content14"] = $days[6].text() + " " + workTime[1];
+
+                        applyEndTimeMap["content1"] = $days[0].text() + " " + workTime[1];
+                        applyEndTimeMap["content2"] = $days[0].text() + " " + workTime[2];
+                        applyEndTimeMap["content3"] = $days[1].text() + " " + workTime[1];
+                        applyEndTimeMap["content4"] = $days[1].text() + " " + workTime[2];
+                        applyEndTimeMap["content5"] = $days[2].text() + " " + workTime[1];
+                        applyEndTimeMap["content6"] = $days[2].text() + " " + workTime[2];
+                        applyEndTimeMap["content7"] = $days[3].text() + " " + workTime[1];
+                        applyEndTimeMap["content8"] = $days[3].text() + " " + workTime[2];
+                        applyEndTimeMap["content9"] = $days[4].text() + " " + workTime[1];
+                        applyEndTimeMap["content10"] = $days[4].text() + " " + workTime[2];
+                        applyEndTimeMap["content11"] = $days[5].text() + " " + workTime[1];
+                        applyEndTimeMap["content12"] = $days[5].text() + " " + workTime[2];
+                        applyEndTimeMap["content13"] = $days[6].text() + " " + workTime[1];
+                        applyEndTimeMap["content14"] = $days[6].text() + " " + workTime[2];
                     });
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
@@ -606,10 +614,10 @@
             var $td = $("td");
             $td.css("background-color", "#FFFFFF");
             $td.css("color", "#000000");
-            var contentId = $choosenItem.attr("id");
+            var contentId = $chosenItem.attr("id");
             if((contentId !== "time1") && (contentId !== "time2")) {
-                $choosenItem.css("background-color", "lightseagreen");
-                $choosenItem.css("color", "#FFFFFF");
+                $chosenItem.css("background-color", "lightseagreen");
+                $chosenItem.css("color", "#FFFFFF");
                 chooseContent = contentId;
                 var loadStaffs = {beginTime: applyBeginTimeMap[chooseContent], endTime: applyEndTimeMap[chooseContent]};
                 $.ajax({
@@ -631,7 +639,7 @@
                             $("#staffTable").append(tr);
                         });
                         var arrangement = curArrangement[contentIndex[chooseContent]];
-                        $.each(arrangement.content, function (i, arrangeStaff) {
+                        $.each(arrangement, function (i, arrangeStaff) {
                             $("#staffTable").find("tr").each(function () {
                                 if($(this).attr("id") == arrangeStaff.id) {
                                     $(this).find("input:checkbox").attr("checked", "true");
@@ -646,9 +654,9 @@
             }
         }
 
-        var $choosenItem;
+        var $chosenItem;
         $("#timetable td").click(function (event) {
-            $choosenItem = $(this);
+            $chosenItem = $(this);
             if(checkboxChange == "yes") {
                 $("#askForSaveModal").modal("toggle");
             } else {
@@ -772,9 +780,9 @@
                     report += "Language Service Check: ";
                     var languageReport = "";
                     $.each(curArrangement, function (i, arrangement) {
-                        var time = $days[Math.floor(i/2)].text() + " " + times[i%2].text();
+                        var time = $days[Math.floor(i/2)].text() + " " + $times[i%2].text();
                         var checkList = ["no", "no", "no", "no"];
-                        $.each(arrangement.content, function (j, staff) {
+                        $.each(arrangement, function (j, staff) {
                             checkList[languageToIndex[staff.language1]] = "yes";
                             checkList[languageToIndex[staff.language2]] = "yes";
                         });
@@ -806,7 +814,7 @@
                     var checkMap = {};
                     var names = {};
                     $.each(curArrangement, function (i, arrangement) {
-                        $.each(arrangement.content, function (j, staff) {
+                        $.each(arrangement, function (j, staff) {
                             if(checkMap[staff.name] == null) {
                                 checkMap[staff.name] = 1;
                             } else {
@@ -863,7 +871,7 @@
         checkPublishStatus();
         $contents[0].click();
         $("#save").prop("disabled", true);
-        $.each($lanuageCheckbox, function () {
+        $.each($languageCheckbox, function () {
             $(this).prop("checked", true);
         })
         $("#workdaySelect").val("5");

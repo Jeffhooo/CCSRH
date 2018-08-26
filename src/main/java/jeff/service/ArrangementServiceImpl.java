@@ -30,24 +30,24 @@ public class ArrangementServiceImpl implements ArrangementService {
     }
 
     @Override
-    public List<ArrangementTableEntity> list(Date beginDate, Date endDate) {
-        List<ArrangementTableEntity> arrangements = new ArrayList<>();
+    public ArrangementTableEntity list(Date beginDate, Date endDate) {
+        List<String> days = new ArrayList<>();
+        TimeUtil.tableDays(days, beginDate);
 
+        List<String> times = new ArrayList<>();
+        TimeUtil.tableTimes("Manager", "Asia/Shanghai", times);
+
+        List<List<StaffEntity>> content = new ArrayList<>();
         Date beginWorkTime = TimeUtil.AddHours(beginDate, 8);
         Date endWorkTime = TimeUtil.AddHours(beginWorkTime, 8);
         for(int i = 0; i < 14; i++) {
-            ArrangementTableEntity arrangement = new ArrangementTableEntity();
 
             List<ArrangementVo> arrangementVos = arrangementDao.list(
                     new Timestamp(beginWorkTime.getTime()),
                     new Timestamp(endWorkTime.getTime()));
-            List<StaffEntity> content = new ArrayList<>();
-            for(ArrangementVo arrangementVo : arrangementVos) {
-                StaffEntity staff = staffDao.getStaff(arrangementVo.getStaffId());
-                content.add(staff);
-            }
-            arrangement.setContent(content);
-            arrangements.add(arrangement);
+            content.add(arrangementVos.stream()
+                    .map(n -> staffDao.getStaff(n.getStaffId()))
+                    .collect(Collectors.toList()));
 
             if(i%2 == 0) {
                 beginWorkTime = TimeUtil.AddHours(beginWorkTime, 8);
@@ -57,7 +57,7 @@ public class ArrangementServiceImpl implements ArrangementService {
                 endWorkTime = TimeUtil.AddHours(endWorkTime, 16);
             }
         }
-        return arrangements;
+        return new ArrangementTableEntity(days, times, content);
     }
 
     @Override
