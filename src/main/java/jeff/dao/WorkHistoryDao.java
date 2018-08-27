@@ -12,4 +12,10 @@ public interface WorkHistoryDao {
      */
     List<WorkHistoryVo> list(String staffId, Timestamp beginTime, Timestamp endTime);
 
+    /**
+     * List the work history of staff
+     *
+     */
+    void insert(WorkHistoryVo workHistory);
+
 }

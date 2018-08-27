@@ -18,6 +18,7 @@ public class WorkHistoryDaoImpl implements WorkHistoryDao{
     }
 
     private static final String SELECT_SQL = "select * from work_history where staff_id = ? and begin_time >= ? and end_time <= ?";
+    private static final String INSERT_SQL = "insert into work_history values(?, ?, ?, ?)";
 
     @Override
     public List<WorkHistoryVo> list(String staffId, Timestamp beginTime, Timestamp endTime) {
@@ -30,5 +31,15 @@ public class WorkHistoryDaoImpl implements WorkHistoryDao{
                                                            .beginTime(rs.getTimestamp(3))
                                                            .endTime(rs.getTimestamp(4))
                                                            .build());
+    }
+
+    @Override
+    public void insert(WorkHistoryVo workHistory) {
+        template.update(INSERT_SQL, ps -> {
+           ps.setString(1, workHistory.getStaffId());
+           ps.setString(2, workHistory.getStaffName());
+           ps.setTimestamp(3, workHistory.getBeginTime());
+           ps.setTimestamp(4, workHistory.getEndTime());
+        });
     }
 }
