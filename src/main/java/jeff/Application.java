@@ -25,12 +25,9 @@ public class Application extends SpringBootServletInitializer implements WebAppl
         return new DataSourceTransactionManager(dataSource);
     }
 
-
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
         return application.sources(Application.class);
     }
-
-
 
     public static void main(String[] args) throws Exception {
         SpringApplication.run(Application.class, args);

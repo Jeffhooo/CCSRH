@@ -417,13 +417,13 @@
 
         //get begin date of this week
         function getNextWeekBeginDate() {
-            var weekStartDate = new Date(nowYear, nowMonth, nowDay - nowDayOfWeek + 8);
+            var weekStartDate = new Date(nowYear, nowMonth, nowDay - nowDayOfWeek + 7);
             return formatDate(weekStartDate);
         }
 
         //get end date of this week
         function getNextWeekEndDate() {
-            var weekStartDate = new Date(nowYear, nowMonth, nowDay - nowDayOfWeek + 15);
+            var weekStartDate = new Date(nowYear, nowMonth, nowDay - nowDayOfWeek + 14);
             return formatDate(weekStartDate);
         }
 

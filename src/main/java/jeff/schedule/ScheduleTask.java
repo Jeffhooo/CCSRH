@@ -25,7 +25,7 @@ public class ScheduleTask {
         this.workHistoryDao = daoFactory.getWorkHistoryDao();
     }
 
-    @Scheduled(cron = "0 5 0 ? * MON")//work at 00:05 of Monday every week
+    @Scheduled(cron = "0 5 0 ? * SUN")//work at 00:05 of Sunday every week
     public void transferArrangementToWorkHistory() {
         Calendar calendar = Calendar.getInstance();
         int min = calendar.getActualMinimum(Calendar.DAY_OF_WEEK); //get begin date of current week
@@ -38,11 +38,13 @@ public class ScheduleTask {
                 new Timestamp(beginDate.getTime()),
                 new Timestamp(endDate.getTime()));
         for(ArrangementVo arrangement : arrangements) {
-            workHistoryDao.insert(new WorkHistoryVo.Builder()
-                    .staffId(arrangement.getStaffId())
-                    .staffName(arrangement.getStaffName())
-                    .beginTime(arrangement.getBeginTime())
-                    .endTime(arrangement.getEndTime()).build());
+            if("published".equals(arrangement.getStatus())){
+                workHistoryDao.insert(new WorkHistoryVo.Builder()
+                        .staffId(arrangement.getStaffId())
+                        .staffName(arrangement.getStaffName())
+                        .beginTime(arrangement.getBeginTime())
+                        .endTime(arrangement.getEndTime()).build());
+            }
         }
     }
 }

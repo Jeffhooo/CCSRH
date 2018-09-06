@@ -246,23 +246,23 @@
 
         //get begin date of this week
         function getWeekBeginDate() {
-            var weekBeginDate = new Date(nowYear, nowMonth, nowDay - nowDayOfWeek + 1);
+            var weekBeginDate = new Date(nowYear, nowMonth, nowDay - nowDayOfWeek);
             return formatDate(weekBeginDate);
         }
 
         //get end date of this week
         function getWeekEndDate() {
-            var weekEndDate = new Date(nowYear, nowMonth, nowDay - nowDayOfWeek + 8);
+            var weekEndDate = new Date(nowYear, nowMonth, nowDay - nowDayOfWeek + 7);
             return formatDate(weekEndDate);
         }
 
         function getOffsetBeginDate(dayOffset) {
-            var date = new Date(nowYear, nowMonth, nowDay - nowDayOfWeek + dayOffset + 1);
+            var date = new Date(nowYear, nowMonth, nowDay - nowDayOfWeek + dayOffset);
             return formatDate(date);
         }
 
         function getOffsetEndDate(dayOffset) {
-            var date = new Date(nowYear, nowMonth, nowDay - nowDayOfWeek + dayOffset + 8);
+            var date = new Date(nowYear, nowMonth, nowDay - nowDayOfWeek + dayOffset + 7);
             return formatDate(date);
         }
 
